@@ -6,6 +6,7 @@
   --surface: #fffdf8;
   --line: #d8d2c7;
   --accent: #e7672e;
+  --accent-text: #9a3e16;
   --success: #247a58;
   --warning: #b87917;
   --radius: 18px;
@@ -126,10 +127,17 @@ select {
 .eyebrow,
 .section-kicker {
   margin: 0 0 0.7rem;
-  color: var(--accent);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.16em;
+}
+
+.eyebrow {
+  color: #ffad82;
+}
+
+.section-kicker {
+  color: var(--accent-text);
 }
 
 .hero h1 {
@@ -398,7 +406,7 @@ select {
 }
 
 .process-nav a span {
-  color: var(--accent);
+  color: #ffad82;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.74rem;
 }
@@ -462,7 +470,7 @@ select {
 
 .stage-system {
   margin: 0 0 0.25rem;
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.1em;
@@ -475,9 +483,17 @@ select {
   line-height: 1.2;
 }
 
+.stage-summary-label {
+  margin: 0.65rem 0 0.12rem;
+  color: var(--accent-text);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
 .stage-summary {
   max-width: 56rem;
-  margin: 0.6rem 0 0;
+  margin: 0;
   color: var(--steel-600);
 }
 
@@ -502,6 +518,37 @@ select {
   height: 1rem;
   margin: 0;
   accent-color: var(--success);
+}
+
+.stage-context {
+  margin: 0 clamp(1.25rem, 3vw, 2rem) 1.35rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  background: #f7f4ed;
+  border: 1px solid #e8e2d8;
+  border-radius: 12px;
+}
+
+.stage-context section {
+  padding: 0.9rem 1rem;
+}
+
+.stage-context section + section {
+  border-left: 1px solid #e2dbcf;
+}
+
+.stage-context h4 {
+  margin: 0 0 0.35rem;
+  color: var(--accent-text);
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+}
+
+.stage-context p {
+  margin: 0;
+  color: var(--steel-600);
+  font-size: 0.82rem;
 }
 
 .stage-overview {
@@ -544,7 +591,7 @@ select {
 .step-list li::before {
   display: block;
   margin-bottom: 0.45rem;
-  color: var(--accent);
+  color: var(--accent-text);
   content: "0" counter(process-step);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.7rem;
@@ -604,7 +651,7 @@ select {
   display: grid;
   place-items: center;
   content: "+";
-  color: var(--accent);
+  color: var(--accent-text);
   background: #f1ede4;
   border-radius: 50%;
   transform: translateY(-50%);
@@ -686,6 +733,10 @@ select {
 
 .digital-thread .section-heading > p {
   color: rgb(255 255 255 / 58%);
+}
+
+.digital-thread .section-kicker {
+  color: #ffad82;
 }
 
 .thread-chain {
@@ -798,7 +849,7 @@ tbody tr:hover {
   margin-right: 0.45rem;
   padding: 0.15rem 0.4rem;
   color: #fff;
-  background: var(--accent);
+  background: var(--accent-text);
   border-radius: 5px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.7rem;
@@ -990,6 +1041,15 @@ summary,
     grid-template-columns: 1fr;
   }
 
+  .stage-context {
+    grid-template-columns: 1fr;
+  }
+
+  .stage-context section + section {
+    border-top: 1px solid #e2dbcf;
+    border-left: 0;
+  }
+
   .detail-grid {
     grid-template-columns: 1fr;
   }
@@ -1150,5 +1210,28 @@ summary,
 
   .thread-chain {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .table-wrap {
+    width: 100%;
+    overflow: visible;
+    break-inside: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+    font-size: 7.5pt;
+  }
+
+  th,
+  td {
+    padding: 2mm;
+    overflow-wrap: anywhere;
+  }
+
+  tbody th {
+    min-width: 0;
   }
 }

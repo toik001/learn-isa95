@@ -138,13 +138,14 @@
           id="stage-sales"
           data-stage="sales"
           data-modules="erp mes plm"
-          data-roles="sales planner engineer quality"
+          data-roles="sales planner engineer warehouse quality"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">01</div>
             <div>
               <p class="stage-system">CRM / ERP · MES 能力反馈</p>
               <h3>销售需求</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把预测与客户订单转换为可配置、可承诺、可变更控制的制造需求。
                 完成标志是订单行的配置、数量、交期和变更基线确认，并有 ATP/CTP 依据。
@@ -155,6 +156,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>预测周期到期、客户下单、渠道补货、促销计划或销售订单变更，都会启动需求评审。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>客户/渠道、产品型号、销售配置规则、计量单位、交付地点及 ATP/CTP 口径已明确。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>销售订单包含订单行；订单行与生产工单可多对多，必须用需求分配记录保留数量来源与去向。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -254,6 +270,7 @@
             <div>
               <p class="stage-system">PLM / ERP / MES / QMS</p>
               <h3>产品与工艺准备</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把“设计上是什么”转换为现场可执行的制造基线。完成标志是 EBOM、MBOM、
                 工艺路线、检验方案、工位参数与固件版本相互兼容并已批准发布。
@@ -264,6 +281,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>新产品导入、量产发布、工程变更、供应商物料替换、质量改进或设备升级触发准备。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>物料编码、图纸规范、工作中心、工位设备和人员技能等主数据已建档，发布责任已明确。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>产品版本连接 EBOM，EBOM 行映射 MBOM 行；路线再关联参数、检验与固件，工单快照冻结整套基线。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -352,7 +384,7 @@
           class="stage-card"
           id="stage-planning"
           data-stage="planning"
-          data-modules="erp mes wms qms"
+          data-modules="erp mes wms qms device"
           data-roles="planner engineer warehouse operator quality"
         >
           <header class="card-header">
@@ -360,6 +392,7 @@
             <div>
               <p class="stage-system">ERP / APS · MES 执行反馈</p>
               <h3>计划排产</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把需求转换成时间、数量、产线和优先级明确的可执行计划。
                 完成标志是工单冻结受控版本并通过物料、产能校验后下达 MES。
@@ -370,6 +403,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>销售订单、预测补库、安全库存、返工补产或售后备件需求触发 MPS/MRP 与排程。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>MBOM、路线、库存与在制快照、采购到料、工作中心日历、标准工时和设备日历有效。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>MPS 汇总需求，MRP 展开物料；计划拆为生产工单和工序计划，并以需求分配连接订单来源。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -466,6 +514,7 @@
             <div>
               <p class="stage-system">WMS / ERP / MES / QMS</p>
               <h3>物料齐套</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 让正确、合格、可追溯的物料在正确时间到达正确线边位置。
                 完成标志是工单需求与实物扫描核对、关键批次可用且账卡物一致。
@@ -476,6 +525,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>已下达或即将开工的工单触发备料，也可由拉动信号、配送节拍或线边最低库存触发补料。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>MBOM、投料点、仓库/线边库位、库存状态、批次规则和替代组已发布且物料质量可用。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>物料需求与库存批次通过分配/领料明细形成多对多；投料再把批次或关键件 SN 连接到工序与整锁。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -572,6 +636,7 @@
             <div>
               <p class="stage-system">MES / 设备系统 · 单件制造事实</p>
               <h3>生产执行</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把已下达工单转化为受控、可证明的制造过程。完成标志是每个整锁 SN
                 按冻结路线完成必经工序，绑定、固件、参数和测试证据完整且执行异常已关闭。
@@ -582,6 +647,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>已下达工单满足开工条件后触发派工，也可由班组接班、节拍拉动或上游工序完成触发。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>制造基线、齐套物料、人员资质、设备校准、工装、作业指导和 SN 编码规则均有效。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>一个生产工单包含多个整锁 SN；每个 SN 产生多条过站记录，并通过绑定连接关键件、物料批次和固件。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -678,6 +758,7 @@
             <div>
               <p class="stage-system">QMS / MES · 独立质量状态</p>
               <h3>质量管控</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 贯穿 IQC、IPQC、FQC、OQC，使不合格可识别、隔离、评审、处置、复验和改进。
                 完成标志是判定可解释，实物与系统状态一致，处置及 CAPA 形成闭环。
@@ -688,6 +769,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>采购到货触发 IQC，换线/换料触发首检，末工序完工触发 FQC，发货批次触发 OQC。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>检验方案、抽样标准、缺陷代码、判定规则、量具校准和适用产品/工艺版本已确认。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>检验任务引用到货、工单、工序或完工等触发来源；失败结果连接 NCR、处置、复验与 CAPA。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -777,13 +873,14 @@
           id="stage-warehouse"
           data-stage="warehouse"
           data-modules="mes wms erp qms"
-          data-roles="operator warehouse quality planner"
+          data-roles="operator warehouse quality planner sales"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">07</div>
             <div>
               <p class="stage-system">MES / WMS / ERP / QMS</p>
               <h3>成品入库</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把已完工整锁转为包装明确、库位可见的成品对象。
                 完成标志是 SN—箱码—入库单关系完整，包装、上架、质量和账务四类状态各自明确。
@@ -794,6 +891,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>生产工单末工序完工、质量放行或包装批次达到交接条件时，触发包装和入库作业。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>包装规范、标签版本、箱码/托盘规则、目标仓库与库位、库存状态映射和交接点已明确。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>多个 SN 组成一个箱码，多个箱码可组成托盘并进入入库单；绑定事件和库存移动共同保留历史。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -883,13 +995,14 @@
           id="stage-traceability"
           data-stage="traceability"
           data-modules="erp wms mes qms"
-          data-roles="sales warehouse quality engineer planner"
+          data-roles="sales warehouse quality engineer planner operator"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">08</div>
             <div>
               <p class="stage-system">ERP / WMS / MES / QMS / 售后</p>
               <h3>发货与追溯</h3>
+              <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把正确成品交付给正确客户，并让每次交付回到完整制造证据链。
                 完成标志是订单、客户、箱码/SN、物流与出库关联完整，正反向追溯和召回可闭环。
@@ -900,6 +1013,21 @@
               <span>标记学完</span>
             </label>
           </header>
+
+          <div class="stage-context">
+            <section>
+              <h4>触发</h4>
+              <p>已批准发货通知触发拣配；客户投诉、供应商质量通知、工程风险或监管要求触发追溯。</p>
+            </section>
+            <section>
+              <h4>前置条件</h4>
+              <p>合格可用库存、客户配置和批次限制、箱码展开能力、完整制造谱系及物流信息已具备。</p>
+            </section>
+            <section>
+              <h4>数据关系</h4>
+              <p>销售订单行可产生多个出库单；出库单包含多个箱码，箱码展开整锁 SN 并形成客户/渠道交付记录。</p>
+            </section>
+          </div>
 
           <div class="stage-overview">
             <div>
@@ -931,7 +1059,13 @@
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>发货通知/出库单、波次/拣货任务、发货复核、物流交接、SN 交付记录、追溯案件、召回行动单和售后故障单。</p>
+                  <p>
+                    发货通知/销售出库单（订单号/行、客户、产品配置、计划数量、交期、批次要求、地址）；
+                    波次/拣货任务（波次、库位、箱码/托盘、分配数量、策略、操作人）；
+                    发货复核记录（出库单、箱码、SN 清单、复核人、时间、差异）；
+                    SN 交付记录（整锁 SN、订单行、客户/渠道、出库时间、保修起点）；
+                    追溯/召回案件（触发对象、方向、范围版本、结果快照、行动状态）。
+                  </p>
                 </section>
                 <section class="state-panel">
                   <h4>参考状态机</h4>
