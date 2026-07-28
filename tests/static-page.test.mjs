@@ -124,6 +124,26 @@ function getCssBlock(source, marker) {
   assert.fail(`${marker} 大括号未闭合`);
 }
 
+function getCssDeclarations(source, selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const body = source.match(new RegExp(`${escapedSelector}\\s*\\{([^}]*)\\}`))?.[1];
+  assert.ok(body, `CSS 缺少 ${selector} 规则`);
+  return new Map(
+    body
+      .split(";")
+      .map((declaration) => declaration.trim())
+      .filter(Boolean)
+      .map((declaration) => {
+        const separator = declaration.indexOf(":");
+        assert.ok(separator > 0, `${selector} 包含无效声明 ${declaration}`);
+        return [
+          declaration.slice(0, separator).trim(),
+          declaration.slice(separator + 1).trim(),
+        ];
+      }),
+  );
+}
+
 function parseHex(hex) {
   return [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16));
 }
@@ -245,7 +265,15 @@ test("每个阶段保留可执行的完整学习结构", () => {
       /<h4>(?:参考状态机|正交状态向量)<\/h4>/,
       `${expected.key} 缺少状态模型`,
     );
-    ["系统边界", "典型异常", "指标", "常见误区", "实现关注点", "自测"]
+    [
+      "关键岗位",
+      "系统边界",
+      "典型异常",
+      "指标",
+      "常见误区",
+      "实现关注点",
+      "自测",
+    ]
       .forEach((heading) =>
         assert.ok(
           getSection(card.body, heading).trim().length > 0,
@@ -305,7 +333,15 @@ test("样式覆盖响应式、状态与可访问颜色", () => {
 
 test("打印样式展开详情并让系统表适配纵向纸张", () => {
   const printCss = getCssBlock(css, "@media print");
-  assert.match(printCss, /\.detail-stack details > \*:not\(summary\)/);
+  const detailContent = getCssDeclarations(
+    printCss,
+    ".detail-stack details > *:not(summary)",
+  );
+  assert.equal(
+    detailContent.get("display"),
+    "block",
+    "打印时必须显式展开 details 正文",
+  );
   assert.match(
     printCss,
     /\.table-wrap\s*\{[^}]*overflow:\s*visible;/,
