@@ -108,7 +108,7 @@ Expected: FAIL，错误中包含 `ENOENT` 和 `AGENTS.md`。
 
 其中明确默认中文、智能锁案例、先全局后局部、四层解释法（业务/数据/系统/实现）、更新学习记录后再同步领域文档和静态 HTML，以及不记录模型私有逐步思维链。
 
-`README.md` 说明直接打开 `index.html`、可选本地静态服务、运行 `node --test tests` 的方法及目录职责。
+`README.md` 说明直接打开 `index.html`、可选本地静态服务、运行 `node --test` 的方法及目录职责。
 
 `docs/learning-log.md` 记录 2026-07-28 初始化条目，包含：
 
@@ -540,7 +540,7 @@ test("所有本地页面资源都存在", async () => {
 
 - [ ] **Step 2: 运行完整测试集**
 
-Run: `node --check assets/app.js && node --test tests`
+Run: `node --check assets/app.js && node --test`
 
 Expected: JavaScript 语法检查通过，所有测试通过且无跳过项。
 
@@ -564,7 +564,7 @@ Expected: `git diff --check` 无输出；`git status --short` 只显示本任务
 
 - [ ] **Step 5: 再次运行最终验证并提交**
 
-Run: `node --check assets/app.js && node --test tests`
+Run: `node --check assets/app.js && node --test`
 
 Expected: 所有测试继续通过。
 
@@ -572,4 +572,3 @@ Expected: 所有测试继续通过。
 git add README.md docs/learning-log.md tests/cross-file-consistency.test.mjs
 git commit -m "test: verify MES learning assistant"
 ```
-
