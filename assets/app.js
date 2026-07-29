@@ -55,6 +55,7 @@
       matchesCard,
       parseProgress,
       serializeProgress,
+      initializeBrowser,
     };
     return;
   }
@@ -63,23 +64,29 @@
     return;
   }
 
-  function initialize() {
-    const cardElements = [...document.querySelectorAll(".stage-card")];
+  function initializeBrowserUnsafe(documentRef, windowRef) {
+    const cardElements = [...documentRef.querySelectorAll(".stage-card")];
     const cards = cardElements.map((element) => ({
       element,
       text: element.textContent,
       modules: (element.dataset.modules || "").split(/\s+/).filter(Boolean),
       roles: (element.dataset.roles || "").split(/\s+/).filter(Boolean),
     }));
-    const searchInput = document.querySelector("#stage-search");
-    const moduleFilter = document.querySelector("#module-filter");
-    const roleFilter = document.querySelector("#role-filter");
-    const viewButtons = [...document.querySelectorAll(".view-button[data-view]")];
-    const viewHint = document.querySelector(".section-heading--stages > p");
-    const progressToggles = [
-      ...document.querySelectorAll(".progress-toggle[data-stage-progress]"),
+    const searchInput = documentRef.querySelector("#stage-search");
+    const moduleFilter = documentRef.querySelector("#module-filter");
+    const roleFilter = documentRef.querySelector("#role-filter");
+    const viewButtons = [
+      ...documentRef.querySelectorAll(".view-button[data-view]"),
     ];
-    const progressValue = document.querySelector(
+    const viewHint = documentRef.querySelector(
+      ".section-heading--stages > p",
+    );
+    const progressToggles = [
+      ...documentRef.querySelectorAll(
+        ".progress-toggle[data-stage-progress]",
+      ),
+    ];
+    const progressValue = documentRef.querySelector(
       "#progress-summary .progress-summary__value",
     );
 
@@ -125,14 +132,14 @@
         }
 
         if (selectedView) {
-          document.documentElement.dataset.learningView = selectedView;
+          documentRef.documentElement.dataset.learningView = selectedView;
         }
       });
     });
 
     function readProgress() {
       try {
-        return parseProgress(window.localStorage.getItem(STORAGE_KEY));
+        return parseProgress(windowRef.localStorage.getItem(STORAGE_KEY));
       } catch {
         return [];
       }
@@ -140,7 +147,7 @@
 
     function writeProgress(values) {
       try {
-        window.localStorage.setItem(STORAGE_KEY, serializeProgress(values));
+        windowRef.localStorage.setItem(STORAGE_KEY, serializeProgress(values));
       } catch {
         // Progress remains usable for this page view when storage is unavailable.
       }
@@ -180,13 +187,17 @@
     });
     updateProgress();
 
-    const details = [...document.querySelectorAll(".stage-card details")];
-    const stageHeading = document.querySelector(".section-heading--stages");
+    const details = [
+      ...documentRef.querySelectorAll(".stage-card details"),
+    ];
+    const stageHeading = documentRef.querySelector(
+      ".section-heading--stages",
+    );
 
-    if (details.length && stageHeading && document.createElement) {
-      const actions = document.createElement("div");
-      const expandButton = document.createElement("button");
-      const collapseButton = document.createElement("button");
+    if (details.length && stageHeading && documentRef.createElement) {
+      const actions = documentRef.createElement("div");
+      const expandButton = documentRef.createElement("button");
+      const collapseButton = documentRef.createElement("button");
 
       actions.className = "detail-actions";
       expandButton.type = "button";
@@ -208,21 +219,25 @@
     }
   }
 
-  function safelyInitialize() {
+  function initializeBrowser(documentRef, windowRef) {
     try {
-      initialize();
+      initializeBrowserUnsafe(documentRef, windowRef);
     } catch {
-      document.querySelectorAll(".stage-card.is-filtered").forEach((card) => {
-        card.classList.remove("is-filtered");
-      });
+      documentRef
+        .querySelectorAll(".stage-card.is-filtered")
+        .forEach((card) => {
+          card.classList.remove("is-filtered");
+        });
     }
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", safelyInitialize, {
-      once: true,
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => initializeBrowser(document, window),
+      { once: true },
+    );
   } else {
-    safelyInitialize();
+    initializeBrowser(document, window);
   }
 }());
