@@ -201,3 +201,58 @@ test("覆盖智能锁数字线程与系统边界", () => {
     "ERP", "PLM", "MES", "WMS", "QMS",
   ].forEach((term) => assert.match(content, new RegExp(term)));
 });
+
+test("生产指标区分工序 FPY 与整路线 RTY", () => {
+  const { section } = getStageSection(content, 4);
+  const metrics = getDetailSection(section, "关键指标");
+  assert.match(metrics, /工序一次通过率 FPY[^。\n]*该工序/);
+  assert.match(metrics, /整路线一次通过率 RTY[^。\n]*(?:各工序 FPY|完整路线)/);
+  assert.doesNotMatch(metrics, /FPY\s*=\s*无返工一次完成各工序/);
+});
+
+test("缺料、重复复验失败和发货重新分配都有返回或终止路径", () => {
+  const materialFlow = getDetailSection(
+    getStageSection(content, 3).section,
+    "状态流转",
+  );
+  assert.match(
+    materialFlow,
+    /部分齐套\s*→\s*缺料处理中\/已齐套/,
+    "部分齐套必须能够回到缺料处理或进入齐套终点",
+  );
+  assert.match(
+    materialFlow,
+    /待重新评审\s*→\s*缺料处理中\/已取消\/已关闭未解决/,
+    "未解决缺料必须能够重试、取消或关闭",
+  );
+
+  const qualityFlow = getDetailSection(
+    getStageSection(content, 5).section,
+    "状态流转",
+  );
+  assert.match(
+    qualityFlow,
+    /再次不合格\s*→\s*待重新评审\s*→\s*已定处置\/已关闭/,
+    "重复复验失败必须回到处置评审或关闭",
+  );
+
+  const shippingFlow = getDetailSection(
+    getStageSection(content, 7).section,
+    "状态流转",
+  );
+  assert.match(
+    shippingFlow,
+    /重新分配\s*→\s*待分配\/取消\/已关闭/,
+    "发货重新分配必须返回待分配或进入终止状态",
+  );
+});
+
+test("已分配库存可履行原订单，只有未分配余量可供新订单分配", () => {
+  const goal = getDetailSection(
+    getStageSection(content, 6).section,
+    "业务目标",
+  );
+  assert.match(goal, /已分配库存[^。]*履行对应订单/);
+  assert.match(goal, /未分配[^。]*可供新的销售订单分配/);
+  assert.doesNotMatch(goal, /未被分配\/冻结等条件时，库存才可用于销售/);
+});

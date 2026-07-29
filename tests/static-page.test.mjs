@@ -11,8 +11,9 @@ const css = await readFile(
 const stages = [
   {
     key: "sales",
-    modules: ["erp", "mes", "plm"],
-    roles: ["sales", "planner", "engineer", "warehouse", "quality"],
+    name: "销售需求",
+    modules: ["work-order", "reporting"],
+    roles: ["sales", "planner", "engineer", "warehouse", "quality", "developer"],
     trigger: ["客户下单", "销售订单变更"],
     prerequisite: ["客户/渠道", "产品型号", "配置规则"],
     relationship: ["订单行", "生产工单", "需求分配"],
@@ -20,8 +21,9 @@ const stages = [
   },
   {
     key: "engineering",
-    modules: ["plm", "erp", "mes", "qms", "device"],
-    roles: ["engineer", "quality", "operator"],
+    name: "产品与工艺准备",
+    modules: ["routing", "material", "equipment", "quality", "traceability"],
+    roles: ["engineer", "quality", "operator", "equipment", "developer"],
     trigger: ["新产品导入", "工程变更"],
     prerequisite: ["物料编码", "工作中心", "人员技能"],
     relationship: ["EBOM 行", "MBOM 行", "工单快照"],
@@ -29,8 +31,12 @@ const stages = [
   },
   {
     key: "planning",
-    modules: ["erp", "mes", "wms", "qms", "device"],
-    roles: ["planner", "engineer", "warehouse", "operator", "quality"],
+    name: "计划排产",
+    modules: ["work-order", "material", "equipment", "reporting"],
+    roles: [
+      "planner", "engineer", "warehouse", "operator", "quality", "equipment",
+      "developer",
+    ],
     trigger: ["销售订单", "预测补库"],
     prerequisite: ["MBOM", "工作中心日历", "库存与在制"],
     relationship: ["MPS", "生产工单", "需求分配"],
@@ -38,8 +44,11 @@ const stages = [
   },
   {
     key: "material",
-    modules: ["wms", "erp", "mes", "qms", "plm"],
-    roles: ["planner", "warehouse", "operator", "quality", "engineer"],
+    name: "物料齐套",
+    modules: ["work-order", "material", "quality", "traceability"],
+    roles: [
+      "planner", "warehouse", "operator", "quality", "engineer", "developer",
+    ],
     trigger: ["已下达", "拉动信号"],
     prerequisite: ["MBOM", "库存状态", "替代组"],
     relationship: ["物料需求", "库存批次", "多对多"],
@@ -47,8 +56,14 @@ const stages = [
   },
   {
     key: "execution",
-    modules: ["mes", "device", "qms", "erp", "plm"],
-    roles: ["operator", "engineer", "quality", "warehouse"],
+    name: "生产执行",
+    modules: [
+      "work-order", "routing", "material", "equipment", "quality",
+      "traceability", "reporting",
+    ],
+    roles: [
+      "operator", "engineer", "quality", "warehouse", "equipment", "developer",
+    ],
     trigger: ["已下达", "开工条件"],
     prerequisite: ["人员资质", "设备校准", "SN 编码"],
     relationship: ["生产工单", "多个整锁 SN", "过站记录"],
@@ -56,8 +71,12 @@ const stages = [
   },
   {
     key: "quality",
-    modules: ["qms", "mes", "wms", "erp", "device"],
-    roles: ["quality", "operator", "engineer", "warehouse", "planner"],
+    name: "质量管控",
+    modules: ["equipment", "quality", "traceability", "reporting"],
+    roles: [
+      "quality", "operator", "engineer", "warehouse", "planner", "equipment",
+      "developer",
+    ],
     trigger: ["采购到货", "末工序完工"],
     prerequisite: ["检验方案", "抽样标准", "量具校准"],
     relationship: ["检验任务", "触发来源", "NCR"],
@@ -65,8 +84,11 @@ const stages = [
   },
   {
     key: "warehouse",
-    modules: ["mes", "wms", "erp", "qms"],
-    roles: ["operator", "warehouse", "quality", "planner", "sales"],
+    name: "成品入库",
+    modules: ["material", "quality", "traceability", "reporting"],
+    roles: [
+      "operator", "warehouse", "quality", "planner", "sales", "developer",
+    ],
     trigger: ["末工序完工", "质量放行"],
     prerequisite: ["包装规范", "箱码", "目标仓库"],
     relationship: ["多个 SN", "箱码", "入库单"],
@@ -74,8 +96,12 @@ const stages = [
   },
   {
     key: "traceability",
-    modules: ["erp", "wms", "mes", "qms"],
-    roles: ["sales", "warehouse", "quality", "engineer", "planner", "operator"],
+    name: "发货与追溯",
+    modules: ["quality", "traceability", "reporting"],
+    roles: [
+      "sales", "warehouse", "quality", "engineer", "planner", "operator",
+      "developer",
+    ],
     trigger: ["发货通知", "供应商质量通知"],
     prerequisite: ["合格可用库存", "箱码", "制造谱系"],
     relationship: ["出库单", "多个箱码", "客户/渠道"],
@@ -99,6 +125,29 @@ function getStageCards() {
       body: groups.body,
       key: getAttribute(groups.attrs, "data-stage"),
     }));
+}
+
+function getSelectOptionValues(id) {
+  const body = html.match(
+    new RegExp(`<select\\b[^>]*id="${id}"[^>]*>([\\s\\S]*?)</select>`),
+  )?.[1];
+  assert.ok(body, `缺少 #${id}`);
+  return [...body.matchAll(/<option\b[^>]*value="([^"]+)"/g)]
+    .map((match) => match[1]);
+}
+
+function getViewPanel(view) {
+  const marker = `data-view-panel="${view}"`;
+  const markerIndex = html.indexOf(marker);
+  assert.ok(markerIndex >= 0, `缺少 ${view} 视角面板`);
+  const openStart = html.lastIndexOf("<section", markerIndex);
+  const openEnd = html.indexOf(">", markerIndex);
+  const close = html.indexOf("</section>", openEnd);
+  assert.ok(openStart >= 0 && openEnd >= 0 && close >= 0, `${view} 面板结构不完整`);
+  return {
+    attributes: html.slice(openStart + "<section".length, openEnd),
+    body: html.slice(openEnd + 1, close),
+  };
 }
 
 function getSectionElement(cardBody, heading) {
@@ -208,6 +257,20 @@ function contrastRatio(first, second) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+function resolveCssColor(value) {
+  const normalized = value?.trim().toLowerCase();
+  assert.ok(normalized, "CSS 颜色不能为空");
+  if (/^#[0-9a-f]{6}$/.test(normalized)) return normalized;
+  const token = normalized.match(/^var\((--[\w-]+)\)$/)?.[1];
+  assert.ok(token, `不支持的 CSS 颜色：${value}`);
+  const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const resolved = css.match(
+    new RegExp(`${escapedToken}:\\s*(#[0-9a-f]{6})`, "i"),
+  )?.[1];
+  assert.ok(resolved, `无法解析 CSS 颜色令牌：${token}`);
+  return resolved.toLowerCase();
+}
+
 test("页面具有语义结构和本地资源", () => {
   assert.match(html, /<html[^>]+lang="zh-CN"/);
   assert.match(html, /<main/);
@@ -215,6 +278,74 @@ test("页面具有语义结构和本地资源", () => {
   assert.match(html, /assets\/app\.js/);
   assert.match(html, /<noscript>/);
   assert.doesNotMatch(html, /https?:\/\//);
+});
+
+test("三种视角提供无脚本可读、可切换的真实索引", () => {
+  const definitions = [
+    {
+      view: "process",
+      control: "view-process",
+      terms: ["销售需求", "发货与追溯"],
+    },
+    {
+      view: "module",
+      control: "view-module",
+      terms: ["工单", "工艺", "物料", "设备", "质量", "追溯", "报表"],
+    },
+    {
+      view: "role",
+      control: "view-role",
+      terms: ["销售", "计划", "工艺", "仓储", "班组", "质量", "设备", "Java 开发"],
+    },
+  ];
+
+  definitions.forEach(({ view, control, terms }) => {
+    assert.match(
+      html,
+      new RegExp(
+        `<button\\b[^>]*data-view="${view}"[^>]*aria-controls="${control}"`,
+      ),
+      `${view} 视角按钮缺少面板关联`,
+    );
+    const panel = getViewPanel(view);
+    assert.match(panel.attributes, new RegExp(`\\bid="${control}"`));
+    assert.doesNotMatch(
+      panel.attributes,
+      /(?:^|\s)hidden(?:\s|=|$)/i,
+      `${view} 面板不得依赖 JavaScript 才能阅读`,
+    );
+    terms.forEach((term) =>
+      assert.match(panel.body, new RegExp(term), `${view} 索引缺少 ${term}`),
+    );
+    stages.forEach(({ key }) =>
+      assert.match(
+        panel.body,
+        new RegExp(`href="#stage-${key}"`),
+        `${view} 索引缺少 ${key} 阶段入口`,
+      ),
+    );
+  });
+
+  assert.deepEqual(getSelectOptionValues("module-filter"), [
+    "all", "work-order", "routing", "material", "equipment", "quality",
+    "traceability", "reporting",
+  ]);
+  assert.deepEqual(getSelectOptionValues("role-filter"), [
+    "all", "sales", "planner", "engineer", "warehouse", "operator",
+    "quality", "equipment", "developer",
+  ]);
+  assert.match(
+    html,
+    /<output\b[^>]*id="progress-summary"[^>]*aria-live="polite"[^>]*aria-atomic="true"/,
+  );
+  assert.match(
+    html,
+    /<a\b[^>]*class="progress-summary__next"[^>]*href="#stage-sales"[^>]*>下一阶段：销售需求<\/a>/,
+  );
+  assert.match(
+    html,
+    /<span\b[^>]*class="progress-summary__complete"[^>]*hidden[^>]*>全部阶段已完成<\/span>/,
+  );
 });
 
 test("八阶段卡片按顺序提供精确交互数据契约", () => {
@@ -225,6 +356,7 @@ test("八阶段卡片按顺序提供精确交互数据契约", () => {
   cards.forEach((card, index) => {
     const expected = stages[index];
     assert.equal(getAttribute(card.attrs, "id"), `stage-${expected.key}`);
+    assert.equal(getAttribute(card.attrs, "data-stage-name"), expected.name);
     assert.deepEqual(
       tokens(getAttribute(card.attrs, "data-modules")),
       [...expected.modules].sort(),
@@ -373,6 +505,18 @@ test("样式覆盖响应式、状态与可访问颜色", () => {
   assert.match(
     css,
     /\.system-code\s*\{[^}]*color:\s*#fff;[^}]*background:\s*var\(--accent-text\)/,
+  );
+  const placeholderColor = resolveCssColor(
+    getCssDeclarations(css, ".field input::placeholder").get("color"),
+  );
+  assert.ok(
+    contrastRatio(placeholderColor, "#ffffff") >= 4.5,
+    `${placeholderColor} placeholder 与白底的对比度不足 4.5:1`,
+  );
+  assert.equal(
+    getCssDeclarations(css, ".field input::placeholder").get("opacity"),
+    "1",
+    "placeholder 必须禁用浏览器默认透明度，保持实测对比度",
   );
 });
 

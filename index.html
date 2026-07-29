@@ -43,13 +43,13 @@
     <div class="control-deck">
       <nav class="view-switcher" aria-label="知识地图视角">
         <span class="view-switcher__label">查看视角</span>
-        <button class="view-button is-active" type="button" data-view="process" aria-pressed="true">
+        <button class="view-button is-active" type="button" data-view="process" aria-controls="view-process" aria-pressed="true">
           流程视角
         </button>
-        <button class="view-button" type="button" data-view="module" aria-pressed="false">
+        <button class="view-button" type="button" data-view="module" aria-controls="view-module" aria-pressed="false">
           模块视角
         </button>
-        <button class="view-button" type="button" data-view="role" aria-pressed="false">
+        <button class="view-button" type="button" data-view="role" aria-controls="view-role" aria-pressed="false">
           岗位视角
         </button>
       </nav>
@@ -67,15 +67,16 @@
           >
         </div>
         <div class="field">
-          <label for="module-filter">系统模块</label>
+          <label for="module-filter">业务模块</label>
           <select id="module-filter" name="module-filter">
             <option value="all">全部模块</option>
-            <option value="erp">ERP</option>
-            <option value="plm">PLM</option>
-            <option value="mes">MES</option>
-            <option value="wms">WMS</option>
-            <option value="qms">QMS</option>
-            <option value="device">设备系统</option>
+            <option value="work-order">工单</option>
+            <option value="routing">工艺</option>
+            <option value="material">物料</option>
+            <option value="equipment">设备</option>
+            <option value="quality">质量</option>
+            <option value="traceability">追溯</option>
+            <option value="reporting">报表</option>
           </select>
         </div>
         <div class="field">
@@ -86,25 +87,34 @@
             <option value="planner">计划/采购</option>
             <option value="engineer">产品/工艺</option>
             <option value="warehouse">仓储/物料</option>
-            <option value="operator">生产/设备</option>
+            <option value="operator">生产/班组</option>
             <option value="quality">质量</option>
+            <option value="equipment">设备</option>
+            <option value="developer">Java 开发</option>
           </select>
         </div>
-        <output class="progress-summary" id="progress-summary" aria-live="polite">
+        <output class="progress-summary" id="progress-summary" aria-live="polite" aria-atomic="true">
           <span class="progress-summary__value">0 / 8</span>
           <span>阶段已完成</span>
+          <a class="progress-summary__next" href="#stage-sales">下一阶段：销售需求</a>
+          <span class="progress-summary__complete" hidden>全部阶段已完成</span>
         </output>
       </section>
     </div>
 
     <noscript>
       <div class="noscript-note">
-        JavaScript 已关闭：八阶段正文与所有详情仍可阅读；视角切换、筛选和学习进度暂不可用。
+        JavaScript 已关闭：流程、模块、岗位索引及八阶段正文仍可阅读；视角切换、筛选和学习进度暂不可用。
       </div>
     </noscript>
 
     <main id="learning-map">
-      <section class="process-track" aria-labelledby="process-title">
+      <section
+        class="view-panel process-track"
+        id="view-process"
+        data-view-panel="process"
+        aria-labelledby="process-title"
+      >
         <div class="section-heading">
           <div>
             <p class="section-kicker">END-TO-END FLOW</p>
@@ -124,6 +134,230 @@
         </ol>
       </section>
 
+      <section
+        class="view-panel perspective-index"
+        id="view-module"
+        data-view-panel="module"
+        aria-labelledby="module-index-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">MODULE INDEX</p>
+            <h2 id="module-index-title">按七类 MES 业务模块横向定位</h2>
+          </div>
+          <p>模块索引把同一主题在八阶段中的输入、执行与反馈串起来；下方完整阶段卡片始终保留。</p>
+        </div>
+        <div class="index-grid">
+          <article class="index-card">
+            <p class="index-card__code">MODULE 01</p>
+            <h3>工单</h3>
+            <p>关注需求如何形成、下达、执行、完工与结清。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 02</p>
+            <h3>工艺</h3>
+            <p>关注制造版本、工艺路线、工序门禁与返工路线。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 03</p>
+            <h3>物料</h3>
+            <p>关注 MBOM、需求分配、批次投料、退补料与库存交接。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 04</p>
+            <h3>设备</h3>
+            <p>关注设备能力、工位参数、采集会话、校准与停机影响。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 05</p>
+            <h3>质量</h3>
+            <p>关注检验规则、冻结、NCR、处置、复验与放行。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 06</p>
+            <h3>追溯</h3>
+            <p>关注版本、批次、关键件、整锁 SN、箱码与客户去向。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">MODULE 07</p>
+            <h3>报表</h3>
+            <p>关注承诺、计划、产出、良率、库存与交付指标的统一口径。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section
+        class="view-panel perspective-index"
+        id="view-role"
+        data-view-panel="role"
+        aria-labelledby="role-index-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">ROLE INDEX</p>
+            <h2 id="role-index-title">按八类岗位理解职责、交接与系统关注点</h2>
+          </div>
+          <p>岗位索引指出各角色应在哪些阶段提供输入、执行控制或确认结果，并保留设备与 Java 开发视角。</p>
+        </div>
+        <div class="index-grid index-grid--roles">
+          <article class="index-card">
+            <p class="index-card__code">ROLE 01</p>
+            <h3>销售</h3>
+            <p>明确配置、数量、交期与变更，并确认最终交付去向。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 02</p>
+            <h3>计划</h3>
+            <p>平衡需求、物料、产能与异常，控制工单释放和重排。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 03</p>
+            <h3>工艺</h3>
+            <p>发布可制造基线，维护路线、参数、防错和返工方案。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 04</p>
+            <h3>仓储</h3>
+            <p>确保批次、容器、库位和实物移动与业务单据一致。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 05</p>
+            <h3>班组</h3>
+            <p>执行派工、领投料、过站、异常暂停、返工与完工确认。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 06</p>
+            <h3>质量</h3>
+            <p>维护标准，隔离风险，批准处置并基于证据放行。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 07</p>
+            <h3>设备</h3>
+            <p>保证能力、程序、校准和采集链可用，并闭环停机与数据异常。</p>
+            <ul class="index-links">
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+            </ul>
+          </article>
+          <article class="index-card">
+            <p class="index-card__code">ROLE 08</p>
+            <h3>Java 开发</h3>
+            <p>把状态机、幂等、事务、权限、审计和跨系统追溯落实为可验证实现。</p>
+            <ul class="index-links">
+              <li><a href="#stage-sales">销售需求</a></li>
+              <li><a href="#stage-engineering">产品与工艺准备</a></li>
+              <li><a href="#stage-planning">计划排产</a></li>
+              <li><a href="#stage-material">物料齐套</a></li>
+              <li><a href="#stage-execution">生产执行</a></li>
+              <li><a href="#stage-quality">质量管控</a></li>
+              <li><a href="#stage-warehouse">成品入库</a></li>
+              <li><a href="#stage-traceability">发货与追溯</a></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section class="stage-list" aria-labelledby="stage-list-title">
         <div class="section-heading section-heading--stages">
           <div>
@@ -137,8 +371,9 @@
           class="stage-card"
           id="stage-sales"
           data-stage="sales"
-          data-modules="erp mes plm"
-          data-roles="sales planner engineer warehouse quality"
+          data-stage-name="销售需求"
+          data-modules="work-order reporting"
+          data-roles="sales planner engineer warehouse quality developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">01</div>
@@ -262,8 +497,9 @@
           class="stage-card"
           id="stage-engineering"
           data-stage="engineering"
-          data-modules="plm erp mes qms device"
-          data-roles="engineer quality operator"
+          data-stage-name="产品与工艺准备"
+          data-modules="routing material equipment quality traceability"
+          data-roles="engineer quality operator equipment developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">02</div>
@@ -384,8 +620,9 @@
           class="stage-card"
           id="stage-planning"
           data-stage="planning"
-          data-modules="erp mes wms qms device"
-          data-roles="planner engineer warehouse operator quality"
+          data-stage-name="计划排产"
+          data-modules="work-order material equipment reporting"
+          data-roles="planner engineer warehouse operator quality equipment developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">03</div>
@@ -506,8 +743,9 @@
           class="stage-card"
           id="stage-material"
           data-stage="material"
-          data-modules="wms erp mes qms plm"
-          data-roles="planner warehouse operator quality engineer"
+          data-stage-name="物料齐套"
+          data-modules="work-order material quality traceability"
+          data-roles="planner warehouse operator quality engineer developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">04</div>
@@ -628,8 +866,9 @@
           class="stage-card"
           id="stage-execution"
           data-stage="execution"
-          data-modules="mes device qms erp plm"
-          data-roles="operator engineer quality warehouse"
+          data-stage-name="生产执行"
+          data-modules="work-order routing material equipment quality traceability reporting"
+          data-roles="operator engineer quality warehouse equipment developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">05</div>
@@ -715,7 +954,7 @@
                 <section>
                   <h4>指标</h4>
                   <ul>
-                    <li>小时产出、FPY、返工与报废</li>
+                    <li>小时产出、工序 FPY、整路线 RTY、返工与报废</li>
                     <li>单件周期、工序节拍、在制等待</li>
                     <li>采集成功率、绑定完整率、错版拦截次数</li>
                   </ul>
@@ -750,8 +989,9 @@
           class="stage-card"
           id="stage-quality"
           data-stage="quality"
-          data-modules="qms mes wms erp device"
-          data-roles="quality operator engineer warehouse planner"
+          data-stage-name="质量管控"
+          data-modules="equipment quality traceability reporting"
+          data-roles="quality operator engineer warehouse planner equipment developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">06</div>
@@ -837,7 +1077,7 @@
                 <section>
                   <h4>指标</h4>
                   <ul>
-                    <li>各检验环节一次合格率、FPY</li>
+                    <li>各检验环节首次合格率、返工复验通过率</li>
                     <li>NCR 关闭周期、逾期与重复发生率</li>
                     <li>客诉逃逸率、CAPA 按期有效率</li>
                   </ul>
@@ -872,8 +1112,9 @@
           class="stage-card"
           id="stage-warehouse"
           data-stage="warehouse"
-          data-modules="mes wms erp qms"
-          data-roles="operator warehouse quality planner sales"
+          data-stage-name="成品入库"
+          data-modules="material quality traceability reporting"
+          data-roles="operator warehouse quality planner sales developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">07</div>
@@ -994,8 +1235,9 @@
           class="stage-card"
           id="stage-traceability"
           data-stage="traceability"
-          data-modules="erp wms mes qms"
-          data-roles="sales warehouse quality engineer planner operator"
+          data-stage-name="发货与追溯"
+          data-modules="quality traceability reporting"
+          data-roles="sales warehouse quality engineer planner operator developer"
         >
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">08</div>

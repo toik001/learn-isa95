@@ -78,6 +78,9 @@
     const viewButtons = [
       ...documentRef.querySelectorAll(".view-button[data-view]"),
     ];
+    const viewPanels = [
+      ...documentRef.querySelectorAll("[data-view-panel]"),
+    ];
     const viewHint = documentRef.querySelector(
       ".section-heading--stages > p",
     );
@@ -88,6 +91,12 @@
     ];
     const progressValue = documentRef.querySelector(
       "#progress-summary .progress-summary__value",
+    );
+    const progressNext = documentRef.querySelector(
+      "#progress-summary .progress-summary__next",
+    );
+    const progressComplete = documentRef.querySelector(
+      "#progress-summary .progress-summary__complete",
     );
 
     function applyFilters() {
@@ -113,29 +122,38 @@
 
     const viewHints = {
       process: "流程视角：按八阶段顺序学习，沿数字线程理解上下游交接。",
-      module: "模块视角：使用系统模块筛选定位 ERP、PLM、MES、WMS、QMS 与设备知识。",
-      role: "岗位视角：使用参与岗位筛选定位职责、交接和开发关注点。",
+      module: "模块视角：按工单、工艺、物料、设备、质量、追溯与报表索引定位知识。",
+      role: "岗位视角：按角色索引定位职责、交接和 Java 开发关注点。",
     };
+
+    function applyView(requestedView) {
+      const selectedView = viewHints[requestedView] ? requestedView : "process";
+
+      viewButtons.forEach((candidate) => {
+        const isSelected = candidate.dataset.view === selectedView;
+        candidate.setAttribute("aria-pressed", String(isSelected));
+        candidate.classList.toggle("is-active", isSelected);
+      });
+
+      viewPanels.forEach((panel) => {
+        panel.hidden = panel.dataset.viewPanel !== selectedView;
+      });
+
+      if (viewHint) {
+        viewHint.textContent = viewHints[selectedView];
+      }
+      documentRef.documentElement.dataset.learningView = selectedView;
+    }
 
     viewButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        const selectedView = button.dataset.view;
-
-        viewButtons.forEach((candidate) => {
-          const isSelected = candidate === button;
-          candidate.setAttribute("aria-pressed", String(isSelected));
-          candidate.classList.toggle("is-active", isSelected);
-        });
-
-        if (selectedView && viewHint && viewHints[selectedView]) {
-          viewHint.textContent = viewHints[selectedView];
-        }
-
-        if (selectedView) {
-          documentRef.documentElement.dataset.learningView = selectedView;
-        }
+        applyView(button.dataset.view);
       });
     });
+    const initialView = viewButtons.find(
+      (button) => button.getAttribute("aria-pressed") === "true",
+    )?.dataset.view;
+    applyView(initialView || "process");
 
     function readProgress() {
       try {
@@ -170,6 +188,30 @@
 
       if (progressValue) {
         progressValue.textContent = `${completedCount} / ${cards.length}`;
+      }
+
+      const nextToggle = progressToggles.find((toggle) => !toggle.checked);
+      if (nextToggle) {
+        const nextCard = nextToggle.closest(".stage-card");
+        const nextStage = nextCard?.dataset.stage
+          || nextToggle.dataset.stageProgress;
+        const nextName = nextCard?.dataset.stageName || nextStage;
+
+        if (progressNext) {
+          progressNext.textContent = `下一阶段：${nextName}`;
+          progressNext.setAttribute("href", `#stage-${nextStage}`);
+          progressNext.hidden = false;
+        }
+        if (progressComplete) {
+          progressComplete.hidden = true;
+        }
+      } else {
+        if (progressNext) {
+          progressNext.hidden = true;
+        }
+        if (progressComplete) {
+          progressComplete.hidden = false;
+        }
       }
     }
 
@@ -228,6 +270,9 @@
         .forEach((card) => {
           card.classList.remove("is-filtered");
         });
+      documentRef.querySelectorAll("[data-view-panel]").forEach((panel) => {
+        panel.hidden = false;
+      });
     }
   }
 

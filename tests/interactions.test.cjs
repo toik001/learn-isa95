@@ -41,6 +41,7 @@ class FakeElement {
     this.value = options.value || "";
     this.checked = Boolean(options.checked);
     this.open = Boolean(options.open);
+    this.hidden = Boolean(options.hidden);
     this.classList = new FakeClassList(options.classes);
     this.children = [];
     this.listeners = new Map();
@@ -86,10 +87,10 @@ class FakeElement {
   }
 }
 
-function createCard(text, modules, roles) {
+function createCard(text, modules, roles, stage, stageName) {
   return new FakeElement({
     textContent: text,
-    dataset: { modules, roles },
+    dataset: { modules, roles, stage, stageName },
     classes: ["stage-card"],
   });
 }
@@ -114,10 +115,18 @@ function createBrowserFixture(options = {}) {
   const cards = [
     createCard(
       "生产执行 主板烧录 固件绑定",
-      "mes device",
-      "operator developer",
+      "work-order equipment traceability",
+      "operator equipment developer",
+      "execution",
+      "生产执行",
     ),
-    createCard("质量管控 检验放行", "mes qms", "quality developer"),
+    createCard(
+      "质量管控 检验放行",
+      "quality reporting",
+      "quality developer",
+      "quality",
+      "质量管控",
+    ),
   ];
   const search = new FakeElement({ value: "" });
   const moduleFilter = new FakeElement({ value: "all" });
@@ -141,7 +150,31 @@ function createBrowserFixture(options = {}) {
   const qualityProgress = createToggle("quality", cards[1]);
   const progressToggles = [salesProgress.toggle, qualityProgress.toggle];
   const progressValue = new FakeElement({ textContent: "0 / 2" });
+  const progressNext = new FakeElement({
+    tagName: "A",
+    textContent: "等待初始化",
+  });
+  progressNext.setAttribute("href", "#stage-sales");
+  const progressComplete = new FakeElement({
+    tagName: "SPAN",
+    textContent: "全部阶段已完成",
+    hidden: true,
+  });
   const viewHint = new FakeElement({ textContent: "默认提示" });
+  const viewPanels = [
+    new FakeElement({
+      textContent: "八阶段制造主线",
+      dataset: { viewPanel: "process" },
+    }),
+    new FakeElement({
+      textContent: "工单 工艺 物料 设备 质量 追溯 报表",
+      dataset: { viewPanel: "module" },
+    }),
+    new FakeElement({
+      textContent: "销售 计划 工艺 仓储 班组 质量 设备 Java 开发",
+      dataset: { viewPanel: "role" },
+    }),
+  ];
   const details = [
     new FakeElement({ tagName: "DETAILS" }),
     new FakeElement({ tagName: "DETAILS" }),
@@ -154,6 +187,8 @@ function createBrowserFixture(options = {}) {
     ["#role-filter", roleFilter],
     [".section-heading--stages > p", viewHint],
     ["#progress-summary .progress-summary__value", progressValue],
+    ["#progress-summary .progress-summary__next", progressNext],
+    ["#progress-summary .progress-summary__complete", progressComplete],
     [".section-heading--stages", stageHeading],
   ]);
   const viewButtons = [processView, moduleView, roleView];
@@ -174,6 +209,9 @@ function createBrowserFixture(options = {}) {
       }
       if (selector === ".view-button[data-view]") {
         return viewButtons;
+      }
+      if (selector === "[data-view-panel]") {
+        return viewPanels;
       }
       if (selector === ".progress-toggle[data-stage-progress]") {
         return progressToggles;
@@ -209,9 +247,12 @@ function createBrowserFixture(options = {}) {
     roleFilter,
     viewButtons,
     viewHint,
+    viewPanels,
     progressToggles,
     progressLabels: [salesProgress.labelText, qualityProgress.labelText],
     progressValue,
+    progressNext,
+    progressComplete,
     details,
     stageHeading,
     root,
@@ -227,13 +268,13 @@ test("关键词比较忽略大小写与首尾空格", () => {
 test("卡片同时满足关键词、模块和岗位过滤", () => {
   const card = {
     text: "生产执行 主板烧录 固件绑定",
-    modules: ["execution", "traceability"],
+    modules: ["equipment", "traceability"],
     roles: ["operator", "developer"],
   };
   assert.equal(
     matchesCard(card, {
       query: "固件",
-      module: "execution",
+      module: "equipment",
       role: "developer",
     }),
     true,
@@ -335,7 +376,7 @@ test("组合筛选后重置会移除全部隐藏状态", () => {
 
   initializeBrowser(fixture.documentRef, fixture.windowRef);
   fixture.search.value = "固件";
-  fixture.moduleFilter.value = "mes";
+  fixture.moduleFilter.value = "equipment";
   fixture.roleFilter.value = "operator";
   fixture.search.emit("input");
   assert.deepEqual(
@@ -353,10 +394,20 @@ test("组合筛选后重置会移除全部隐藏状态", () => {
   );
 });
 
-test("视角按钮同步按压状态、页面提示和根视角", () => {
+test("视角按钮切换用户可见的流程、模块和岗位索引", () => {
   const fixture = createBrowserFixture();
 
   initializeBrowser(fixture.documentRef, fixture.windowRef);
+  assert.deepEqual(
+    fixture.viewPanels.map((panel) => panel.hidden),
+    [false, true, true],
+  );
+  fixture.viewButtons[1].emit("click");
+  assert.deepEqual(
+    fixture.viewPanels.map((panel) => panel.hidden),
+    [true, false, true],
+  );
+  assert.match(fixture.viewPanels[1].textContent, /工单.*设备.*报表/);
   fixture.viewButtons[2].emit("click");
   assert.deepEqual(
     fixture.viewButtons.map((button) => button.getAttribute("aria-pressed")),
@@ -368,9 +419,41 @@ test("视角按钮同步按压状态、页面提示和根视角", () => {
   );
   assert.equal(
     fixture.viewHint.textContent,
-    "岗位视角：使用参与岗位筛选定位职责、交接和开发关注点。",
+    "岗位视角：按角色索引定位职责、交接和 Java 开发关注点。",
   );
+  assert.deepEqual(
+    fixture.viewPanels.map((panel) => panel.hidden),
+    [true, true, false],
+  );
+  assert.match(fixture.viewPanels[2].textContent, /设备.*Java 开发/);
   assert.equal(fixture.root.dataset.learningView, "role");
+});
+
+test("学习检查建议下一未完成阶段并报告全部完成", () => {
+  const fixture = createBrowserFixture();
+
+  initializeBrowser(fixture.documentRef, fixture.windowRef);
+  assert.equal(fixture.progressNext.textContent, "下一阶段：生产执行");
+  assert.equal(fixture.progressNext.getAttribute("href"), "#stage-execution");
+  assert.equal(fixture.progressNext.hidden, false);
+  assert.equal(fixture.progressComplete.hidden, true);
+
+  fixture.progressToggles[0].checked = true;
+  fixture.progressToggles[0].emit("change");
+  assert.equal(fixture.progressNext.textContent, "下一阶段：质量管控");
+  assert.equal(fixture.progressNext.getAttribute("href"), "#stage-quality");
+
+  fixture.progressToggles[1].checked = true;
+  fixture.progressToggles[1].emit("change");
+  assert.equal(fixture.progressNext.hidden, true);
+  assert.equal(fixture.progressComplete.hidden, false);
+
+  fixture.progressToggles[1].checked = false;
+  fixture.progressToggles[1].emit("change");
+  assert.equal(fixture.progressNext.textContent, "下一阶段：质量管控");
+  assert.equal(fixture.progressNext.getAttribute("href"), "#stage-quality");
+  assert.equal(fixture.progressNext.hidden, false);
+  assert.equal(fixture.progressComplete.hidden, true);
 });
 
 test("恢复及切换进度会同步存储、卡片、标签和计数", () => {
