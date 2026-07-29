@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 生产执行详解：派工、SN、过站、关键件绑定、固件烧录、设备采集与返工。">
+  <title>05 生产执行｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">生产执行</span></nav>
+  <p class="page-code">STAGE 05 · <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / EQUIPMENT · UNIT FACTS</p><h1>生产执行</h1>
+  <p class="detail-hero__lead">把已下达工单转化为逐件、逐工序可证明的制造事实：谁、在何时、用什么设备和物料、按哪个版本、做了什么并得到什么结果。</p>
+  <div class="hero-meta"><span>主责：生产班组</span><span>完成：单件路线与证据完整</span><span>关键键：整锁 <abbr title="Serial Number｜序列号">SN</abbr> + 工序 + 尝试号</span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span><abbr title="Serial Number｜序列号">SN</abbr> 编码、关键件范围、工序门禁、设备协议、返工权限和测试阈值必须以企业受控文件为准，本页示例不代表已采用。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">上游阶段</p><a href="material-kitting.html">04 物料齐套</a><p>可投料的批次、关键件与线边实物。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>05 生产执行</strong><p>过站、绑定、烧录、采集、返工与完工。</p></article>
+      <article class="flow-card"><p class="fact-label">下游阶段</p><a href="quality-control.html">06 质量管控</a><p>基于制造与检验证据冻结、处置和放行。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：一件产品一条不可抹除的制造履历</h2>
+      <p class="section-intro">触发是已下达工单满足开工条件，或上游工序完成带来的节拍拉动。完成不是“工单报了数量”，而是每个整锁 <abbr title="Serial Number｜序列号">SN</abbr> 完成冻结路线、关键件与固件绑定、测试证据和异常闭环。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p>生产主管、班组长、操作员、物料员、工艺/设备工程师、质量人员和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管理员。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p>人员资质、设备校准、工装、制造基线、齐套物料、作业指导和 <abbr title="Serial Number｜序列号">SN</abbr> 规则均有效。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>必经工序完成，消耗与绑定完整，固件可核验，测试合格或已有批准处置，数量对账成立。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong>派工与开工校验</strong><p>选择工单/工序和班次，校验操作者资质、设备/工装状态、物料齐套和最新停线通知。</p></li>
+        <li><strong>生成或接收整锁 <abbr title="Serial Number｜序列号">SN</abbr></strong><p><abbr title="Serial Number｜序列号">SN</abbr> 与工单、产品、制造版本建立关系；重打标签不得生成第二个有效身份。</p></li>
+        <li><strong>工序进入与过站</strong><p>检查前序成功、返工路线和当前 <abbr title="Work in Process｜在制品">WIP</abbr> 状态，记录进入、开始、完成、失败、暂停和每次尝试。</p></li>
+        <li><strong>投料与关键件绑定</strong><p>扫描主板、指纹模组、电机等关键件，校验版本、质量和唯一性后建立装配关系。</p></li>
+        <li><strong>固件烧录与设备采集</strong><p>由系统选择受控固件和设备程序，记录下载/烧录/回读哈希、测试会话、原始数据索引和业务判定。</p></li>
+        <li><strong>异常、返工和换件</strong><p>失败先暂停或隔离，再通过批准路线返工；解绑/换件追加有效期记录，原失败与旧件历史不删除。</p></li>
+        <li><strong>末工序完工申报</strong><p>核对路线、绑定、固件、质量、用料、报废和工单数量，生成完工事实但不越权替代质量放行。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>LOCK-260728-000123 绑定 <abbr title="Printed Circuit Board｜印制电路板">PCB</abbr>-<abbr title="Serial Number｜序列号">SN</abbr>-88421、FP-<abbr title="Serial Number｜序列号">SN</abbr>-39210 和锁体批次，烧录固件 2.3.4 并保存 <abbr title="Secure Hash Algorithm 256-bit｜256 位安全散列算法">SHA-256</abbr>。电机电流超限后产品暂停；换件、走返工路线并复验合格，系统保留原电机、失败测试和处置批准。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：过站记录要表达“每次尝试”，不能只存最终 <abbr title="English result word, not an acronym｜通过">PASS</abbr></h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label"><abbr title="Work in Process｜在制品">WIP</abbr> / 整锁 <abbr title="Serial Number｜序列号">SN</abbr></p><h3>单件聚合</h3><p><abbr title="Serial Number｜序列号">SN</abbr>、工单、产品/版本、当前工序、执行状态、质量状态、包装状态、最新事件序号和创建来源。</p></article>
+        <article class="data-card"><p class="data-label">过站记录</p><h3>工序事实</h3><p><abbr title="Serial Number｜序列号">SN</abbr>、路线/工序版本、尝试号、进入/完成时间、人员、工位、设备、结果、失败码和返工来源。</p></article>
+        <article class="data-card"><p class="data-label">装配绑定</p><h3>制造谱系</h3><p>父 <abbr title="Serial Number｜序列号">SN</abbr>、子件 <abbr title="Serial Number｜序列号">SN</abbr>/物料批次、数量、工序、绑定/解绑时间、原因、操作者和有效状态。</p></article>
+        <article class="data-card"><p class="data-label">烧录 / 测试会话</p><h3>设备证据</h3><p>会话 <abbr title="Identifier｜标识符">ID</abbr>、<abbr title="Serial Number｜序列号">SN</abbr>、设备、程序/固件版本、哈希、开始结束、原始数据地址、规则版本、结果和重发序号。</p></article>
+      </div>
+      <h3>单件执行参考状态</h3>
+      <ol class="state-flow"><li>已创建</li><li>待开工</li><li>加工中</li><li>工序完成</li><li>待下工序</li><li>已完工</li></ol>
+      <p>失败可进入暂停、待处置、返工中、待复验或报废。“制造已完工”与“质量已放行”必须是正交状态，避免一个状态字段承载所有语义。</p>
+      <div class="table-wrap"><table><thead><tr><th>业务不变量</th><th>校验</th><th>失败处理</th></tr></thead><tbody>
+        <tr><th>前序门禁</th><td>当前路线要求的前序均有有效成功记录</td><td>拒绝过站；跳站仅走授权命令并审计。</td></tr>
+        <tr><th>关键件唯一</th><td>子件 <abbr title="Serial Number｜序列号">SN</abbr> 同时只能绑定一个有效父 <abbr title="Serial Number｜序列号">SN</abbr></td><td>拦截并调查来源，不自动解绑旧关系。</td></tr>
+        <tr><th>数量守恒</th><td>合格 + 报废 + 在制不超过投入，完工不超过授权</td><td>进入对账队列，禁止静默改数。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存业务事实，设备系统保存高频原始证据</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>边界</th></tr></thead><tbody>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单执行、<abbr title="Work in Process｜在制品">WIP</abbr>、过站、绑定、业务判定和实绩</td><td>不接管 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 控制；保存原始数据索引和可复核摘要。</td></tr>
+        <tr><th>设备 / <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr></th><td>设备控制、程序日志、采样点、报警和原始文件</td><td>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 不自动等于 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 过站，仍需身份、版本和路线校验。</td></tr>
+        <tr><th><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>制造依据 / 质量处置</td><td>提供受控版本和处置结论，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 记录实际执行引用。</td></tr>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></th><td>经营汇总 / 实物配送</td><td>接收完工消耗与补料需求，不逐步控制单件工序。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：单件状态条件更新 + 同事务事实写入</h2>
+      <ul class="implementation-list">
+        <li><strong>过站原子性</strong>同一事务写过站、当前 <abbr title="Work in Process｜在制品">WIP</abbr> 状态、消耗/绑定和 Outbox；外部系统失败由事件补偿。</li>
+        <li><strong>条件更新</strong>更新时携带期望工序、状态和版本，受影响行数为 0 即并发冲突或重复请求。</li>
+        <li><strong>设备会话幂等</strong>以测试会话 <abbr title="Identifier｜标识符">ID</abbr> + 结果序号防重和排序；迟到结果进入待确认，不倒退已关闭状态。</li>
+        <li><strong>有效期绑定</strong>绑定是追加事件或带 from/to 的关系；解绑关闭旧关系并关联换件原因。</li>
+        <li><strong>离线续传</strong>终端使用本地事件队列，保持原事件 <abbr title="Identifier｜标识符">ID</abbr>、工位时间和序号；服务端返回逐事件结果。</li>
+        <li><strong>例外权限</strong>跳站、补录、重打、解绑、改判和手工完工分别授权，强制理由、双人复核和审计。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：</strong><abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等落库 → 核对唯一结果 → 必要时授权补采。</li>
+        <li><strong>关键件重复绑定：</strong>拒绝第二次绑定 → 查询旧父件状态 → 判断扫码错、返工未解绑或数据重复 → 受控修复并审计。</li>
+        <li><strong>工位断网：</strong>只允许预授权工单/版本离线执行 → 本地保留签名事件 → 恢复后按序续传 → 冲突进入人工判定。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>工序 <abbr title="First Pass Yield｜一次通过率">FPY</abbr> / 整路线 <abbr title="Rolled Throughput Yield｜滚动直通率">RTY</abbr></strong><span><abbr title="First Pass Yield｜一次通过率">FPY</abbr> 看单工序一次通过；<abbr title="Rolled Throughput Yield｜滚动直通率">RTY</abbr> 为各工序 <abbr title="First Pass Yield｜一次通过率">FPY</abbr> 乘积</span></article>
+        <article class="metric-card"><strong>单件周期 / 在制等待</strong><span>区分有效加工、搬运、排队和异常停留</span></article>
+        <article class="metric-card"><strong>绑定与采集完整率</strong><span>应采证据中已形成有效记录的比例</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p>过站接口怎样同时避免重复过站、重复扣料和消息丢失？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>解绑和换件为什么必须追加历史，而不能更新成新件 <abbr title="Serial Number｜序列号">SN</abbr>？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p>设备返回 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 时，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 还必须验证哪些上下文？</p></article>
+        <article class="question-card"><h3>验证练习</h3><p>任选一个 <abbr title="Serial Number｜序列号">SN</abbr>，按时间还原它的所有工序尝试、绑定变化、固件和测试证据。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/equipment.html"><h3>设备模块</h3><p>继续理解设备程序、采集会话和停机。</p></a>
+        <a class="link-card" href="../modules/traceability.html"><h3>追溯模块</h3><p>把单件证据串到箱码和客户。</p></a>
+        <a class="link-card" href="../topics/idempotency.html"><h3>幂等与并发</h3><p>拆解重复扫码、设备重发和条件更新。</p></a>
+        <a class="link-card" href="quality-control.html"><h3>下一阶段：质量管控</h3><p>把检验、冻结、处置和放行独立建模。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="material-kitting.html">← 上一阶段：物料齐套</a><a href="quality-control.html">下一阶段：质量管控 →</a></div></footer>
+</body></html>

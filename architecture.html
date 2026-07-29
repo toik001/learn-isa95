@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="基于 ISA-95 的智能锁制造 IT/OT 与工业自动化体系学习地图，覆盖 ERP、MOM/MES、SCADA、PLC、现场设备和安全。">
+    <title>工业自动化体系｜智能锁 MES 学习助手</title>
+    <link rel="stylesheet" href="assets/detail.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+    <header class="detail-hero">
+      <div class="detail-hero__inner">
+        <nav class="breadcrumb"><a href="index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><span aria-current="page">工业自动化体系</span></nav>
+        <p class="page-code"><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> · <abbr title="Information Technology / Operational Technology｜信息技术与运营技术">IT/OT</abbr> ARCHITECTURE · 20 NODES</p>
+        <h1>从 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 到传感器：读懂整套制造体系</h1>
+        <p class="detail-hero__lead">按 <abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的活动层级理解 L4—L0，再逐个拆解 20 个系统与控制节点。每页都有官方解释、通俗释义、智能锁现场、数据与接口、异常和 Java 边界。</p>
+        <div class="hero-meta"><span>20 个独立节点页</span><span>5 个活动层级</span><span>1 条整锁证据链</span><span>行业通用教学模型</span></div>
+      </div>
+    </header>
+    <div class="detail-layout">
+      <aside class="page-rail">
+        <p class="rail-label">推荐顺序</p>
+        <ol>
+          <li><a href="#framework">先学标准坐标</a></li>
+          <li><a href="#l4">再学经营工程</a></li>
+          <li><a href="#l3">理解制造运营</a></li>
+          <li><a href="#l2">进入监督控制</a></li>
+          <li><a href="#l1">下钻现场物理</a></li>
+          <li><a href="#thread">最后串成一条线</a></li>
+        </ol>
+      </aside>
+      <main id="content" class="content">
+        <div class="disclaimer"><strong>口径说明</strong><span><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的 Level 表达活动和信息边界，不是固定产品货架。<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、边缘网关等产品可能同时承载相邻层级活动；本地图标注的是典型范围。</span></div>
+
+        <section id="framework" class="knowledge-section">
+          <p class="section-code">01 · FRAMEWORK & GOVERNANCE</p>
+          <h2>先把坐标系与安全边界立住</h2>
+          <div class="card-grid">
+            <a class="link-card" href="pages/architecture/isa95.html"><p class="data-label">NODE 01 · L0—L4</p><h3><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 架构与设备层级</h3><p>活动层级、设备层级、四类制造运营、L3/L4 信息交换，以及常见分层图为何会不同。</p></a>
+            <a class="link-card" href="pages/architecture/ot-security.html"><p class="data-label">NODE 02 · CROSS-LAYER</p><h3><abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 安全、区域与通信管道</h3><p><abbr title="International Society of Automation｜国际自动化协会">ISA</abbr>/<abbr title="International Electrotechnical Commission｜国际电工委员会">IEC</abbr> 62443、工业 DMZ、远程维护、程序发布、账户和最小通信。</p></a>
+          </div>
+        </section>
+
+        <section id="l4" class="knowledge-section">
+          <p class="section-code">02 · LEVEL 4 / ENGINEERING INTERFACE</p>
+          <h2>经营承诺与受控产品定义</h2>
+          <div class="card-grid">
+            <a class="link-card" href="pages/architecture/erp.html"><p class="data-label">NODE 03 · L4</p><h3><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></h3><p>订单、计划、采购、库存账、成本与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 实绩接口。</p></a>
+            <a class="link-card" href="pages/architecture/plm.html"><p class="data-label">NODE 04 · L4/L3</p><h3><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr></h3><p>产品、<abbr title="Bill of Materials｜物料清单">BOM</abbr>、图纸、固件、工程变更和制造发布包。</p></a>
+          </div>
+        </section>
+
+        <section id="l3" class="knowledge-section">
+          <p class="section-code">03 · LEVEL 3 MANUFACTURING OPERATIONS</p>
+          <h2>把经营目标变成可执行制造任务</h2>
+          <div class="card-grid card-grid--3">
+            <a class="link-card" href="pages/architecture/mom-mes.html"><p class="data-label">NODE 05</p><h3><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></h3><p>生产、质量、库存、维护四类运营的执行中枢。</p></a>
+            <a class="link-card" href="pages/architecture/aps.html"><p class="data-label">NODE 06</p><h3><abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr></h3><p>产能、物料、换型与交期约束下的详细计划。</p></a>
+            <a class="link-card" href="pages/architecture/wms.html"><p class="data-label">NODE 07</p><h3><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></h3><p>仓内实物、库位、容器、批次与任务。</p></a>
+            <a class="link-card" href="pages/architecture/qms.html"><p class="data-label">NODE 08</p><h3><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></h3><p>检验标准、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、<abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 和质量放行。</p></a>
+            <a class="link-card" href="pages/architecture/eam-cmms.html"><p class="data-label">NODE 09</p><h3><abbr title="Enterprise Asset Management｜企业资产管理">EAM</abbr> / <abbr title="Computerized Maintenance Management System｜计算机化维护管理系统">CMMS</abbr></h3><p>资产、维护、校准、备件和设备能力状态。</p></a>
+          </div>
+        </section>
+
+        <section id="l2" class="knowledge-section">
+          <p class="section-code">04 · LEVEL 2 SUPERVISION & CONTROL</p>
+          <h2>监视、控制、采集与设备自治</h2>
+          <div class="card-grid card-grid--3">
+            <a class="link-card" href="pages/architecture/scada.html"><p class="data-label">NODE 10 · L2/L3</p><h3><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr></h3><p>状态、报警、趋势和受控的监督操作。</p></a>
+            <a class="link-card" href="pages/architecture/hmi-andon.html"><p class="data-label">NODE 11 · L1—L3</p><h3><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> / Andon</h3><p>设备交互、报警确认、异常呼叫与升级。</p></a>
+            <a class="link-card" href="pages/architecture/historian.html"><p class="data-label">NODE 12 · L2/L3</p><h3>Historian</h3><p>时间序列、质量码、原始曲线和证据保留。</p></a>
+            <a class="link-card" href="pages/architecture/edge-gateway.html"><p class="data-label">NODE 13 · L1—L3</p><h3>边缘网关</h3><p>南北向协议、语义映射、断网缓存和补传。</p></a>
+            <a class="link-card" href="pages/architecture/plc.html"><p class="data-label">NODE 14 · L1/L2</p><h3><abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr></h3><p>扫描周期、顺控、互锁、模式、报警和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 握手。</p></a>
+            <a class="link-card" href="pages/architecture/robot-motion.html"><p class="data-label">NODE 15 · L1/L2</p><h3>机器人与运动控制</h3><p>轨迹、定位、配方、工具和协同动作。</p></a>
+            <a class="link-card" href="pages/architecture/test-controller.html"><p class="data-label">NODE 16 · L1/L2</p><h3>测试控制器 / <abbr title="Industrial PC｜工业计算机/工控机">IPC</abbr></h3><p>仪器编排、测试配方、原始数据和结果会话。</p></a>
+          </div>
+        </section>
+
+        <section id="l1" class="knowledge-section">
+          <p class="section-code">05 · LEVEL 1 / LEVEL 0 / COMMUNICATION</p>
+          <h2>感知、动作、安全和信息传输</h2>
+          <div class="card-grid">
+            <a class="link-card" href="pages/architecture/field-devices.html"><p class="data-label">NODE 17 · L1</p><h3>传感器、执行器与驱动</h3><p>单位、量程、质量、反馈、默认状态和现场故障。</p></a>
+            <a class="link-card" href="pages/architecture/machine-safety.html"><p class="data-label">NODE 18 · L0—L2</p><h3>机器安全系统</h3><p>风险评估、安全功能、安全状态和旁路管理。</p></a>
+            <a class="link-card" href="pages/architecture/protocols.html"><p class="data-label">NODE 19 · CROSS-LAYER</p><h3>工业协议与信息语义</h3><p><abbr title="Open Platform Communications Unified Architecture｜开放平台通信统一架构">OPC UA</abbr>、<abbr title="Message Queuing Telemetry Transport｜轻量发布/订阅消息传输协议">MQTT</abbr>、Modbus、实时以太网和业务 <abbr title="Application Programming Interface｜应用程序编程接口">API</abbr> 的选择。</p></a>
+          </div>
+        </section>
+
+        <section id="thread" class="knowledge-section">
+          <p class="section-code">06 · END-TO-END VALIDATION</p>
+          <h2>把 19 个节点放回一把智能锁</h2>
+          <p class="section-intro">最后不再按产品学习，而是沿八阶段和一次功能测试时序验证：业务指令如何下达、现场如何自治、证据如何回流、异常如何恢复。</p>
+          <div class="link-grid">
+            <a class="link-card" href="pages/architecture/smart-lock-line.html"><p class="data-label">NODE 20 · L0—L4</p><h3>智能锁示范线</h3><p>八阶段跨层矩阵、测试时序、失败场景、<abbr title="Serial Number｜序列号">SN</abbr> 追溯图和 Java 服务边界。</p></a>
+            <a class="link-card" href="pages/stages/sales-demand.html"><p class="data-label">BACK TO PROCESS</p><h3>回到 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 八阶段</h3><p>用新的纵向体系重新理解销售需求到发货与追溯。</p></a>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer class="page-footer"><div class="page-footer__inner"><a href="index.html">← 返回 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><a href="docs/industrial-automation-architecture.md">阅读完整 Markdown 知识底稿 →</a></div></footer>
+  </body>
+</html>

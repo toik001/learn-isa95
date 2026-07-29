@@ -10,7 +10,7 @@ const htmlTagPattern = /<([a-z][\w:-]*)\b((?:"[^"]*"|'[^']*'|[^"'<>])*)>/gi;
 const urlAttributePattern = /(?<![\w:-])(xlink:href|href|src|poster|srcset|imagesrcset|srcdoc|action|formaction|data|ping|cite|background|manifest|codebase|archive|classid|longdesc|usemap)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'`=<>]+))/gi;
 const htmlEntityPattern = /(?:&#(?:\d+|x[\da-f]+);?|&[a-z][\da-z]+;)/i;
 const resourcePolicies = new Map([
-  ["a:href", "fragment"],
+  ["a:href", "page-or-fragment"],
   ["area:href", "fragment"],
   ["link:href", "asset"],
   ["link:imagesrcset", "srcset"],
@@ -170,6 +170,37 @@ function collectLocalAssetPaths(html) {
       );
       const policy = resourcePolicies.get(`${tag}:${attribute}`);
       assert.ok(policy, `不支持 ${tag}[${attribute}] 资源引用`);
+
+      if (policy === "page-or-fragment") {
+        if (value.startsWith("#")) {
+          assert.match(
+            value,
+            /^#[a-z][\w:.-]*$/i,
+            `${tag}[${attribute}] 页内锚点格式无效`,
+          );
+        } else {
+          const decoded = decodeResourcePath(value);
+          assert.ok(!decoded.startsWith("//"), `禁止协议相对链接：${value}`);
+          assert.ok(
+            !/^[a-z][a-z\d+.-]*:/i.test(decoded),
+            `禁止 URL 方案链接：${value}`,
+          );
+          assert.ok(
+            !isAbsolute(decoded) && !decoded.includes("\\"),
+            `链接不能使用绝对路径或反斜杠：${value}`,
+          );
+          assert.ok(
+            !decoded.split("/").includes(".."),
+            `链接不能包含路径穿越：${value}`,
+          );
+          assert.match(
+            decoded,
+            /^(?:(?:architecture|glossary)\.html|pages\/(?:stages|modules|roles|systems|topics)\/[a-z][a-z-]*\.html(?:#[a-z][\w:.-]*)?)$/,
+            `${tag}[${attribute}] 仅允许页内锚点、总入口或 pages 下的详情页`,
+          );
+        }
+        continue;
+      }
 
       if (policy === "fragment") {
         assert.match(

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 物料齐套详解：库存分配、拣配、配送、投料、批次与关键件追溯。">
+  <title>04 物料齐套｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">物料齐套</span></nav>
+  <p class="page-code">STAGE 04 · <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></p><h1>物料齐套</h1>
+  <p class="detail-hero__lead">让正确、合格、可追溯的物料，在正确时间到达正确工单和线边位置；“系统显示有库存”并不等于“现场可投料”。</p>
+  <div class="hero-meta"><span>主责：物料计划 / 仓储</span><span>完成：实物核对并可投料</span><span>关键键：工单 + 批次/关键件 <abbr title="Serial Number｜序列号">SN</abbr></span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span>仓储与线边库存主责、<abbr title="First In, First Out｜先进先出">FIFO</abbr>/<abbr title="First Expired, First Out｜先到期先出">FEFO</abbr>、替代审批、超领阈值和追溯粒度是企业特定规则；本页仅提供通用控制点。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">上游阶段</p><a href="planning.html">03 计划排产</a><p>已下达工单、用料需求和开工时间。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>04 物料齐套</strong><p>分配、拣配、配送、接收与投料核对。</p></article>
+      <article class="flow-card"><p class="fact-label">下游阶段</p><a href="production-execution.html">05 生产执行</a><p>实际消耗并绑定到工序与整锁 <abbr title="Serial Number｜序列号">SN</abbr>。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：库存存在、已分配、已到线、已投料是四种事实</h2>
+      <p class="section-intro">触发通常是工单下达、近期计划冻结、看板拉动或线边最低库存。完成标志不是拣货单关闭，而是工单需求与线边实物扫描核对，质量状态、批次、替代和数量均允许投料。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p>物料计划员、拣货/复核/配送员、线边物料员、班组、质量、采购、工艺和计划员。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p>工单及 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 有效；仓库/库位、容器、批次、质量状态、替代组、有效期和投料点已定义。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>可投料量覆盖开工批量，关键批次或 <abbr title="Serial Number｜序列号">SN</abbr> 已核对，缺料方案明确，账卡物与分配关系一致。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong>计算工单净需求</strong><p>按 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 扣减已领、已投、可复用余料和线边可用量，区分开工齐套与完工齐套。</p></li>
+        <li><strong>按策略分配库存</strong><p><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 应用 <abbr title="First In, First Out｜先进先出">FIFO</abbr>/<abbr title="First Expired, First Out｜先到期先出">FEFO</abbr>、同批优先、质量状态、客户限制和保留策略，不得分配待检或冻结库存。</p></li>
+        <li><strong>拣货、复核与配送</strong><p>扫描物料、批次/关键件 <abbr title="Serial Number｜序列号">SN</abbr>、容器、库位和数量；复核错料、混批及容器关系。</p></li>
+        <li><strong>线边接收和齐套判定</strong><p>接收人确认实物到位；部分齐套可支持分批开工，但必须暴露剩余缺口与预计到料。</p></li>
+        <li><strong>投料前防错</strong><p><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 校验产品/<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 版本、工序投料点、替代批准、有效期、质量和重复绑定。</p></li>
+        <li><strong>领退补料对账</strong><p>完工前处理超领、余料、退料、报废和换件；退料引用原领料与原批次，不能产生断链。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>500 套工单中，主板按批次、指纹模组按 <abbr title="Serial Number｜序列号">SN</abbr>、螺钉按数量追溯。第二批主板仍待检，只允许已放行的 300 件进入可投料区；系统把工单标为“部分齐套”，允许先开工 300 套但持续显示剩余缺口。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：需求与库存批次通过分配和领料形成多对多</h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label">工单物料需求</p><h3>应消耗什么</h3><p>工单、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 行、物料、需求/已领/已投/退回数量、投料工序、替代组和追溯粒度。</p></article>
+        <article class="data-card"><p class="data-label">库存批次 / 库存单元</p><h3>哪里有什么</h3><p>物料、批次、供应商批次、容器、库位、数量、质量状态、有效期、所有权和分配状态。</p></article>
+        <article class="data-card"><p class="data-label">分配 / 拣配 / 领料</p><h3>预留与移动证据</h3><p>需求行、库存单元、分配数量、策略、拣货任务、操作人、扫描时间、目标线边和凭证状态。</p></article>
+        <article class="data-card"><p class="data-label">投料 / 绑定</p><h3>实际使用证据</h3><p>整锁 <abbr title="Serial Number｜序列号">SN</abbr>/工单、工序、物料批次或关键件 <abbr title="Serial Number｜序列号">SN</abbr>、数量、设备/人员、时间、结果、替代批准和原记录。</p></article>
+      </div>
+      <h3>齐套状态与缺料处置</h3>
+      <ol class="state-flow"><li>待计算</li><li>待分配</li><li>部分分配</li><li>拣货中</li><li>已到线边</li><li>部分齐套</li><li>已齐套</li></ol>
+      <p>部分齐套 → 缺料处理中 / 已齐套；未解决缺料可进入待重新评审 → 缺料处理中 / 已取消 / 已关闭未解决，避免状态机只进不出。</p>
+      <div class="table-wrap"><table><thead><tr><th>追溯粒度</th><th>智能锁示例</th><th>记录方式</th></tr></thead><tbody>
+        <tr><th>数量级</th><td>螺钉、胶、包装辅料</td><td>物料 + 批次 + 数量，按工单/工序消耗。</td></tr>
+        <tr><th>批次级</th><td>锁体、电池组件、塑胶件</td><td>供应商/企业批次到工单或整锁 <abbr title="Serial Number｜序列号">SN</abbr> 的用量关系。</td></tr>
+        <tr><th>序列号级</th><td>主板、指纹模组、高价值电机</td><td>关键件 <abbr title="Serial Number｜序列号">SN</abbr> 与整锁 <abbr title="Serial Number｜序列号">SN</abbr> 一对一或带有效期的绑定。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 管仓内实物，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管线边消耗</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>边界与同步</th></tr></thead><tbody>
+        <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></th><td>库位、容器、库存单元、分配、拣配与仓内移动</td><td>确认实物从仓库到线边；不替代工序投料判定。</td></tr>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>库存财务账、领退料凭证和采购供给</td><td>接收汇总或逐笔凭证；失败用冲销/重试对账。</td></tr>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单需求、线边接收、投料、消耗与绑定</td><td>把批次/关键件 <abbr title="Serial Number｜序列号">SN</abbr> 连接到工序和整锁 <abbr title="Serial Number｜序列号">SN</abbr>。</td></tr>
+        <tr><th><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / <abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr></th><td>冻结放行 / 替代依据</td><td>决定物料能否使用和替代是否适用，不由仓库口头决定。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：库存预留并发、扫码幂等和跨系统补偿</h2>
+      <ul class="implementation-list">
+        <li><strong>预留并发</strong>用条件更新或预留明细保证可用量不为负；可用 = 在手 − 有效预留 − 冻结，不靠前端判断。</li>
+        <li><strong>扫码幂等</strong>终端生成事件 <abbr title="Identifier｜标识符">ID</abbr>；服务端保存结果与业务键，弱网重复上传返回首次结果。</li>
+        <li><strong>规则版本</strong>批次策略、替代组和追溯粒度版本化；拦截消息显示违反哪条规则及当前版本。</li>
+        <li><strong>Saga 补偿</strong><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 移库、<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 接收、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记账无法做分布式事务；每步有状态、重试、冲销与人工接管。</li>
+        <li><strong>数量精度</strong>明确单位换算、批次拆分和小数精度；序列号物料必须整数且唯一。</li>
+        <li><strong>高风险权限</strong>超领、替代、解冻、负库存和手工绑定需分权、理由、附件与审计。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>批次错料：</strong>扫描拦截 → 物理隔离 → 冻结可能已装配 <abbr title="Serial Number｜序列号">SN</abbr> → 复核容器/库存 → 重新拣配 → 账务冲销 → 验证防错。</li>
+        <li><strong>已分配后被冻结：</strong>撤销有效预留 → 找到关联工单 → 重新分配或触发缺料 → 已到线边实物必须召回隔离。</li>
+        <li><strong>退料无法识别原批次：</strong>禁止直接入可用库存；进入待判定区，补充证据或降级/报废，避免污染追溯。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>开工前齐套率</strong><span>满足定义齐套条件的近期工单比例</span></article>
+        <article class="metric-card"><strong>拣配准确率</strong><span>物料、批次、数量和目标工单一次正确比例</span></article>
+        <article class="metric-card"><strong>缺料停线时长</strong><span>因物料不可用造成的有效生产损失时间</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p>已分配、已领料、已到线和已投料分别由什么事实证明？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>批次、<abbr title="Serial Number｜序列号">SN</abbr>、数量三种追溯粒度应如何选择？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 移库成功而 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记账失败时，为什么不应直接回滚数据库？</p></article>
+        <article class="question-card"><h3>验证练习</h3><p>从一个工单列出全部需求行、实际批次、退补料和整锁绑定，核对数量守恒。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/material.html"><h3>物料模块</h3><p>查看 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、分配、领投退补料的全阶段链路。</p></a>
+        <a class="link-card" href="../systems/wms.html"><h3><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 边界</h3><p>区分仓内移动和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 现场消耗。</p></a>
+        <a class="link-card" href="../topics/integration.html"><h3>跨系统一致性</h3><p>用 Saga、对账和冲销处理部分成功。</p></a>
+        <a class="link-card" href="production-execution.html"><h3>下一阶段：生产执行</h3><p>把物料转化为单件制造事实。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="planning.html">← 上一阶段：计划排产</a><a href="production-execution.html">下一阶段：生产执行 →</a></div></footer>
+</body></html>

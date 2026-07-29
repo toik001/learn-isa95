@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 发货与追溯详解：订单分配、箱码复核、SN 交付、正反向追溯、召回和售后闭环。">
+  <title>08 发货与追溯｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">发货与追溯</span></nav>
+  <p class="page-code">STAGE 08 · <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / SERVICE</p><h1>发货与追溯</h1>
+  <p class="detail-hero__lead">把正确的智能锁交给正确客户，并让每次交付能反查完整制造证据；也能从任一风险批次正向圈定在制、库存、在途与已交付对象。</p>
+  <div class="hero-meta"><span>主责：销售运营 / 仓储 / 售后质量</span><span>完成：交付与追溯闭环</span><span>关键键：订单行 + 箱码 + 整锁 <abbr title="Serial Number｜序列号">SN</abbr></span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span>客户隐私、物流接口、保修起点、召回等级和通知渠道属于企业/法规特定规则；需要法务、质量和售后共同确认。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">上游阶段</p><a href="finished-goods.html">07 成品入库</a><p>可展开 <abbr title="Serial Number｜序列号">SN</abbr> 的箱码、库存状态与库位。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>08 发货与追溯</strong><p>分配、拣配、复核、交付、售后和召回。</p></article>
+      <article class="flow-card"><p class="fact-label">闭环反馈</p><a href="engineering-preparation.html">产品与工艺改进</a><p>把缺陷模式反馈给设计、供应商和工艺。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：交付是数字线程的落点，也是质量反馈的起点</h2>
+      <p class="section-intro">发货由批准的发货通知触发；追溯可由客诉、供应商质量通知、工程风险或监管要求触发。完成标志是订单、客户/渠道、箱码、<abbr title="Serial Number｜序列号">SN</abbr>、物流和制造谱系完整关联，风险行动逐件闭环。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p>订单运营、仓库计划/拣货/复核、物流、财务、质量、售后、工艺/研发、供应商质量和信息化。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p>发货授权、客户配置、合格可用库存、批次限制、箱码展开、制造谱系和地址/物流信息完备。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>逐 <abbr title="Serial Number｜序列号">SN</abbr> 客户去向可确认，出库与财务对账完成；追溯案件的范围、行动和效果均已验证。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong>创建发货通知并分配</strong><p><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 按订单行、客户限制和审批生成通知；<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 只从质量可用、未被其他订单占用的库存分配。</p></li>
+        <li><strong>波次拣货与复核</strong><p>扫描库位、托盘/箱码，展开核对产品配置、数量、质量、批次要求和订单分配。</p></li>
+        <li><strong>装车、出库与交付记录</strong><p>完成物流交接、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 出库、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 凭证，并建立每个 <abbr title="Serial Number｜序列号">SN</abbr> 到订单行、客户/渠道和保修起点的关系。</p></li>
+        <li><strong>售后反向追溯</strong><p>由故障 <abbr title="Serial Number｜序列号">SN</abbr> 反查型号/版本、工单、关键件/批次、固件、工序、设备、测试、箱码和交付。</p></li>
+        <li><strong>风险正向追溯</strong><p>由供应商批次、固件或设备程序圈定受影响 <abbr title="Serial Number｜序列号">SN</abbr>，并按在制、库存、在途、已交付和维修中分类。</p></li>
+        <li><strong>召回与效果确认</strong><p>冻结、拦截、通知、升级/维修/退换，逐 <abbr title="Serial Number｜序列号">SN</abbr> 记录触达、行动、复验和关闭；最终对账范围数量。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>某锁偶发无法联网，反查发现主板批次 <abbr title="Printed Circuit Board｜印制电路板">PCB</abbr>-0721-A 与固件 2.3.4 的组合风险。正向追溯将同组合 <abbr title="Serial Number｜序列号">SN</abbr> 分成在库冻结、在途拦截和已交付三组；已交付客户执行受控升级，并逐 <abbr title="Serial Number｜序列号">SN</abbr> 回写新固件哈希与验证结果。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：交付记录把制造谱系接到客户去向</h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label">发货通知 / 出库单</p><h3>交付授权</h3><p>订单号/行、客户、产品配置、计划数量、日期、批次限制、地址、审批、仓库和状态。</p></article>
+        <article class="data-card"><p class="data-label">分配 / 拣货 / 复核</p><h3>实物执行</h3><p>库存单元、箱码/托盘、库位、分配数量、策略、操作人、复核差异、装车和物流单号。</p></article>
+        <article class="data-card"><p class="data-label"><abbr title="Serial Number｜序列号">SN</abbr> 交付记录</p><h3>客户去向</h3><p>整锁 <abbr title="Serial Number｜序列号">SN</abbr>、订单行、客户/渠道、出库时间、交付/安装时间、保修起点和当前服务状态。</p></article>
+        <article class="data-card"><p class="data-label">追溯 / 召回案件</p><h3>范围与行动快照</h3><p>触发对象、方向、查询版本、范围快照、风险等级、批准、逐 <abbr title="Serial Number｜序列号">SN</abbr> 行动、触达和效果。</p></article>
+      </div>
+      <h3>发货与召回参考状态</h3>
+      <ol class="state-flow"><li>待分配</li><li>已分配</li><li>拣货中</li><li>待复核</li><li>已复核</li><li>待装车</li><li>已出库</li><li>已交付</li></ol>
+      <p>分配失败可重新分配 → 待分配 / 取消 / 已关闭。召回另有风险评估 → 待批准 → 通知中 → 行动中 → 效果核对 → 已关闭。</p>
+      <div class="table-wrap"><table><thead><tr><th>追溯方向</th><th>起点</th><th>必须覆盖</th></tr></thead><tbody>
+        <tr><th>反向</th><td>故障整锁 <abbr title="Serial Number｜序列号">SN</abbr></td><td>订单、产品/制造版本、工单、用料/关键件、固件、过站、测试、箱码与客户。</td></tr>
+        <tr><th>正向</th><td>物料批次 / 固件 / 设备程序</td><td>受影响 <abbr title="Serial Number｜序列号">SN</abbr> 及其当前所处在制、库存、在途、交付或维修状态。</td></tr>
+        <tr><th>召回对账</th><td>批准范围快照</td><td>应行动、已触达、已完成、失败、豁免和失联数量必须守恒。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：追溯是跨系统读模型，不是某一张“万能表”</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>贡献证据</th><th>数据边界</th></tr></thead><tbody>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Customer Relationship Management｜客户关系管理">CRM</abbr></th><td>订单、客户/渠道、出库财务与承诺</td><td>客户数据最小化暴露，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 不复制全部隐私。</td></tr>
+        <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / 物流</th><td>分配、拣配、箱码移动、出库和在途</td><td>提供实物去向，不修改制造谱系。</td></tr>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单、<abbr title="Serial Number｜序列号">SN</abbr>、绑定、固件、工序和测试</td><td>制造谱系权威来源，保存来源与版本。</td></tr>
+        <tr><th><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / 售后</th><td>风险、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>/<abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>、客诉、维修换件和召回行动</td><td>维修换件形成新有效关系，原装配历史不删除。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：事件化读模型、范围快照和可续跑工作流</h2>
+      <ul class="implementation-list">
+        <li><strong>追溯读模型</strong>消费 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>/<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>/<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 事件构建图或邻接表，边带来源系统、业务时间、有效期和同步时间。</li>
+        <li><strong>查询保护</strong>限制深度、节点数和时间窗；大范围正向查询转异步任务并输出带版本的文件。</li>
+        <li><strong>时间语义</strong>区分事件发生时间、系统接收时间和关系有效时间，处理迟到、乱序和补录。</li>
+        <li><strong>范围快照</strong>召回批准时固定对象列表或查询条件+数据水位，后续新增对象通过增补版本管理。</li>
+        <li><strong>逐件工作流</strong>召回行动按 <abbr title="Serial Number｜序列号">SN</abbr> 幂等执行、可重试、可暂停；总体状态由逐件结果聚合而非手工勾选。</li>
+        <li><strong>隐私与审计</strong>制造人员默认只见渠道/脱敏客户；导出、查看联系方式和批量通知均记录用途与操作者。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>箱码可查但成员缺失：</strong>暂停出库 → 回查包装事件和 <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 实收 → 盘点实物 → 修复关系并重新验证追溯完整性。</li>
+        <li><strong>供应商风险批次编码不一致：</strong>建立供应商批次到企业批次映射 → 保存匹配依据和置信度 → 人工复核模糊对象。</li>
+        <li><strong>已交付对象无法触达：</strong>保留多渠道尝试、失败原因和后续计划；不得为了关闭率把未触达标成已完成。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>准时足量交付</strong><span>按订单行承诺日期和数量衡量</span></article>
+        <article class="metric-card"><strong>追溯响应 / 完整率</strong><span>查询耗时及应有关联中有效证据比例</span></article>
+        <article class="metric-card"><strong>召回触达 / 完成率</strong><span>基于批准范围快照逐件聚合</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p>故障 <abbr title="Serial Number｜序列号">SN</abbr> 反查供应商批次要经过哪些关系与系统？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>正向追溯为什么必须区分在制、库存、在途和已交付？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p>召回范围快照怎样兼顾新鲜度、隐私与审计？</p></article>
+        <article class="question-card"><h3>端到端考试</h3><p>随机选一个已交付 <abbr title="Serial Number｜序列号">SN</abbr>，完整回答订单、版本、工单、批次、固件、工序、测试、箱码和客户去向。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/traceability.html"><h3>追溯模块</h3><p>横向查看追溯证据如何在八阶段积累。</p></a>
+        <a class="link-card" href="../topics/digital-thread.html"><h3>数字线程专题</h3><p>理解业务键、来源 <abbr title="Identifier｜标识符">ID</abbr>、版本与有效时间。</p></a>
+        <a class="link-card" href="../topics/audit.html"><h3>权限与审计</h3><p>保护客户信息、导出和召回动作。</p></a>
+        <a class="link-card" href="sales-demand.html"><h3>回到阶段 01</h3><p>用售后事实反证最初配置和承诺是否正确。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="finished-goods.html">← 上一阶段：成品入库</a><a href="../../index.html">返回学习驾驶舱 →</a></div></footer>
+</body></html>

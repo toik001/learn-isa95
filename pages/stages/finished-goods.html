@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 成品入库详解：包装、箱码、SN 装箱、入库交接、库存状态与数量对账。">
+  <title>07 成品入库｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">成品入库</span></nav>
+  <p class="page-code">STAGE 07 · <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> → <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></p><h1>成品入库</h1>
+  <p class="detail-hero__lead">把已完工且质量允许流转的整锁，按包装层级交接为仓库可管理的实物库存，同时保持整锁 <abbr title="Serial Number｜序列号">SN</abbr>、箱码、库位和订单分配可展开。</p>
+  <div class="hero-meta"><span>主责：包装 / 成品仓</span><span>完成：账卡物与谱系一致</span><span>关键键：箱码 + 整锁 <abbr title="Serial Number｜序列号">SN</abbr> + 入库单</span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span>包装层级、混箱规则、入库凭证、线边成品区和库存可售判断需按企业仓储规则确认；本页采用行业通用模型。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">上游阶段</p><a href="quality-control.html">06 质量管控</a><p>制造完成且获得独立质量放行的整锁。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>07 成品入库</strong><p>包装、装箱、交接、上架与账务回传。</p></article>
+      <article class="flow-card"><p class="fact-label">下游阶段</p><a href="shipping-traceability.html">08 发货与追溯</a><p>按订单分配、复核、出库并连接客户去向。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：从制造完成到可管理库存的责任交接</h2>
+      <p class="section-intro">触发是末工序完工且质量允许包装/入库。完成标志是产品、版本、数量、箱码、<abbr title="Serial Number｜序列号">SN</abbr> 清单、仓库和库位一致，<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 接收成功，差异与待处理对象没有被隐藏。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p>包装操作员、班组长、成品检验、仓库收货/上架、生产计划、订单运营和财务。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p><abbr title="Serial Number｜序列号">SN</abbr> 路线完整、质量放行、包装规范/标签模板有效、箱码规则和目标仓库/库位可用。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>所有 <abbr title="Serial Number｜序列号">SN</abbr> 归属唯一有效箱码，入库单实收与装箱数量一致，库存状态可解释，系统间完成对账。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong>包装前门禁</strong><p>校验整锁 <abbr title="Serial Number｜序列号">SN</abbr>、产品配置、固件、质量状态、附件齐套和客户标签要求。</p></li>
+        <li><strong>生成包装单元</strong><p>创建单盒、外箱、托盘码；扫描建立父子层级并校验容量、同批/混批和配置规则。</p></li>
+        <li><strong>打印与复核标签</strong><p>标签绑定模板版本与打印任务；重打使旧标签失效并记录原因，防止两个有效码。</p></li>
+        <li><strong>创建入库交接</strong><p><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 按完工与装箱生成入库请求，仓库实扫箱码/托盘码接收，差异进入待处理区。</p></li>
+        <li><strong>上架与库存确认</strong><p><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 指派库位并确认实物移动；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记录库存与完工账，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 更新仓储交接状态。</p></li>
+        <li><strong>数量与状态对账</strong><p>逐 <abbr title="Serial Number｜序列号">SN</abbr> 核对未装箱、重复装箱、已冻结、已入库和待处理数量；工单结清不能掩盖差异。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>10 把锁装一箱，20 箱一码托盘。包装时发现一把锁的固件为出口版而订单配置为国内版，系统阻止装入同箱并将该 <abbr title="Serial Number｜序列号">SN</abbr> 转待处理；其余 9 把可临时保留在开放箱，但不能先生成“满箱入库”。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：包装层级是一棵带有效期的树</h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label">包装单元</p><h3>箱 / 托盘身份</h3><p>包装码、类型、产品/配置、容量、状态、创建工位、模板版本、创建时间和失效原因。</p></article>
+        <article class="data-card"><p class="data-label">包装成员</p><h3>父子展开关系</h3><p>父包装码、子包装码或整锁 <abbr title="Serial Number｜序列号">SN</abbr>、装入/移出时间、操作人、有效状态和原关系。</p></article>
+        <article class="data-card"><p class="data-label">入库单 / 实收</p><h3>交接凭证</h3><p>来源工单、目标仓库、产品版本、计划/实收数量、箱码清单、质量状态、收货人和差异。</p></article>
+        <article class="data-card"><p class="data-label">库存单元</p><h3>仓储位置与可用性</h3><p>箱码/托盘、库位、数量、质量状态、分配状态、所有权、入库时间和来源凭证。</p></article>
+      </div>
+      <h3>三个正交状态维度</h3>
+      <ol class="state-flow"><li>制造：已完工</li><li>质量：已放行/冻结</li><li>包装：开放/封箱</li><li>仓储：待接收/已入库/已上架</li></ol>
+      <p>这些不是单线状态机。产品可制造已完工但质量冻结；箱可已封箱但尚未入库；已入库库存也可能已分配给原订单。已分配库存仍可履行对应订单，只有未分配余量可供新订单分配。</p>
+      <div class="table-wrap"><table><thead><tr><th>数量检查</th><th>等式或约束</th><th>异常示例</th></tr></thead><tbody>
+        <tr><th>工单产出</th><td>完工 = 待包装 + 已包装 + 待处理</td><td>补打 <abbr title="Serial Number｜序列号">SN</abbr> 导致重复计数。</td></tr>
+        <tr><th>箱内成员</th><td>有效成员数 ≤ 箱容量</td><td>换箱时旧关系未关闭造成双重归属。</td></tr>
+        <tr><th>入库实收</th><td>实收 = 已接收有效箱内 <abbr title="Serial Number｜序列号">SN</abbr> 数</td><td>按箱头数量入库却未展开冻结成员。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 证明装了什么，<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 证明放在哪里</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>交互边界</th></tr></thead><tbody>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>制造完工、包装结构、<abbr title="Serial Number｜序列号">SN</abbr>/箱码关系和入库请求</td><td>不自行确认仓库库位和财务库存。</td></tr>
+        <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></th><td>收货、库存单元、库位、上架和仓内移动</td><td>接收可展开箱码，不修改制造谱系。</td></tr>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>完工、库存财务账和成本结转</td><td>接收批准结果；失败通过重试或冲销，不覆盖 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 实绩。</td></tr>
+        <tr><th><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>成品冻结与放行</td><td>冻结事件必须能命中箱内 <abbr title="Serial Number｜序列号">SN</abbr> 和库存单元。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：唯一归属、分步交接和可恢复打印</h2>
+      <ul class="implementation-list">
+        <li><strong>包装唯一性</strong>数据库约束保证 <abbr title="Serial Number｜序列号">SN</abbr> 同时最多属于一个有效包装；换箱在事务内关闭旧关系并创建新关系。</li>
+        <li><strong>层级防环</strong>装托时校验父子类型、层级深度和循环引用；展开查询限制深度并检测坏数据。</li>
+        <li><strong>标签打印</strong>打印任务有模板版本、次数和结果；重打先作废旧标签，设备异常可安全重试。</li>
+        <li><strong>交接 Saga</strong><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 请求、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 收货/上架、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记账各有独立状态和幂等键；失败保留可见的待处理状态。</li>
+        <li><strong>数量对账</strong>定时比较 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 装箱、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 实收与 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 凭证，按工单/入库单/箱码输出差异。</li>
+        <li><strong>冻结传播</strong><abbr title="Serial Number｜序列号">SN</abbr> 冻结需计算并标记受影响箱/库存单元，但不能无审计地拆箱或删除成员。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>箱码重复：</strong>停止使用两个标签 → 读取打印与装箱记录 → 确认唯一有效箱 → 作废错误码并重新贴标 → 盘点成员。</li>
+        <li><strong><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 少收一箱：</strong>保持入库“部分接收” → 定位实物、扫描和接口日志 → 补收或撤销交接 → 三方数量对账。</li>
+        <li><strong>入库后质量冻结：</strong>锁定库存分配/出库 → 展开箱内 <abbr title="Serial Number｜序列号">SN</abbr> → 转移隔离库位 → 处置后按原冻结范围放行。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>入库及时率</strong><span>质量放行后在目标时限内完成实收入库</span></article>
+        <article class="metric-card"><strong>装箱准确率</strong><span>产品、配置、数量和成员一次正确比例</span></article>
+        <article class="metric-card"><strong>账实一致率</strong><span><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 与现场盘点一致程度</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p>为什么制造、质量、包装和仓储状态不能合并成一个状态字段？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>换箱时如何保证 <abbr title="Serial Number｜序列号">SN</abbr> 不会同时属于两个有效箱码？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 入库成功而 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记账失败时，系统和实物分别应处于什么状态？</p></article>
+        <article class="question-card"><h3>验证练习</h3><p>从一个箱码展开全部 <abbr title="Serial Number｜序列号">SN</abbr>，再由每个 <abbr title="Serial Number｜序列号">SN</abbr> 回到工单、质量放行和当前库位。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/traceability.html"><h3>追溯模块</h3><p>理解 <abbr title="Serial Number｜序列号">SN</abbr>、箱码、托盘和客户去向。</p></a>
+        <a class="link-card" href="../systems/wms.html"><h3><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 边界</h3><p>理解库存单元、库位和实物移动。</p></a>
+        <a class="link-card" href="../topics/integration.html"><h3>跨系统一致性</h3><p>拆解入库部分成功和定时对账。</p></a>
+        <a class="link-card" href="shipping-traceability.html"><h3>下一阶段：发货与追溯</h3><p>把库存连接到订单、客户和售后。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="quality-control.html">← 上一阶段：质量管控</a><a href="shipping-traceability.html">下一阶段：发货与追溯 →</a></div></footer>
+</body></html>

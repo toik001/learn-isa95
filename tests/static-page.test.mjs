@@ -171,6 +171,7 @@ function visibleText(markup) {
     .replace(/<[^>]+>/g, " ")
     .replace(/&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/gi, " ")
     .replace(/[\s\u00a0\u200b-\u200d\u2060\ufeff]+/g, " ")
+    .replace(/\s*\/\s*/g, "/")
     .trim();
 }
 
@@ -394,9 +395,9 @@ test("每个阶段保留可执行的完整学习结构", () => {
     assert.ok(goal, `${expected.key} 缺少业务目标正文`);
     assert.match(goal, /完成标志/, `${expected.key} 缺少完成标志`);
 
-    const trigger = getSection(card.body, "触发");
-    const prerequisite = getSection(card.body, "前置条件");
-    const relationship = getSection(card.body, "数据关系");
+    const trigger = visibleText(getSection(card.body, "触发"));
+    const prerequisite = visibleText(getSection(card.body, "前置条件"));
+    const relationship = visibleText(getSection(card.body, "数据关系"));
     expected.trigger.forEach((term) =>
       assert.match(trigger, new RegExp(term), `${expected.key} 触发缺少 ${term}`),
     );
@@ -425,7 +426,7 @@ test("每个阶段保留可执行的完整学习结构", () => {
       `${expected.key} 业务步骤应为 5–10 项，实际 ${stepCount} 项`,
     );
 
-    const documents = getSection(card.body, "关键单据与字段");
+    const documents = visibleText(getSection(card.body, "关键单据与字段"));
     expected.fields.forEach((term) =>
       assert.match(
         documents,

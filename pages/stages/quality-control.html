@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 质量管控详解：检验任务、规格版本、NCR、冻结、处置、复验、放行与 CAPA。">
+  <title>06 质量管控｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">质量管控</span></nav>
+  <p class="page-code">STAGE 06 · <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> · INDEPENDENT RELEASE</p><h1>质量管控</h1>
+  <p class="detail-hero__lead">让每次判定都有样本、实测值、规格版本和批准依据；制造完工只说明“做完了”，质量放行才说明“允许继续流转”。</p>
+  <div class="hero-meta"><span>主责：质量</span><span>完成：风险处置并形成放行结论</span><span>关键键：检验任务 + 对象 + 规格版本</span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span>抽样标准、<abbr title="Acceptance Quality Limit｜接收质量限">AQL</abbr>、功能阈值、审批人和特采规则必须来自企业质量体系；示例数值和状态仅用于建模学习。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">主要输入</p><a href="production-execution.html">05 生产执行</a><p>制造完成、过程测试与异常证据。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>06 质量管控</strong><p>检验、冻结、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、复验与放行。</p></article>
+      <article class="flow-card"><p class="fact-label">下游阶段</p><a href="finished-goods.html">07 成品入库</a><p>只接收包装完整且质量允许入库的成品。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：质量不是末端检查，而是贯穿采购、过程与成品</h2>
+      <p class="section-intro">检验可由采购到货、首件、工序完成、巡检计划、设备报警、末工序完工、客诉或供应商通知触发。完成标志是检验结论、风险对象、处置、复验和放行都有可验证证据。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p><abbr title="Incoming Quality Control｜来料质量控制">IQC</abbr>、<abbr title="In-Process Quality Control｜过程质量控制">IPQC</abbr>、<abbr title="Outgoing Quality Control｜出货质量控制">OQC</abbr>、质量工程师、班组、工艺/研发、仓储、计划、供应商质量和授权批准人。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p>检验对象明确，规格与抽样版本有效，量具/设备校准合格，样本可定位到批次或 <abbr title="Serial Number｜序列号">SN</abbr>。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>合格对象放行；不合格对象已隔离并按批准决定返工、返修、报废、退货或特采，复验和数量闭环。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong>按事件生成检验任务</strong><p>关联来料批次、工单/工序、整锁 <abbr title="Serial Number｜序列号">SN</abbr>、包装批或出货批，并冻结使用的检验方案版本。</p></li>
+        <li><strong>抽样或逐件采集</strong><p>记录样本身份、特性、实测值、单位、设备/量具、人员、时间和原始数据索引。</p></li>
+        <li><strong>规则判定与人工确认</strong><p>按当时规格版本计算单项与总体结论；人工改判必须具备权限和理由。</p></li>
+        <li><strong>不合格隔离</strong><p>创建 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr>，冻结批次、<abbr title="Serial Number｜序列号">SN</abbr>、容器和关联在制，物理隔离与系统状态同步。</p></li>
+        <li><strong>评审并执行处置</strong><p><abbr title="Material Review Board｜物料评审委员会">MRB</abbr> 评估影响，批准返工、返修、报废、退货或特采；处置任务逐对象执行。</p></li>
+        <li><strong>复验与独立放行</strong><p>引用原 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 和处置记录生成复验；合格后由授权人放行，重复失败回到重新评审或关闭。</p></li>
+        <li><strong>趋势与 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr></strong><p>对重复缺陷分析产品、版本、设备、班次、供应商和物料批次，验证纠正预防措施效果。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>功能测试发现同一批主板装配的 8 把锁通信间歇失败。<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 冻结主板批次和已绑定 <abbr title="Serial Number｜序列号">SN</abbr>；评审确认需升级固件并复验。系统保留原失败结果、升级记录、复验结果和逐 <abbr title="Serial Number｜序列号">SN</abbr> 放行，不能批量把原结果改成 <abbr title="English result word, not an acronym｜通过">PASS</abbr>。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：检验、处置和放行是三个独立事实</h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label">检验任务 / 样本</p><h3>谁按什么检查</h3><p>任务来源、对象类型/<abbr title="Identifier｜标识符">ID</abbr>、检验方案版本、抽样方案、样本 <abbr title="Serial Number｜序列号">SN</abbr>、检验员、计划/实际时间和状态。</p></article>
+        <article class="data-card"><p class="data-label">特性结果</p><h3>测到了什么</h3><p>特性、实测值、单位、规格上下限、判定、设备/量具、原始数据地址、时间和改判信息。</p></article>
+        <article class="data-card"><p class="data-label"><abbr title="Nonconformance Report｜不符合报告">NCR</abbr> / 处置</p><h3>风险怎么处理</h3><p>缺陷、严重度、影响范围快照、隔离位置、原因、决定、批准人、处置任务、数量和完成证据。</p></article>
+        <article class="data-card"><p class="data-label">复验 / 放行</p><h3>为什么可以流转</h3><p>原 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置记录、复验任务、结论、放行对象、放行人、时间、适用范围和例外条件。</p></article>
+      </div>
+      <h3>质量事件参考状态</h3>
+      <ol class="state-flow"><li>待检</li><li>检验中</li><li>待判定</li><li>已判定</li><li>待处置</li><li>已定处置</li><li>待复验</li><li>已关闭</li></ol>
+      <p>再次不合格 → 待重新评审 → 已定处置 / 已关闭；重复复验不能无限循环且不能跳过新处置决定。</p>
+      <div class="table-wrap"><table><thead><tr><th>正交维度</th><th>示例状态</th><th>不可混淆</th></tr></thead><tbody>
+        <tr><th>制造状态</th><td>加工中 / 已完工</td><td>已完工不代表质量合格。</td></tr>
+        <tr><th>质量状态</th><td>待检 / 合格 / 冻结 / 特采</td><td>合格不代表已经入库或可销售。</td></tr>
+        <tr><th>处置状态</th><td>待评审 / 返工中 / 已报废</td><td>处置完成后仍可能需要复验。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管质量闭环，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 执行现场门禁</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>交互</th></tr></thead><tbody>
+        <tr><th><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>标准、抽样、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、<abbr title="Material Review Board｜物料评审委员会">MRB</abbr>、<abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 与放行</td><td>下发检验/冻结/处置，接收实际结果和执行证据。</td></tr>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>过程检验执行、<abbr title="Serial Number｜序列号">SN</abbr>/<abbr title="Work in Process｜在制品">WIP</abbr> 门禁和返工路线</td><td>阻止冻结对象过站或完工，记录处置实际执行。</td></tr>
+        <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></th><td>库存质量状态与物理隔离位置</td><td>根据有效冻结/放行指令限制分配和移动。</td></tr>
+        <tr><th>设备系统</th><td>原始测试与测量数据</td><td>提供会话与原始值，业务判定引用规格版本。</td></tr>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>采购退货、报废和财务后果</td><td>接收批准的质量处置结果，不自行改判。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：规则版本、范围冻结与长事务工作流</h2>
+      <ul class="implementation-list">
+        <li><strong>判定可复现</strong>保存原始值、单位、规格版本和规则结果；后续标准变化不能重算覆盖历史。</li>
+        <li><strong>范围快照</strong>冻结/召回在批准时保存对象清单或可校验查询版本，避免执行过程中范围漂移。</li>
+        <li><strong>跨系统门禁</strong>冻结事件携带对象、版本和有效期；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>/<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 幂等消费，并通过对账识别漏冻结。</li>
+        <li><strong>工作流并发</strong><abbr title="Material Review Board｜物料评审委员会">MRB</abbr> 决定用版本号防并发覆盖；处置批准后不可修改，只能撤销并产生新决定。</li>
+        <li><strong>权限分离</strong>检验、改判、特采批准和最终放行分权；关键操作支持双人复核和电子签名。</li>
+        <li><strong>证据附件</strong>图片、曲线和报告存对象存储，数据库保存哈希、来源、权限和生命周期。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>结果已上传但量具过期：</strong>冻结受影响任务 → 确认校准失效起点 → 圈定样本/批次 → 重新测量或风险评估 → 修复设备门禁。</li>
+        <li><strong><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 冻结成功、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 未执行：</strong>重复投递并告警 → 暂停相关分配 → 对账已移动库存 → 补冻结和物理隔离。</li>
+        <li><strong>复验再次失败：</strong>回到重新评审，重新定义处置或终止为报废/退货；禁止只增加复验次数直至偶然合格。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>检验一次通过率</strong><span>首次检验合格对象 / 首次检验对象</span></article>
+        <article class="metric-card"><strong><abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 关闭周期</strong><span>从发现到处置、复验和有效关闭</span></article>
+        <article class="metric-card"><strong>逃逸率</strong><span>后续或客户发现而本阶段未拦截的缺陷比例</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p>为什么检验合格、制造完工、质量放行和库存可售要分开建模？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>若规格版本变更，历史结果应如何保持可复现？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p>跨 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>/<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 的冻结指令部分成功时，怎样发现并闭环？</p></article>
+        <article class="question-card"><h3>验证练习</h3><p>从一个 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 展开样本、规格、影响范围、处置、复验和最终放行证据。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/quality.html"><h3>质量模块</h3><p>看来料、过程、成品和售后质量的全链路。</p></a>
+        <a class="link-card" href="../systems/qms.html"><h3><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 边界</h3><p>区分质量主权和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 现场执行。</p></a>
+        <a class="link-card" href="../topics/audit.html"><h3>权限与审计</h3><p>设计改判、特采和放行的责任证据。</p></a>
+        <a class="link-card" href="finished-goods.html"><h3>下一阶段：成品入库</h3><p>把合格成品交接给仓储并建立箱码。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="production-execution.html">← 上一阶段：生产执行</a><a href="finished-goods.html">下一阶段：成品入库 →</a></div></footer>
+</body></html>

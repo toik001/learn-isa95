@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="MES 与工业自动化英文缩写词典：英文全称、中文释义、命名原因和智能锁场景。">
+    <title>英文缩写词典｜智能锁 MES 学习助手</title>
+    <link rel="stylesheet" href="assets/detail.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到正文</a>
+    <header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="index.html">MES 学习驾驶舱</a><span>/</span><span aria-current="page">英文缩写词典</span></nav><p class="page-code">ACRONYM GLOSSARY · FULL NAME · NAMING LOGIC</p><h1>英文缩写不能只背三个字母</h1><p class="detail-hero__lead">先拆出英文全称，再理解为什么这样命名，最后放回智能锁实际场景。ISO、MQTT、Modbus 等历史名称单独说明，不强行编造字母展开。</p><div class="hero-meta"><span>94 个常见术语</span><span>英文全称</span><span>命名原因</span><span>智能锁速查</span></div></div></header>
+    <div class="detail-layout">
+      <aside class="page-rail"><p class="rail-label">分类导航</p><ul><li><a href="#method">辨别方法</a></li><li><a href="#standards">标准与架构</a></li><li><a href="#systems">企业与制造系统</a></li><li><a href="#planning">计划、产品、物料</a></li><li><a href="#quality">质量与指标</a></li><li><a href="#software">通信与软件</a></li><li><a href="#control">PLC 与现场</a></li><li><a href="#quick">场景速查</a></li></ul></aside>
+      <main id="content" class="content">
+        <div class="disclaimer"><strong>使用说明</strong><span>企业内部缩写、产品型号和字段码以企业数据字典为准。鼠标悬停页面中的虚线缩写可看英文全称；手机端可随时进入本词典。</span></div>
+
+        <section id="method" class="knowledge-section"><p class="section-code">READING METHOD</p><h2>四类名称，解释方法不同</h2><div class="card-grid"><article class="info-card"><h3>首字母缩写</h3><p>MES 来自 Manufacturing Execution System；全称直接提示“制造现场执行”。</p></article><article class="info-card"><h3>组织简称</h3><p>IEC、NIST 来自组织英文名称；ISA 还要了解组织名称的历史变化。</p></article><article class="info-card"><h3>通用短名</h3><p>ISO 不是首字母缩写，Modbus 是专名，不能逐字母硬拆。</p></article><article class="info-card"><h3>编号</h3><p>ISA-95、IEC 62264、L0—L4 的数字是标准或层级编号。</p></article></div></section>
+
+        <section id="standards" class="knowledge-section"><p class="section-code">STANDARDS & ARCHITECTURE</p><h2>标准、组织与架构</h2><div class="table-wrap"><table><thead><tr><th>短名</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>ISA</th><td>International Society of Automation</td><td>国际自动化协会</td><td>现名强调国际化和自动化；组织历史上曾使用与仪表相关的名称。</td></tr>
+          <tr><th>IEC</th><td>International Electrotechnical Commission</td><td>国际电工委员会</td><td>Electrotechnical 覆盖电气、电子及相关技术。</td></tr>
+          <tr><th>ISO</th><td>International Organization for Standardization</td><td>国际标准化组织</td><td><strong>不是首字母缩写</strong>；官方说明来自希腊语 isos（相等），便于不同语言统一使用。</td></tr>
+          <tr><th>NIST</th><td>National Institute of Standards and Technology</td><td>美国国家标准与技术研究院</td><td>名称直接体现国家级测量、标准和技术职责。</td></tr>
+          <tr><th>SP</th><td>Special Publication</td><td>特别出版物</td><td>NIST 用它标识专题指南系列；SP 800-82 中数字是出版物编号。</td></tr>
+          <tr><th>ISA-95</th><td>ISA standards committee/series 95</td><td>ISA 第 95 委员会/标准系列</td><td>95 是委员会和标准系列标识，不是层数或年份。</td></tr>
+          <tr><th>IEC 62264</th><td>Enterprise-control system integration standard series</td><td>企业—控制系统集成标准系列</td><td>62264 是 IEC 标准编号，与 ISA-95 对应。</td></tr>
+          <tr><th>IT</th><td>Information Technology</td><td>信息技术</td><td>重点是信息的计算、存储、处理和通信。</td></tr>
+          <tr><th>OT</th><td>Operational Technology</td><td>运营技术/操作技术</td><td>Operational 强调直接监视或控制物理运营过程。</td></tr>
+          <tr><th>IT/OT</th><td>Information Technology / Operational Technology</td><td>信息技术与运营技术</td><td>斜线表示两个领域的边界和协同。</td></tr>
+          <tr><th>L0—L4</th><td>Level 0 through Level 4</td><td>第 0 层至第 4 层</td><td>L 是 Level，数字代表 ISA-95 活动层级。</td></tr>
+        </tbody></table></div><p class="section-intro">来源：<a href="https://www.isa.org/about-isa/history-of-isa">ISA 历史</a>、<a href="https://webstore.iec.ch/faq/">IEC FAQ</a>、<a href="https://www.iso.org/about">ISO 名称说明</a>、<a href="https://csrc.nist.gov/glossary/term/NIST">NIST 术语表</a>。</p></section>
+
+        <section id="systems" class="knowledge-section"><p class="section-code">ENTERPRISE & MANUFACTURING SYSTEMS</p><h2>企业与制造系统</h2><div class="table-wrap"><table><thead><tr><th>缩写</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>CRM</th><td>Customer Relationship Management</td><td>客户关系管理</td><td>围绕客户线索、商机、合同和服务关系。</td></tr>
+          <tr><th>ERP</th><td>Enterprise Resource Planning</td><td>企业资源计划</td><td>起源于统一计划企业资金、物料、产能等资源，现代能力已更广。</td></tr>
+          <tr><th>PLM</th><td>Product Lifecycle Management</td><td>产品生命周期管理</td><td>覆盖产品从概念、设计、变更到退役。</td></tr>
+          <tr><th>MOM</th><td>Manufacturing Operations Management</td><td>制造运营管理</td><td>Operations 范围包含生产、质量、维护和库存运营。</td></tr>
+          <tr><th>MES</th><td>Manufacturing Execution System</td><td>制造执行系统</td><td>Execution 强调把计划变成现场任务并记录实际执行事实。</td></tr>
+          <tr><th>APS</th><td>Advanced Planning and Scheduling</td><td>高级计划与排程</td><td>Planning 决定资源需求，Scheduling 决定顺序和时间，Advanced 强调约束求解。</td></tr>
+          <tr><th>WMS</th><td>Warehouse Management System</td><td>仓库管理系统</td><td>管理库位、容器、实物移动和仓内任务。</td></tr>
+          <tr><th>QMS</th><td>Quality Management System</td><td>质量管理体系/系统</td><td>Management System 强调标准、过程、责任和持续改进闭环。</td></tr>
+          <tr><th>EAM</th><td>Enterprise Asset Management</td><td>企业资产管理</td><td>覆盖资产规划、采购、运行、维护和退役。</td></tr>
+          <tr><th>CMMS</th><td>Computerized Maintenance Management System</td><td>计算机化维护管理系统</td><td>名称来自用计算机集中维护台账和维修工单的历史需求。</td></tr>
+          <tr><th>SCADA</th><td>Supervisory Control and Data Acquisition</td><td>监督控制与数据采集</td><td>名称直接写出“监督控制”和“数据采集”两项核心能力。</td></tr>
+          <tr><th>HMI</th><td>Human-Machine Interface</td><td>人机界面</td><td>表示人与机器之间观察、操作和反馈的交互边界。</td></tr>
+          <tr><th>PLC</th><td>Programmable Logic Controller</td><td>可编程逻辑控制器</td><td>可编程的逻辑、顺序和互锁控制器。</td></tr>
+          <tr><th>DCS</th><td>Distributed Control System</td><td>分布式控制系统</td><td>控制功能分布在多个节点，而非一台集中计算机。</td></tr>
+          <tr><th>CNC</th><td>Computer Numerical Control</td><td>计算机数字控制</td><td>用数字坐标、速度和程序控制机床。</td></tr>
+          <tr><th>IPC</th><td>Industrial PC</td><td>工业计算机/工控机</td><td>行业通常直接写 Industrial PC，无须强拆成三个单词。</td></tr>
+          <tr><th>IIoT</th><td>Industrial Internet of Things</td><td>工业物联网</td><td>在 IoT 前增加 Industrial，强调工业可靠性、安全和资产生命周期。</td></tr>
+          <tr><th>IoT</th><td>Internet of Things</td><td>物联网</td><td>让物理事物通过网络被识别、连接和交换数据。</td></tr>
+        </tbody></table></div></section>
+
+        <section id="planning" class="knowledge-section"><p class="section-code">PLANNING, PRODUCT & MATERIAL</p><h2>计划、产品与物料</h2><div class="table-wrap"><table><thead><tr><th>缩写</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>BOM</th><td>Bill of Materials</td><td>物料清单</td><td>Bill 在工程语境中表示正式清单，描述产品组成。</td></tr>
+          <tr><th>EBOM</th><td>Engineering Bill of Materials</td><td>工程物料清单</td><td>Engineering 强调按设计结构组织。</td></tr>
+          <tr><th>MBOM</th><td>Manufacturing Bill of Materials</td><td>制造物料清单</td><td>Manufacturing 强调按装配、投料和制造意图组织。</td></tr>
+          <tr><th>MPS</th><td>Master Production Schedule</td><td>主生产计划</td><td>Master 表示统领最终产品或关键产品的主层计划。</td></tr>
+          <tr><th>MRP</th><td>Material Requirements Planning</td><td>物料需求计划</td><td>按 BOM、库存和提前期计算物料需求。</td></tr>
+          <tr><th>ATP</th><td>Available to Promise</td><td>可承诺量</td><td>基于可用库存和供应判断还能承诺多少。</td></tr>
+          <tr><th>CTP</th><td>Capable to Promise</td><td>可能力承诺</td><td>进一步考虑产能、物料和约束是否支持承诺。</td></tr>
+          <tr><th>ECN</th><td>Engineering Change Notice</td><td>工程变更通知</td><td>Notice 强调发布已批准变更和生效要求；企业也可能用 Engineering Change Order。</td></tr>
+          <tr><th>SN</th><td>Serial Number</td><td>序列号</td><td>为系列产品提供逐件唯一身份。</td></tr>
+          <tr><th>WIP</th><td>Work in Process</td><td>在制品</td><td>已进入制造过程但尚未完工；也有资料写 Work in Progress。</td></tr>
+          <tr><th>LPN</th><td>License Plate Number</td><td>物流容器标识号</td><td>借用车牌唯一识别车辆的比喻识别托盘、箱或容器。</td></tr>
+          <tr><th>FIFO</th><td>First In, First Out</td><td>先进先出</td><td>按进入顺序优先使用或发出。</td></tr>
+          <tr><th>FEFO</th><td>First Expired, First Out</td><td>先到期先出</td><td>按有效期而不是入库时间优先发出。</td></tr>
+        </tbody></table></div></section>
+
+        <section id="quality" class="knowledge-section"><p class="section-code">QUALITY & METRICS</p><h2>质量、指标与交付</h2><p class="section-intro">IQC、IPQC、FQC、OQC 是制造企业常用语，不是 ISO 强制的软件模块名。</p><div class="table-wrap"><table><thead><tr><th>缩写</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>IQC</th><td>Incoming Quality Control</td><td>来料质量控制</td><td>Incoming 表示进入企业或工厂的物料。</td></tr>
+          <tr><th>IPQC</th><td>In-Process Quality Control</td><td>过程质量控制</td><td>In-Process 表示制造过程中的质量控制。</td></tr>
+          <tr><th>FQC</th><td>Final Quality Control</td><td>最终质量控制</td><td>Final 表示生产结束后的最终检查。</td></tr>
+          <tr><th>OQC</th><td>Outgoing Quality Control</td><td>出货质量控制</td><td>Outgoing 表示产品离开工厂或仓库前。</td></tr>
+          <tr><th>AQL</th><td>Acceptance Quality Limit</td><td>接收质量限</td><td>用于抽样接收判断，不是允许生产缺陷的质量目标。</td></tr>
+          <tr><th>NCR</th><td>Nonconformance Report</td><td>不符合报告</td><td>记录产品或过程未满足要求；也有企业写 Non-Conformity Report。</td></tr>
+          <tr><th>MRB</th><td>Material Review Board</td><td>物料评审委员会</td><td>跨职能评审不符合物料处置；部分企业用 Manufacturing Review Board。</td></tr>
+          <tr><th>CAPA</th><td>Corrective and Preventive Action</td><td>纠正和预防措施</td><td>Corrective 处理已发生根因，Preventive 防止潜在问题。</td></tr>
+          <tr><th>OEE</th><td>Overall Equipment Effectiveness</td><td>设备综合效率</td><td>Overall 表示综合可用率、性能和质量。</td></tr>
+          <tr><th>FPY</th><td>First Pass Yield</td><td>一次通过率</td><td>First Pass 表示不返工、不重测的首次通过。</td></tr>
+          <tr><th>RTY</th><td>Rolled Throughput Yield</td><td>滚动直通率</td><td>把多工序首次通过率连续相乘，观察整路线直通。</td></tr>
+          <tr><th>OTIF</th><td>On Time In Full</td><td>按时足量交付率</td><td>同时满足按时和足量才算完整交付。</td></tr>
+          <tr><th>KPI</th><td>Key Performance Indicator</td><td>关键绩效指标</td><td>Key 表示从众多数据中选与目标直接相关的关键指标。</td></tr>
+        </tbody></table></div></section>
+
+        <section id="software" class="knowledge-section"><p class="section-code">COMMUNICATION & SOFTWARE</p><h2>通信、软件与数据</h2><div class="table-wrap"><table><thead><tr><th>缩写/短名</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>OPC</th><td>Open Platform Communications</td><td>开放平台通信</td><td>最初是 OLE for Process Control；跨平台后官方改用当前展开。</td></tr>
+          <tr><th>OPC UA</th><td>Open Platform Communications Unified Architecture</td><td>开放平台通信统一架构</td><td>Unified Architecture 将经典 OPC 多类能力统一为跨平台、安全、可建模架构。</td></tr>
+          <tr><th>MQTT</th><td>Message Queuing Telemetry Transport</td><td>轻量发布/订阅消息协议</td><td>名称有历史沿革；现代模型是 Broker 发布/订阅，不能等同传统消息队列。</td></tr>
+          <tr><th>Modbus</th><td>Modbus（协议专名）</td><td>工业通信协议</td><td>不是逐字母首字母缩写；应理解功能码、线圈和寄存器模型。</td></tr>
+          <tr><th>TCP</th><td>Transmission Control Protocol</td><td>传输控制协议</td><td>提供有序、可靠的字节流。</td></tr>
+          <tr><th>IP</th><td>Internet Protocol</td><td>网际协议</td><td>负责跨网络寻址和分组传递。</td></tr>
+          <tr><th>RTU</th><td>Remote Terminal Unit</td><td>远程终端单元</td><td>在 Modbus RTU 中也用于指相应串行帧格式。</td></tr>
+          <tr><th>HTTP</th><td>Hypertext Transfer Protocol</td><td>超文本传输协议</td><td>最初用于超文本，现广泛承载 API。</td></tr>
+          <tr><th>HTTPS</th><td>Hypertext Transfer Protocol Secure</td><td>安全超文本传输协议</td><td>表示 HTTP 通过 TLS 获得机密性、完整性和身份保护。</td></tr>
+          <tr><th>API</th><td>Application Programming Interface</td><td>应用程序编程接口</td><td>软件能力对调用方开放的契约边界。</td></tr>
+          <tr><th>SDK</th><td>Software Development Kit</td><td>软件开发工具包</td><td>Kit 是 API、库、示例、工具和文档的组合。</td></tr>
+          <tr><th>JSON</th><td>JavaScript Object Notation</td><td>JavaScript 对象表示法</td><td>源于 JavaScript 对象语法，现为语言无关交换格式。</td></tr>
+          <tr><th>URI</th><td>Uniform Resource Identifier</td><td>统一资源标识符</td><td>用于标识资源，范围比 URL 广。</td></tr>
+          <tr><th>URL</th><td>Uniform Resource Locator</td><td>统一资源定位符</td><td>同时表达资源位置或访问方式。</td></tr>
+          <tr><th>QoS</th><td>Quality of Service</td><td>服务质量</td><td>在 MQTT 中是消息交付等级，不保证业务动作只执行一次。</td></tr>
+          <tr><th>TLS</th><td>Transport Layer Security</td><td>传输层安全</td><td>为传输提供加密、完整性和身份验证。</td></tr>
+          <tr><th>MFA</th><td>Multi-Factor Authentication</td><td>多因素认证</td><td>至少使用两类不同认证因素。</td></tr>
+          <tr><th>RBAC</th><td>Role-Based Access Control</td><td>基于角色的访问控制</td><td>权限给角色，用户通过岗位角色获得权限。</td></tr>
+          <tr><th>ABAC</th><td>Attribute-Based Access Control</td><td>基于属性的访问控制</td><td>根据用户、资源、动作和环境属性动态判断。</td></tr>
+          <tr><th>ACID</th><td>Atomicity, Consistency, Isolation, Durability</td><td>原子性、一致性、隔离性、持久性</td><td>四个词概括数据库事务性质。</td></tr>
+          <tr><th>CRUD</th><td>Create, Read, Update, Delete</td><td>创建、读取、更新、删除</td><td>概括基础数据操作，不足以表达复杂领域行为。</td></tr>
+          <tr><th>DTO</th><td>Data Transfer Object</td><td>数据传输对象</td><td>只负责跨边界携带数据，不承担领域规则。</td></tr>
+          <tr><th>CDC</th><td>Change Data Capture</td><td>变更数据捕获</td><td>捕获数据源变化用于同步或事件化。</td></tr>
+          <tr><th>SQL</th><td>Structured Query Language</td><td>结构化查询语言</td><td>声明式查询和操作关系数据。</td></tr>
+          <tr><th>UUID</th><td>Universally Unique Identifier</td><td>通用唯一标识符</td><td>用大标识空间降低分布式生成冲突。</td></tr>
+          <tr><th>ID</th><td>Identifier</td><td>标识符</td><td>识别对象的值；并非所有 ID 都天然全局唯一。</td></tr>
+          <tr><th>I/O</th><td>Input / Output</td><td>输入/输出</td><td>从控制器视角区分进入信号和发出信号。</td></tr>
+        </tbody></table></div><p class="section-intro">来源：<a href="https://opcfoundation.org/about/what-is-opc/">OPC Foundation</a>、<a href="https://reference.opcfoundation.org/specs/OPC-10000-1/2.2">OPC UA 缩写表</a>、<a href="https://mqtt.org/">MQTT.org</a>、<a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">OASIS MQTT 5.0</a>、<a href="https://www.modbus.org/modbus-specifications">Modbus Specifications</a>。</p></section>
+
+        <section id="control" class="knowledge-section"><p class="section-code">PLC, TEST & FIELD</p><h2>PLC、测试和现场技术</h2><div class="table-wrap"><table><thead><tr><th>缩写</th><th>英文全称</th><th>中文</th><th>为什么这样命名</th></tr></thead><tbody>
+          <tr><th>ST</th><td>Structured Text</td><td>结构化文本</td><td>IEC 61131-3 的文本式结构化 PLC 语言。</td></tr>
+          <tr><th>LD</th><td>Ladder Diagram</td><td>梯形图</td><td>图形类似继电器控制电路的梯子。</td></tr>
+          <tr><th>FBD</th><td>Function Block Diagram</td><td>功能块图</td><td>用功能块和连接表示逻辑与数据流。</td></tr>
+          <tr><th>SFC</th><td>Sequential Function Chart</td><td>顺序功能图</td><td>用步骤、转换和动作表达顺序过程。</td></tr>
+          <tr><th>BLE</th><td>Bluetooth Low Energy</td><td>低功耗蓝牙</td><td>在 Bluetooth 基础上强调低功耗通信。</td></tr>
+          <tr><th>UART</th><td>Universal Asynchronous Receiver-Transmitter</td><td>通用异步收发器</td><td>不共享连续时钟，按约定波特率与帧格式收发。</td></tr>
+          <tr><th>PCB</th><td>Printed Circuit Board</td><td>印制电路板</td><td>导电线路通过制造工艺形成在板材上。</td></tr>
+          <tr><th>SHA-256</th><td>Secure Hash Algorithm 256-bit</td><td>256 位安全散列算法</td><td>256 是摘要长度；散列校验完整性，不等同加密。</td></tr>
+          <tr><th>PASS</th><td>English word, not an acronym</td><td>通过</td><td>英语单词；设备 PASS 仍需 MES 业务校验。</td></tr>
+          <tr><th>FAIL</th><td>English word, not an acronym</td><td>失败</td><td>英语单词；还需区分产品失败、设备故障和未知。</td></tr>
+          <tr><th>HTML</th><td>HyperText Markup Language</td><td>超文本标记语言</td><td>Markup 表示描述文档结构，不是编程语言。</td></tr>
+          <tr><th>CSS</th><td>Cascading Style Sheets</td><td>层叠样式表</td><td>Cascading 表示多来源规则按优先级层叠。</td></tr>
+        </tbody></table></div><p class="section-intro">来源：<a href="https://webstore.iec.ch/en/publication/68533">IEC 61131-3</a>。</p></section>
+
+        <section id="quick" class="knowledge-section"><p class="section-code">SMART LOCK QUICK REFERENCE</p><h2>不要背字母，先问业务问题</h2><div class="card-grid"><article class="info-card"><h3>ERP / MES</h3><p>是经营承诺还是现场事实？ERP 有 2,000 把订单，MES 有每把 SN 的履历。</p></article><article class="info-card"><h3>EBOM / MBOM</h3><p>是设计结构还是制造投料结构？两者视角不同，不能只复制一棵树。</p></article><article class="info-card"><h3>PLC / HMI / SCADA</h3><p>是控制、单机交互还是集中监督？三个能力可能集成，但职责仍不同。</p></article><article class="info-card"><h3>SN / LPN</h3><p>是产品逐件身份还是物流容器身份？整锁 SN 放入箱 LPN。</p></article><article class="info-card"><h3>NCR / CAPA</h3><p>是记录一次不符合还是消除系统性原因？两个闭环不可合并。</p></article><article class="info-card"><h3>OPC UA / MQTT</h3><p>是结构化互操作还是异步发布订阅？按需求选择，不分绝对高低。</p></article></div></section>
+      </main>
+    </div>
+    <footer class="page-footer"><div class="page-footer__inner"><a href="index.html">← 返回 MES 学习驾驶舱</a><a href="docs/acronym-glossary.md">阅读完整 Markdown 词典 →</a></div></footer>
+  </body>
+</html>

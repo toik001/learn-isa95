@@ -12,12 +12,12 @@
     <script src="assets/app.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#learning-map">跳到学习地图</a>
+    <a class="skip-link" href="#learning-map">跳到学习地图</a><a class="acronym-help" href="glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
 
     <header class="hero">
       <div class="hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow">MES LEARNING CONSOLE · 行业通用参考模型</p>
+          <p class="eyebrow"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> LEARNING CONSOLE · 行业通用参考模型</p>
           <h1>从销售需求到售后追溯，读懂一把智能锁的数字线程</h1>
           <p class="hero__lead">
             为 Java 全栈开发者设计的离散制造学习驾驶舱。沿八个业务阶段理解岗位、
@@ -26,15 +26,15 @@
           <div class="hero__facts" aria-label="学习目标摘要">
             <span><strong>08</strong> 端到端阶段</span>
             <span><strong>06</strong> 核心系统边界</span>
-            <span><strong>01</strong> 整锁 SN 证据链</span>
+            <span><strong>01</strong> 整锁 <abbr title="Serial Number｜序列号">SN</abbr> 证据链</span>
           </div>
         </div>
         <aside class="boundary-note" aria-labelledby="boundary-note-title">
           <p class="boundary-note__label">先记住这条边界</p>
-          <h2 id="boundary-note-title">MES 记录现场事实，不替代经营、设计与质量审批</h2>
+          <h2 id="boundary-note-title"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 记录现场事实，不替代经营、设计与质量审批</h2>
           <p>
-            ERP 管经营与账务，PLM 管受控产品定义，WMS 管仓内实物，
-            QMS 管质量闭环，设备系统保留原始测点；复制的数据必须标明来源、版本和同步时间。
+            <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管经营与账务，<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 管受控产品定义，<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 管仓内实物，
+            <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管质量闭环，设备系统保留原始测点；复制的数据必须标明来源、版本和同步时间。
           </p>
         </aside>
       </div>
@@ -109,6 +109,60 @@
     </noscript>
 
     <main id="learning-map">
+      <section class="detail-directory" aria-labelledby="detail-directory-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">DETAIL PAGE DIRECTORY</p>
+            <h2 id="detail-directory-title">每个入口都有独立详情页</h2>
+          </div>
+            <p>首页用于定位，详情页用于学习。以下 55 个静态页面均可直接打开、收藏和逐页阅读。</p>
+        </div>
+        <div class="detail-directory__grid">
+          <article>
+            <span>08 PAGES</span>
+            <h3>八阶段主线</h3>
+            <p>每页完整覆盖业务、数据、系统、实现、异常、指标与自测。</p>
+            <a href="pages/stages/sales-demand.html">从销售需求开始学习 →</a>
+          </article>
+          <article>
+            <span>07 PAGES</span>
+            <h3><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 业务模块</h3>
+            <p>横向串联工单、工艺、物料、设备、质量、追溯和报表。</p>
+            <a href="pages/modules/work-order.html">打开工单模块 →</a>
+          </article>
+          <article>
+            <span>08 PAGES</span>
+            <h3>岗位责任地图</h3>
+            <p>分别说明各岗位在八阶段中的职责、交接、异常和权限边界。</p>
+            <a href="pages/roles/sales.html">打开销售岗位 →</a>
+          </article>
+          <article>
+            <span>06 PAGES</span>
+            <h3>系统边界</h3>
+            <p>拆清 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>、<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr>、<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>、<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 与设备系统的数据主权。</p>
+            <a href="pages/systems/erp.html">打开 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 边界 →</a>
+          </article>
+          <article>
+            <span>05 PAGES</span>
+            <h3>Java 横贯专题</h3>
+            <p>深入数字线程、状态机、幂等并发、跨系统一致性和权限审计。</p>
+            <a href="pages/topics/digital-thread.html">打开数字线程 →</a>
+          </article>
+          <article>
+            <span>20 PAGES</span>
+            <h3><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 工业自动化体系</h3>
+            <p>从 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>、<abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 下钻到 <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、现场设备、工业协议与机器安全。</p>
+            <a href="architecture.html">打开工业自动化体系 →</a>
+          </article>
+          <article>
+            <span>94 TERMS</span>
+            <h3>英文缩写词典</h3>
+            <p>给出英文全称、中文释义、为什么这样命名，以及智能锁制造中的实际含义。</p>
+            <a href="glossary.html">打开英文缩写词典 →</a>
+          </article>
+        </div>
+      </section>
+
       <section
         class="view-panel process-track"
         id="view-process"
@@ -143,7 +197,7 @@
         <div class="section-heading">
           <div>
             <p class="section-kicker">MODULE INDEX</p>
-            <h2 id="module-index-title">按七类 MES 业务模块横向定位</h2>
+            <h2 id="module-index-title">按七类 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 业务模块横向定位</h2>
           </div>
           <p>模块索引把同一主题在八阶段中的输入、执行与反馈串起来；下方完整阶段卡片始终保留。</p>
         </div>
@@ -152,6 +206,7 @@
             <p class="index-card__code">MODULE 01</p>
             <h3>工单</h3>
             <p>关注需求如何形成、下达、执行、完工与结清。</p>
+            <a class="detail-entry-link" href="pages/modules/work-order.html">工单模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -164,6 +219,7 @@
             <p class="index-card__code">MODULE 02</p>
             <h3>工艺</h3>
             <p>关注制造版本、工艺路线、工序门禁与返工路线。</p>
+            <a class="detail-entry-link" href="pages/modules/routing.html">工艺模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-execution">生产执行</a></li>
@@ -173,7 +229,8 @@
           <article class="index-card">
             <p class="index-card__code">MODULE 03</p>
             <h3>物料</h3>
-            <p>关注 MBOM、需求分配、批次投料、退补料与库存交接。</p>
+            <p>关注 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、需求分配、批次投料、退补料与库存交接。</p>
+            <a class="detail-entry-link" href="pages/modules/material.html">物料模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -186,6 +243,7 @@
             <p class="index-card__code">MODULE 04</p>
             <h3>设备</h3>
             <p>关注设备能力、工位参数、采集会话、校准与停机影响。</p>
+            <a class="detail-entry-link" href="pages/modules/equipment.html">设备模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -196,7 +254,8 @@
           <article class="index-card">
             <p class="index-card__code">MODULE 05</p>
             <h3>质量</h3>
-            <p>关注检验规则、冻结、NCR、处置、复验与放行。</p>
+            <p>关注检验规则、冻结、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、复验与放行。</p>
+            <a class="detail-entry-link" href="pages/modules/quality.html">质量模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-material">物料齐套</a></li>
@@ -209,7 +268,8 @@
           <article class="index-card">
             <p class="index-card__code">MODULE 06</p>
             <h3>追溯</h3>
-            <p>关注版本、批次、关键件、整锁 SN、箱码与客户去向。</p>
+            <p>关注版本、批次、关键件、整锁 <abbr title="Serial Number｜序列号">SN</abbr>、箱码与客户去向。</p>
+            <a class="detail-entry-link" href="pages/modules/traceability.html">追溯模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-material">物料齐套</a></li>
@@ -223,6 +283,7 @@
             <p class="index-card__code">MODULE 07</p>
             <h3>报表</h3>
             <p>关注承诺、计划、产出、良率、库存与交付指标的统一口径。</p>
+            <a class="detail-entry-link" href="pages/modules/reporting.html">报表模块详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -253,6 +314,7 @@
             <p class="index-card__code">ROLE 01</p>
             <h3>销售</h3>
             <p>明确配置、数量、交期与变更，并确认最终交付去向。</p>
+            <a class="detail-entry-link" href="pages/roles/sales.html">销售岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-warehouse">成品入库</a></li>
@@ -263,6 +325,7 @@
             <p class="index-card__code">ROLE 02</p>
             <h3>计划</h3>
             <p>平衡需求、物料、产能与异常，控制工单释放和重排。</p>
+            <a class="detail-entry-link" href="pages/roles/planner.html">计划岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -276,6 +339,7 @@
             <p class="index-card__code">ROLE 03</p>
             <h3>工艺</h3>
             <p>发布可制造基线，维护路线、参数、防错和返工方案。</p>
+            <a class="detail-entry-link" href="pages/roles/engineer.html">产品与工艺岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
@@ -290,6 +354,7 @@
             <p class="index-card__code">ROLE 04</p>
             <h3>仓储</h3>
             <p>确保批次、容器、库位和实物移动与业务单据一致。</p>
+            <a class="detail-entry-link" href="pages/roles/warehouse.html">仓储岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -304,6 +369,7 @@
             <p class="index-card__code">ROLE 05</p>
             <h3>班组</h3>
             <p>执行派工、领投料、过站、异常暂停、返工与完工确认。</p>
+            <a class="detail-entry-link" href="pages/roles/operator.html">班组岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -318,6 +384,7 @@
             <p class="index-card__code">ROLE 06</p>
             <h3>质量</h3>
             <p>维护标准，隔离风险，批准处置并基于证据放行。</p>
+            <a class="detail-entry-link" href="pages/roles/quality.html">质量岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
@@ -333,6 +400,7 @@
             <p class="index-card__code">ROLE 07</p>
             <h3>设备</h3>
             <p>保证能力、程序、校准和采集链可用，并闭环停机与数据异常。</p>
+            <a class="detail-entry-link" href="pages/roles/equipment.html">设备岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
               <li><a href="#stage-planning">计划排产</a></li>
@@ -344,6 +412,7 @@
             <p class="index-card__code">ROLE 08</p>
             <h3>Java 开发</h3>
             <p>把状态机、幂等、事务、权限、审计和跨系统追溯落实为可验证实现。</p>
+            <a class="detail-entry-link" href="pages/roles/developer.html">Java 开发岗位详情 →</a>
             <ul class="index-links">
               <li><a href="#stage-sales">销售需求</a></li>
               <li><a href="#stage-engineering">产品与工艺准备</a></li>
@@ -378,13 +447,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">01</div>
             <div>
-              <p class="stage-system">CRM / ERP · MES 能力反馈</p>
+              <p class="stage-system"><abbr title="Customer Relationship Management｜客户关系管理">CRM</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> · <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 能力反馈</p>
               <h3>销售需求</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把预测与客户订单转换为可配置、可承诺、可变更控制的制造需求。
-                完成标志是订单行的配置、数量、交期和变更基线确认，并有 ATP/CTP 依据。
+                完成标志是订单行的配置、数量、交期和变更基线确认，并有 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 依据。
               </p>
+              <a class="stage-detail-link" href="pages/stages/sales-demand.html">打开销售需求完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="sales">
@@ -399,7 +469,7 @@
             </section>
             <section>
               <h4>前置条件</h4>
-              <p>客户/渠道、产品型号、销售配置规则、计量单位、交付地点及 ATP/CTP 口径已明确。</p>
+              <p>客户/渠道、产品型号、销售配置规则、计量单位、交付地点及 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 口径已明确。</p>
             </section>
             <section>
               <h4>数据关系</h4>
@@ -413,7 +483,7 @@
               <ol class="step-list">
                 <li>汇总预测、渠道补货与确定订单，保留预测冲减规则。</li>
                 <li>把颜色、开门方向、通信制式等销售选项映射到受控产品配置。</li>
-                <li>先按合格可用库存执行 ATP，不足时结合物料、瓶颈与换线执行 CTP。</li>
+                <li>先按合格可用库存执行 <abbr title="Available to Promise｜可承诺量">ATP</abbr>，不足时结合物料、瓶颈与换线执行 <abbr title="Capable to Promise｜可能力承诺">CTP</abbr>。</li>
                 <li>计划、工程、采购与质量评审急单、特殊配置和交付风险。</li>
                 <li>回写承诺日期与拆批方案；变更时建立新版本并分析下游影响。</li>
               </ol>
@@ -422,7 +492,7 @@
               <span>智能锁案例</span>
               <p>
                 某渠道订购 2,000 套深灰右开 Zigbee 锁。合格库存只能首周交 600 套，
-                CTP 根据主板到料和换线窗口承诺次周生产 1,400 套，并冻结对应配置与固件分支。
+                <abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 根据主板到料和换线窗口承诺次周生产 1,400 套，并冻结对应配置与固件分支。
               </p>
             </aside>
           </div>
@@ -439,7 +509,7 @@
                   <h4>关键单据与字段</h4>
                   <p>
                     销售订单行（订单号、行号、配置、数量、需求/承诺日期）；
-                    ATP/CTP 评审记录（库存、瓶颈、到料日、建议交期）；订单变更单（版本、差异、影响对象）。
+                    <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 评审记录（库存、瓶颈、到料日、建议交期）；订单变更单（版本、差异、影响对象）。
                   </p>
                 </section>
                 <section class="state-panel">
@@ -453,7 +523,7 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>CRM/ERP 拥有客户、合同、订单与承诺；PLM 提供配置规则；MES 只反馈在制、停机、预计完工和质量隔离事实。</p>
+                  <p><abbr title="Customer Relationship Management｜客户关系管理">CRM</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 拥有客户、合同、订单与承诺；<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 提供配置规则；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 只反馈在制、停机、预计完工和质量隔离事实。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
@@ -464,7 +534,7 @@
                   <ul>
                     <li>订单准时承诺率、承诺达成率</li>
                     <li>订单变更率、受影响在制数量</li>
-                    <li>ATP/CTP 人工改期比例</li>
+                    <li><abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 人工改期比例</li>
                   </ul>
                 </section>
               </div>
@@ -474,18 +544,18 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>显式命令驱动状态迁移；订单 ID、行 ID 与变更版本组成幂等键；乐观锁防并发覆盖；保存 ATP/CTP 输入快照与人工原因；敏感插单分权审计。</p>
+                  <p>显式命令驱动状态迁移；订单 <abbr title="Identifier｜标识符">ID</abbr>、行 <abbr title="Identifier｜标识符">ID</abbr> 与变更版本组成幂等键；乐观锁防并发覆盖；保存 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 输入快照与人工原因；敏感插单分权审计。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>把订单等同工单；ATP 不区分冻结/待检库存；配置使用自由文本；直接覆盖交期和数量。</p>
+                  <p>把订单等同工单；<abbr title="Available to Promise｜可承诺量">ATP</abbr> 不区分冻结/待检库存；配置使用自由文本；直接覆盖交期和数量。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
                     <li>订单行与工单为何是多对多，分配关系如何保存？</li>
                     <li>订单开工后改通信制式，哪些数据和实物受影响？</li>
-                    <li>MES 要提供哪些事实才能让 CTP 可信？</li>
+                    <li><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 要提供哪些事实才能让 <abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 可信？</li>
                   </ol>
                 </section>
               </div>
@@ -504,13 +574,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">02</div>
             <div>
-              <p class="stage-system">PLM / ERP / MES / QMS</p>
+              <p class="stage-system"><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></p>
               <h3>产品与工艺准备</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
-                把“设计上是什么”转换为现场可执行的制造基线。完成标志是 EBOM、MBOM、
+                把“设计上是什么”转换为现场可执行的制造基线。完成标志是 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、
                 工艺路线、检验方案、工位参数与固件版本相互兼容并已批准发布。
               </p>
+              <a class="stage-detail-link" href="pages/stages/engineering-preparation.html">打开产品与工艺准备完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="engineering">
@@ -529,7 +600,7 @@
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>产品版本连接 EBOM，EBOM 行映射 MBOM 行；路线再关联参数、检验与固件，工单快照冻结整套基线。</p>
+              <p>产品版本连接 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>，<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 行映射 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 行；路线再关联参数、检验与固件，工单快照冻结整套基线。</p>
             </section>
           </div>
 
@@ -537,8 +608,8 @@
             <div>
               <h4>从触发到完成</h4>
               <ol class="step-list">
-                <li>在 PLM 建立产品版本、EBOM、图纸规范与工程变更。</li>
-                <li>转换 EBOM 为 MBOM，明确虚拟件、投料工序、损耗和替代组。</li>
+                <li>在 <abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 建立产品版本、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、图纸规范与工程变更。</li>
+                <li>转换 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 为 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>，明确虚拟件、投料工序、损耗和替代组。</li>
                 <li>发布主路线、返工路线、作业指导、工位参数与设备程序。</li>
                 <li>把硬件版本、通信模组与允许的固件版本建立多条件兼容关系。</li>
                 <li>试制验证通过后发布制造基线；变更按日期、批次或工单受控生效。</li>
@@ -547,7 +618,7 @@
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                智能锁 V2 工单冻结 MBOM-R05、路线-R03、检验方案-Q07 与固件 2.3.4。
+                智能锁 V2 工单冻结 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>-R05、路线-R03、检验方案-Q07 与固件 2.3.4。
                 HW-B 主板允许 2.3.x，HW-A 只允许 2.1.x；后来发布 2.3.5 不会悄悄改变已开工产品。
               </p>
             </aside>
@@ -563,7 +634,7 @@
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>产品版本、EBOM、MBOM、工艺路线、工位参数、检验方案、固件发布单和工程变更单；每类对象都需版本、状态、生效范围与来源关系。</p>
+                  <p>产品版本、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、工艺路线、工位参数、检验方案、固件发布单和工程变更单；每类对象都需版本、状态、生效范围与来源关系。</p>
                 </section>
                 <section class="state-panel">
                   <h4>参考状态机</h4>
@@ -576,7 +647,7 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>PLM 管产品定义、EBOM 与变更；ERP 管物料经营主数据；MES 消费受控 MBOM/路线并保存工单快照；QMS 管检验标准；制品库管固件二进制与签名。</p>
+                  <p><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 管产品定义、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 与变更；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管物料经营主数据；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 消费受控 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>/路线并保存工单快照；<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管检验标准；制品库管固件二进制与签名。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
@@ -586,7 +657,7 @@
                   <h4>指标</h4>
                   <ul>
                     <li>制造基线一次发布通过率</li>
-                    <li>EBOM—MBOM 差异关闭周期</li>
+                    <li><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>—<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 差异关闭周期</li>
                     <li>版本原因停线时长、固件错版拦截次数</li>
                   </ul>
                 </section>
@@ -601,12 +672,12 @@
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>把 EBOM 与 MBOM 当同一张表；路线只有工序名；固件只用文件名识别；工程变更覆盖已下达工单的历史依据。</p>
+                  <p>把 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 与 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 当同一张表；路线只有工序名；固件只用文件名识别；工程变更覆盖已下达工单的历史依据。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
-                    <li>EBOM 转 MBOM 为什么要保存行级来源？</li>
+                    <li><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 转 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 为什么要保存行级来源？</li>
                     <li>新路线如何只对新工单生效，同时保留旧工单证据？</li>
                     <li>防止烧错固件至少需要哪些校验信息？</li>
                   </ol>
@@ -627,13 +698,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">03</div>
             <div>
-              <p class="stage-system">ERP / APS · MES 执行反馈</p>
+              <p class="stage-system"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> · <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 执行反馈</p>
               <h3>计划排产</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把需求转换成时间、数量、产线和优先级明确的可执行计划。
-                完成标志是工单冻结受控版本并通过物料、产能校验后下达 MES。
+                完成标志是工单冻结受控版本并通过物料、产能校验后下达 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>。
               </p>
+              <a class="stage-detail-link" href="pages/stages/planning.html">打开计划排产完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="planning">
@@ -644,15 +716,15 @@
           <div class="stage-context">
             <section>
               <h4>触发</h4>
-              <p>销售订单、预测补库、安全库存、返工补产或售后备件需求触发 MPS/MRP 与排程。</p>
+              <p>销售订单、预测补库、安全库存、返工补产或售后备件需求触发 <abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 与排程。</p>
             </section>
             <section>
               <h4>前置条件</h4>
-              <p>MBOM、路线、库存与在制快照、采购到料、工作中心日历、标准工时和设备日历有效。</p>
+              <p><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、库存与在制快照、采购到料、工作中心日历、标准工时和设备日历有效。</p>
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>MPS 汇总需求，MRP 展开物料；计划拆为生产工单和工序计划，并以需求分配连接订单来源。</p>
+              <p><abbr title="Master Production Schedule｜主生产计划">MPS</abbr> 汇总需求，<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 展开物料；计划拆为生产工单和工序计划，并以需求分配连接订单来源。</p>
             </section>
           </div>
 
@@ -660,18 +732,18 @@
             <div>
               <h4>从触发到完成</h4>
               <ol class="step-list">
-                <li>MPS 汇总订单与预测并扣减成品、在制和已确认供给。</li>
-                <li>MRP 按 MBOM 展开净需求，考虑损耗、在途、替代和提前期。</li>
+                <li><abbr title="Master Production Schedule｜主生产计划">MPS</abbr> 汇总订单与预测并扣减成品、在制和已确认供给。</li>
+                <li><abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 按 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 展开净需求，考虑损耗、在途、替代和提前期。</li>
                 <li>把计划订单按追溯粒度、交付批次和换线经济性拆分为生产工单。</li>
                 <li>校验班次、设备、夹具、维护与物料可用日，形成有限产能排程。</li>
-                <li>冻结近期计划并下达 MES；滚动重排保留版本、约束与人工原因。</li>
+                <li>冻结近期计划并下达 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>；滚动重排保留版本、约束与人工原因。</li>
               </ol>
             </div>
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                深灰与银色锁共 3,000 套，APS 先连续排两个深灰工单，再排银色以少换一次线；
-                第三个工单因指纹模组晚到顺延。工单冻结配置、MBOM、路线和固件版本。
+                深灰与银色锁共 3,000 套，<abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 先连续排两个深灰工单，再排银色以少换一次线；
+                第三个工单因指纹模组晚到顺延。工单冻结配置、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线和固件版本。
               </p>
             </aside>
           </div>
@@ -686,7 +758,7 @@
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>MPS、MRP 建议、生产计划、生产工单、工序计划和排程版本；核心字段包含来源需求、产品版本、数量、资源、起止时间、优先级与锁定标记。</p>
+                  <p><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>、<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 建议、生产计划、生产工单、工序计划和排程版本；核心字段包含来源需求、产品版本、数量、资源、起止时间、优先级与锁定标记。</p>
                 </section>
                 <section class="state-panel">
                   <h4>参考状态机</h4>
@@ -699,7 +771,7 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>ERP 管 MPS/MRP 与经营数量，APS 管有限排程建议，MES 管现场派工和实绩；WMS 提供物料可用日，QMS 提供冻结，设备系统提供资源可用性。</p>
+                  <p><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管 <abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 与经营数量，<abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 管有限排程建议，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管现场派工和实绩；<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 提供物料可用日，<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 提供冻结，设备系统提供资源可用性。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
@@ -720,16 +792,16 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>下达、拆分、暂停使用命令与乐观锁；排程作为可取消异步长任务；统一班次跨日语义；工单事件按来源 ID+版本幂等；拖拽排程必须提交原因。</p>
+                  <p>下达、拆分、暂停使用命令与乐观锁；排程作为可取消异步长任务；统一班次跨日语义；工单事件按来源 <abbr title="Identifier｜标识符">ID</abbr>+版本幂等；拖拽排程必须提交原因。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>把 MRP 直接当排程；用单一状态混合创建、冻结和下达；盲目提前生产；重排覆盖旧版本与解释依据。</p>
+                  <p>把 <abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 直接当排程；用单一状态混合创建、冻结和下达；盲目提前生产；重排覆盖旧版本与解释依据。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
-                    <li>MPS、MRP、生产工单、工序计划各回答什么？</li>
+                    <li><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>、<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>、生产工单、工序计划各回答什么？</li>
                     <li>已备料或开工后取消工单，需要哪些补偿？</li>
                     <li>交期、物料与换线冲突应如何可解释地展示？</li>
                   </ol>
@@ -750,13 +822,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">04</div>
             <div>
-              <p class="stage-system">WMS / ERP / MES / QMS</p>
+              <p class="stage-system"><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></p>
               <h3>物料齐套</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 让正确、合格、可追溯的物料在正确时间到达正确线边位置。
                 完成标志是工单需求与实物扫描核对、关键批次可用且账卡物一致。
               </p>
+              <a class="stage-detail-link" href="pages/stages/material-kitting.html">打开物料齐套完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="material">
@@ -771,11 +844,11 @@
             </section>
             <section>
               <h4>前置条件</h4>
-              <p>MBOM、投料点、仓库/线边库位、库存状态、批次规则和替代组已发布且物料质量可用。</p>
+              <p><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、投料点、仓库/线边库位、库存状态、批次规则和替代组已发布且物料质量可用。</p>
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>物料需求与库存批次通过分配/领料明细形成多对多；投料再把批次或关键件 SN 连接到工序与整锁。</p>
+              <p>物料需求与库存批次通过分配/领料明细形成多对多；投料再把批次或关键件 <abbr title="Serial Number｜序列号">SN</abbr> 连接到工序与整锁。</p>
             </section>
           </div>
 
@@ -783,17 +856,17 @@
             <div>
               <h4>从触发到完成</h4>
               <ol class="step-list">
-                <li>按工单和 MBOM 计算需求，扣减已领、线边可用和可复用余料。</li>
-                <li>WMS 按 FIFO/FEFO、同批优先与质量状态分配库存。</li>
+                <li>按工单和 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 计算需求，扣减已领、线边可用和可复用余料。</li>
+                <li><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 按 <abbr title="First In, First Out｜先进先出">FIFO</abbr>/<abbr title="First Expired, First Out｜先到期先出">FEFO</abbr>、同批优先与质量状态分配库存。</li>
                 <li>扫描物料、批次、容器与数量完成拣货、复核、配送和线边接收。</li>
-                <li>MES 校验产品版本、替代关系、有效期与投料工序后记录实际消耗。</li>
+                <li><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 校验产品版本、替代关系、有效期与投料工序后记录实际消耗。</li>
                 <li>缺料走调拨、替代、分批、换序或延期；完工前完成领退料对账。</li>
               </ol>
             </div>
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                500 套工单中，主板按批次、指纹模组按 SN、螺钉按数量追溯。
+                500 套工单中，主板按批次、指纹模组按 <abbr title="Serial Number｜序列号">SN</abbr>、螺钉按数量追溯。
                 第二批主板仍待检，只允许已放行的 300 件到可投料区，计划先生产 300 套。
               </p>
             </aside>
@@ -822,11 +895,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>WMS 管库位、容器和仓内实物；ERP 管库存账和领退料凭证；MES 管线边投料、消耗与绑定；QMS 决定冻结/放行；PLM/ERP 提供替代关系。</p>
+                  <p><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 管库位、容器和仓内实物；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管库存账和领退料凭证；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管线边投料、消耗与绑定；<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 决定冻结/放行；<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 提供替代关系。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>到线主板与领料单批次不符：拦截并物理隔离 → 复核容器与库存 → 冻结已装配 SN → 重新拣配 → 冲销/补记 → 盘点与防错验证后关闭。</p>
+                  <p>到线主板与领料单批次不符：拦截并物理隔离 → 复核容器与库存 → 冻结已装配 <abbr title="Serial Number｜序列号">SN</abbr> → 重新拣配 → 冲销/补记 → 盘点与防错验证后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
@@ -843,7 +916,7 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>库存分配使用条件更新或预留表；扫码事件 ID 保证弱网重发幂等；跨 WMS/ERP/MES 使用 Saga 与冲销；批次规则版本化且可解释；高风险调整分权审计。</p>
+                  <p>库存分配使用条件更新或预留表；扫码事件 <abbr title="Identifier｜标识符">ID</abbr> 保证弱网重发幂等；跨 <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 使用 Saga 与冲销；批次规则版本化且可解释；高风险调整分权审计。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
@@ -853,8 +926,8 @@
                   <h4>自测</h4>
                   <ol>
                     <li>已分配、已领料、已到线、已投料分别是什么事实？</li>
-                    <li>批次、SN、数量三种追溯粒度如何选择？</li>
-                    <li>WMS 移库成功而 ERP 记账失败如何补偿？</li>
+                    <li>批次、<abbr title="Serial Number｜序列号">SN</abbr>、数量三种追溯粒度如何选择？</li>
+                    <li><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 移库成功而 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 记账失败如何补偿？</li>
                   </ol>
                 </section>
               </div>
@@ -873,13 +946,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">05</div>
             <div>
-              <p class="stage-system">MES / 设备系统 · 单件制造事实</p>
+              <p class="stage-system"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / 设备系统 · 单件制造事实</p>
               <h3>生产执行</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
-                把已下达工单转化为受控、可证明的制造过程。完成标志是每个整锁 SN
+                把已下达工单转化为受控、可证明的制造过程。完成标志是每个整锁 <abbr title="Serial Number｜序列号">SN</abbr>
                 按冻结路线完成必经工序，绑定、固件、参数和测试证据完整且执行异常已关闭。
               </p>
+              <a class="stage-detail-link" href="pages/stages/production-execution.html">打开生产执行完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="execution">
@@ -894,11 +968,11 @@
             </section>
             <section>
               <h4>前置条件</h4>
-              <p>制造基线、齐套物料、人员资质、设备校准、工装、作业指导和 SN 编码规则均有效。</p>
+              <p>制造基线、齐套物料、人员资质、设备校准、工装、作业指导和 <abbr title="Serial Number｜序列号">SN</abbr> 编码规则均有效。</p>
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>一个生产工单包含多个整锁 SN；每个 SN 产生多条过站记录，并通过绑定连接关键件、物料批次和固件。</p>
+              <p>一个生产工单包含多个整锁 <abbr title="Serial Number｜序列号">SN</abbr>；每个 <abbr title="Serial Number｜序列号">SN</abbr> 产生多条过站记录，并通过绑定连接关键件、物料批次和固件。</p>
             </section>
           </div>
 
@@ -907,8 +981,8 @@
               <h4>从触发到完成</h4>
               <ol class="step-list">
                 <li>班组按工序计划派工，校验人员、工位、设备、工装和物料。</li>
-                <li>生成整锁 SN，并按路线记录每次进入、尝试、失败与成功过站。</li>
-                <li>扫描主板、指纹模组和物料批次，校验后与整锁 SN 建立装配绑定。</li>
+                <li>生成整锁 <abbr title="Serial Number｜序列号">SN</abbr>，并按路线记录每次进入、尝试、失败与成功过站。</li>
+                <li>扫描主板、指纹模组和物料批次，校验后与整锁 <abbr title="Serial Number｜序列号">SN</abbr> 建立装配绑定。</li>
                 <li>烧录受控固件并回读摘要；采集扭矩、电流、通信和开闭锁测试。</li>
                 <li>异常进入暂停/返工路线；末工序核对路线、绑定、质量结果与数量后申报完工。</li>
               </ol>
@@ -916,7 +990,7 @@
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                LOCK-260728-000123 绑定 PCB-SN-88421、FP-SN-39210 与锁体批次，
+                LOCK-260728-000123 绑定 <abbr title="Printed Circuit Board｜印制电路板">PCB</abbr>-<abbr title="Serial Number｜序列号">SN</abbr>-88421、FP-<abbr title="Serial Number｜序列号">SN</abbr>-39210 与锁体批次，
                 烧录 2.3.4 并保存摘要。电机电流超限后暂停，更换电机、返工复验，旧失败与旧件关系不删除。
               </p>
             </aside>
@@ -928,11 +1002,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>关键岗位</h4>
-                  <p>生产主管、班组长、操作员、物料员、设备/工艺工程师、质量人员和 MES 管理员。</p>
+                  <p>生产主管、班组长、操作员、物料员、设备/工艺工程师、质量人员和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管理员。</p>
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>派工任务、整锁 SN、过站记录、装配绑定、烧录记录、参数采集、暂停/返工单与完工申报；实际人员、设备、时间、版本和结果不可缺失。</p>
+                  <p>派工任务、整锁 <abbr title="Serial Number｜序列号">SN</abbr>、过站记录、装配绑定、烧录记录、参数采集、暂停/返工单与完工申报；实际人员、设备、时间、版本和结果不可缺失。</p>
                 </section>
                 <section class="state-panel">
                   <h4>参考状态机</h4>
@@ -945,16 +1019,16 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>MES 管工单执行、过站、绑定与实绩；设备/SCADA 管原始控制和高频数据；PLM 提供工艺依据；QMS 管质量处置；ERP 接收汇总完工与消耗。</p>
+                  <p><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管工单执行、过站、绑定与实绩；设备/<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 管原始控制和高频数据；<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 提供工艺依据；<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管质量处置；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 接收汇总完工与消耗。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>设备 PASS 但 MES 超时：SN 保持结果待确认 → 设备按测试会话 ID 重发 → MES 幂等写入 → 必要时授权补采 → 核对唯一结果 → 改进缓存与监控后关闭。</p>
+                  <p>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：<abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按测试会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等写入 → 必要时授权补采 → 核对唯一结果 → 改进缓存与监控后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
                   <ul>
-                    <li>小时产出、工序 FPY、整路线 RTY、返工与报废</li>
+                    <li>小时产出、工序 <abbr title="First Pass Yield｜一次通过率">FPY</abbr>、整路线 <abbr title="Rolled Throughput Yield｜滚动直通率">RTY</abbr>、返工与报废</li>
                     <li>单件周期、工序节拍、在制等待</li>
                     <li>采集成功率、绑定完整率、错版拦截次数</li>
                   </ul>
@@ -966,18 +1040,18 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>SN 状态条件更新；同一事务写过站、消耗与 Outbox；测试会话 ID 处理重复乱序；绑定以事件/有效期表达；离线队列可续传；跳站、补录、解绑必须审计。</p>
+                  <p><abbr title="Serial Number｜序列号">SN</abbr> 状态条件更新；同一事务写过站、消耗与 Outbox；测试会话 <abbr title="Identifier｜标识符">ID</abbr> 处理重复乱序；绑定以事件/有效期表达；离线队列可续传；跳站、补录、解绑必须审计。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>只记工单完工数量；设备 PASS 自动等于过站；返工删除原失败；超时后重复点击造成重复扣料或绑定。</p>
+                  <p>只记工单完工数量；设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 自动等于过站；返工删除原失败；超时后重复点击造成重复扣料或绑定。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
                     <li>过站接口怎样同时避免重复过站、扣料和消息丢失？</li>
                     <li>解绑和换件为什么必须追加历史记录？</li>
-                    <li>设备 PASS 但 MES 超时时为何不能手填合格？</li>
+                    <li>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时时为何不能手填合格？</li>
                   </ol>
                 </section>
               </div>
@@ -996,13 +1070,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">06</div>
             <div>
-              <p class="stage-system">QMS / MES · 独立质量状态</p>
+              <p class="stage-system"><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> · 独立质量状态</p>
               <h3>质量管控</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
-                贯穿 IQC、IPQC、FQC、OQC，使不合格可识别、隔离、评审、处置、复验和改进。
-                完成标志是判定可解释，实物与系统状态一致，处置及 CAPA 形成闭环。
+                贯穿 <abbr title="Incoming Quality Control｜来料质量控制">IQC</abbr>、<abbr title="In-Process Quality Control｜过程质量控制">IPQC</abbr>、<abbr title="Final Quality Control｜最终质量控制">FQC</abbr>、<abbr title="Outgoing Quality Control｜出货质量控制">OQC</abbr>，使不合格可识别、隔离、评审、处置、复验和改进。
+                完成标志是判定可解释，实物与系统状态一致，处置及 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 形成闭环。
               </p>
+              <a class="stage-detail-link" href="pages/stages/quality-control.html">打开质量管控完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="quality">
@@ -1013,7 +1088,7 @@
           <div class="stage-context">
             <section>
               <h4>触发</h4>
-              <p>采购到货触发 IQC，换线/换料触发首检，末工序完工触发 FQC，发货批次触发 OQC。</p>
+              <p>采购到货触发 <abbr title="Incoming Quality Control｜来料质量控制">IQC</abbr>，换线/换料触发首检，末工序完工触发 <abbr title="Final Quality Control｜最终质量控制">FQC</abbr>，发货批次触发 <abbr title="Outgoing Quality Control｜出货质量控制">OQC</abbr>。</p>
             </section>
             <section>
               <h4>前置条件</h4>
@@ -1021,7 +1096,7 @@
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>检验任务引用到货、工单、工序或完工等触发来源；失败结果连接 NCR、处置、复验与 CAPA。</p>
+              <p>检验任务引用到货、工单、工序或完工等触发来源；失败结果连接 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、复验与 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>。</p>
             </section>
           </div>
 
@@ -1031,15 +1106,15 @@
               <ol class="step-list">
                 <li>按到货、换线、巡检、完工与出库事件创建任务并冻结检验方案。</li>
                 <li>核对样本、量具校准与环境，保存实测值、规格限、设备和证据。</li>
-                <li>规则判定超限后立即停线/隔离，创建 NCR 并计算影响范围。</li>
-                <li>评审返工、挑选、让步、退货或报废，MES 执行批准路线。</li>
-                <li>独立复验并由授权角色放行；系统性问题进入 CAPA 和效果验证。</li>
+                <li>规则判定超限后立即停线/隔离，创建 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 并计算影响范围。</li>
+                <li>评审返工、挑选、让步、退货或报废，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 执行批准路线。</li>
+                <li>独立复验并由授权角色放行；系统性问题进入 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 和效果验证。</li>
               </ol>
             </div>
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                FQC 发现某整锁电机峰值电流超限，QMS 由电机批次扩展冻结另 47 个 SN。
+                <abbr title="Final Quality Control｜最终质量控制">FQC</abbr> 发现某整锁电机峰值电流超限，<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 由电机批次扩展冻结另 47 个 <abbr title="Serial Number｜序列号">SN</abbr>。
                 评审决定逐件换电机并全检，记录新批次与复验结果后才解除冻结。
               </p>
             </aside>
@@ -1051,11 +1126,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>关键岗位</h4>
-                  <p>IQC/IPQC/FQC/OQC 检验员、质量/供应商质量工程师、生产、工艺、计量设备、仓储、计划与授权评审人。</p>
+                  <p><abbr title="Incoming Quality Control｜来料质量控制">IQC</abbr>/<abbr title="In-Process Quality Control｜过程质量控制">IPQC</abbr>/<abbr title="Final Quality Control｜最终质量控制">FQC</abbr>/<abbr title="Outgoing Quality Control｜出货质量控制">OQC</abbr> 检验员、质量/供应商质量工程师、生产、工艺、计量设备、仓储、计划与授权评审人。</p>
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>检验方案、检验任务/批、特性结果、NCR、评审处置单、复验记录与 CAPA；保存样本/SN、实测值、规格版本、证据、结论与批准人。</p>
+                  <p>检验方案、检验任务/批、特性结果、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、评审处置单、复验记录与 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>；保存样本/<abbr title="Serial Number｜序列号">SN</abbr>、实测值、规格版本、证据、结论与批准人。</p>
                 </section>
                 <section class="state-panel">
                   <h4>参考状态机</h4>
@@ -1068,18 +1143,18 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>QMS 管标准、任务、不合格和 CAPA；MES 执行现场检验、返工与质量门禁；WMS/ERP 消费放行状态；设备系统保留原始曲线。</p>
+                  <p><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管标准、任务、不合格和 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 执行现场检验、返工与质量门禁；<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 消费放行状态；设备系统保留原始曲线。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>巡检发现扭矩偏低：暂停工位 → 按上次合格到发现时间圈定 SN → 隔离 → 校准与分析 → 全检/加严 → 返工复验 → 首件确认复产 → CAPA 验证后关闭。</p>
+                  <p>巡检发现扭矩偏低：暂停工位 → 按上次合格到发现时间圈定 <abbr title="Serial Number｜序列号">SN</abbr> → 隔离 → 校准与分析 → 全检/加严 → 返工复验 → 首件确认复产 → <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 验证后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
                   <ul>
                     <li>各检验环节首次合格率、返工复验通过率</li>
-                    <li>NCR 关闭周期、逾期与重复发生率</li>
-                    <li>客诉逃逸率、CAPA 按期有效率</li>
+                    <li><abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 关闭周期、逾期与重复发生率</li>
+                    <li>客诉逃逸率、<abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 按期有效率</li>
                   </ul>
                 </section>
               </div>
@@ -1093,14 +1168,14 @@
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>终检替代过程质量；只保存 PASS/FAIL；系统冻结与实物隔离不一致；返工后未经独立复验就放行。</p>
+                  <p>终检替代过程质量；只保存 <abbr title="English result word, not an acronym｜通过">PASS</abbr>/<abbr title="English result word, not an acronym｜失败">FAIL</abbr>；系统冻结与实物隔离不一致；返工后未经独立复验就放行。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
                     <li>制造完成和质量待放行为何必须分开？</li>
-                    <li>怎样用时间窗、设备与过站数据圈定影响 SN？</li>
-                    <li>只保存 PASS/FAIL 会损失哪些审计能力？</li>
+                    <li>怎样用时间窗、设备与过站数据圈定影响 <abbr title="Serial Number｜序列号">SN</abbr>？</li>
+                    <li>只保存 <abbr title="English result word, not an acronym｜通过">PASS</abbr>/<abbr title="English result word, not an acronym｜失败">FAIL</abbr> 会损失哪些审计能力？</li>
                   </ol>
                 </section>
               </div>
@@ -1119,13 +1194,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">07</div>
             <div>
-              <p class="stage-system">MES / WMS / ERP / QMS</p>
+              <p class="stage-system"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></p>
               <h3>成品入库</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把已完工整锁转为包装明确、库位可见的成品对象。
-                完成标志是 SN—箱码—入库单关系完整，包装、上架、质量和账务四类状态各自明确。
+                完成标志是 <abbr title="Serial Number｜序列号">SN</abbr>—箱码—入库单关系完整，包装、上架、质量和账务四类状态各自明确。
               </p>
+              <a class="stage-detail-link" href="pages/stages/finished-goods.html">打开成品入库完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="warehouse">
@@ -1144,7 +1220,7 @@
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>多个 SN 组成一个箱码，多个箱码可组成托盘并进入入库单；绑定事件和库存移动共同保留历史。</p>
+              <p>多个 <abbr title="Serial Number｜序列号">SN</abbr> 组成一个箱码，多个箱码可组成托盘并进入入库单；绑定事件和库存移动共同保留历史。</p>
             </section>
           </div>
 
@@ -1152,17 +1228,17 @@
             <div>
               <h4>从触发到完成</h4>
               <ol class="step-list">
-                <li>汇总完工 SN，校验路线、测试、质量状态与工单数量。</li>
+                <li>汇总完工 <abbr title="Serial Number｜序列号">SN</abbr>，校验路线、测试、质量状态与工单数量。</li>
                 <li>扫描配置和附件，按受控包装/标签版本完成单品包装。</li>
-                <li>将多个整锁 SN 绑定唯一箱码，尾箱确认后封箱并按需绑定托盘。</li>
-                <li>WMS 扫箱收货、展开抽核、记录实收与库位，再完成上架。</li>
-                <li>ERP 过账并与 MES/WMS 对账；拆箱、重打和差异必须走冲销与重绑。</li>
+                <li>将多个整锁 <abbr title="Serial Number｜序列号">SN</abbr> 绑定唯一箱码，尾箱确认后封箱并按需绑定托盘。</li>
+                <li><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 扫箱收货、展开抽核、记录实收与库位，再完成上架。</li>
+                <li><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 过账并与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>/<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 对账；拆箱、重打和差异必须走冲销与重绑。</li>
               </ol>
             </div>
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                每箱 4 套同配置智能锁，箱码 CTN-260728-0088 绑定四个整锁 SN。
+                每箱 4 套同配置智能锁，箱码 CTN-260728-0088 绑定四个整锁 <abbr title="Serial Number｜序列号">SN</abbr>。
                 上架到 FG-A-03-02 后仍可能处于待检/待过账，因此实物已上架不代表销售可用。
               </p>
             </aside>
@@ -1174,11 +1250,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>关键岗位</h4>
-                  <p>包装操作员、生产班组、质量人员、仓库收货/上架、仓储主管、计划/订单与 MES/WMS/ERP 管理员。</p>
+                  <p>包装操作员、生产班组、质量人员、仓库收货/上架、仓储主管、计划/订单与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>/<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>/<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管理员。</p>
                 </section>
                 <section>
                   <h4>关键单据与字段</h4>
-                  <p>完工交接单、包装任务、箱码/托盘、SN—箱码绑定事件、成品入库单、上架任务和入库差异单；字段覆盖版本、数量、库位、状态、人员和时间。</p>
+                  <p>完工交接单、包装任务、箱码/托盘、<abbr title="Serial Number｜序列号">SN</abbr>—箱码绑定事件、成品入库单、上架任务和入库差异单；字段覆盖版本、数量、库位、状态、人员和时间。</p>
                 </section>
                 <section class="state-panel">
                   <h4>正交状态向量</h4>
@@ -1191,11 +1267,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>MES 管完工 SN、包装执行和绑定；WMS 管收货、库位与移动；ERP 管成品账与凭证；QMS 决定入库/OQC 放行。每个事件要标明业务时点。</p>
+                  <p><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管完工 <abbr title="Serial Number｜序列号">SN</abbr>、包装执行和绑定；<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 管收货、库位与移动；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管成品账与凭证；<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 决定入库/<abbr title="Outgoing Quality Control｜出货质量控制">OQC</abbr> 放行。每个事件要标明业务时点。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>箱码显示 4 件但实物 3 件：暂停收货并进差异区 → 锁定箱与 SN → 查包装事件 → 补装或冲销重绑 → 最终实收过账 → 复核防错后关闭。</p>
+                  <p>箱码显示 4 件但实物 3 件：暂停收货并进差异区 → 锁定箱与 <abbr title="Serial Number｜序列号">SN</abbr> → 查包装事件 → 补装或冲销重绑 → 最终实收过账 → 复核防错后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
@@ -1212,16 +1288,16 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>分别持久化四类状态与版本；约束一个 SN 只有一个有效箱绑定；打印重试与标签重制使用不同幂等语义；入库跨系统 Saga 可补偿；箱码展开分页索引。</p>
+                  <p>分别持久化四类状态与版本；约束一个 <abbr title="Serial Number｜序列号">SN</abbr> 只有一个有效箱绑定；打印重试与标签重制使用不同幂等语义；入库跨系统 Saga 可补偿；箱码展开分页索引。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>把完工、放行、收货和入库视为同一时点；箱码不落 SN；标签重制不作废旧标；为修短少直接改数量或删绑定。</p>
+                  <p>把完工、放行、收货和入库视为同一时点；箱码不落 <abbr title="Serial Number｜序列号">SN</abbr>；标签重制不作废旧标；为修短少直接改数量或删绑定。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
-                    <li>MES 完工、WMS 上架、QMS 放行、ERP 过账各是什么事实？</li>
+                    <li><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 完工、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 上架、<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 放行、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 过账各是什么事实？</li>
                     <li>短少时为什么不能只修改箱内数量？</li>
                     <li>打印超时与标签重制的幂等策略有何不同？</li>
                   </ol>
@@ -1242,13 +1318,14 @@
           <header class="card-header">
             <div class="stage-index" aria-hidden="true">08</div>
             <div>
-              <p class="stage-system">ERP / WMS / MES / QMS / 售后</p>
+              <p class="stage-system"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / 售后</p>
               <h3>发货与追溯</h3>
               <p class="stage-summary-label">业务目标 / 完成标志</p>
               <p class="stage-summary">
                 把正确成品交付给正确客户，并让每次交付回到完整制造证据链。
-                完成标志是订单、客户、箱码/SN、物流与出库关联完整，正反向追溯和召回可闭环。
+                完成标志是订单、客户、箱码/<abbr title="Serial Number｜序列号">SN</abbr>、物流与出库关联完整，正反向追溯和召回可闭环。
               </p>
+              <a class="stage-detail-link" href="pages/stages/shipping-traceability.html">打开发货与追溯完整详情页 →</a>
             </div>
             <label class="completion-control">
               <input class="progress-toggle" type="checkbox" data-stage-progress="traceability">
@@ -1267,7 +1344,7 @@
             </section>
             <section>
               <h4>数据关系</h4>
-              <p>销售订单行可产生多个出库单；出库单包含多个箱码，箱码展开整锁 SN 并形成客户/渠道交付记录。</p>
+              <p>销售订单行可产生多个出库单；出库单包含多个箱码，箱码展开整锁 <abbr title="Serial Number｜序列号">SN</abbr> 并形成客户/渠道交付记录。</p>
             </section>
           </div>
 
@@ -1275,18 +1352,18 @@
             <div>
               <h4>从触发到完成</h4>
               <ol class="step-list">
-                <li>ERP 按订单和审批生成发货通知，WMS 分配合格可用库存。</li>
-                <li>按波次扫描库位、箱码与 SN 拣货，复核产品、配置、数量和质量。</li>
-                <li>装车交接并完成 WMS 出库、ERP 凭证和逐 SN 客户交付记录。</li>
-                <li>售后由故障 SN 反查产品、固件、关键件、工序、测试、入库与客户去向。</li>
-                <li>由缺陷批次正查受影响在制、库存、在途与已交付 SN，执行冻结、召回与 CAPA。</li>
+                <li><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 按订单和审批生成发货通知，<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 分配合格可用库存。</li>
+                <li>按波次扫描库位、箱码与 <abbr title="Serial Number｜序列号">SN</abbr> 拣货，复核产品、配置、数量和质量。</li>
+                <li>装车交接并完成 <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 出库、<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 凭证和逐 <abbr title="Serial Number｜序列号">SN</abbr> 客户交付记录。</li>
+                <li>售后由故障 <abbr title="Serial Number｜序列号">SN</abbr> 反查产品、固件、关键件、工序、测试、入库与客户去向。</li>
+                <li>由缺陷批次正查受影响在制、库存、在途与已交付 <abbr title="Serial Number｜序列号">SN</abbr>，执行冻结、召回与 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>。</li>
               </ol>
             </div>
             <aside class="example-box">
               <span>智能锁案例</span>
               <p>
-                某锁偶发无法联网，反查到 PCB-0721-A 主板批次与固件 2.3.4 的组合风险。
-                正向圈定同组合 SN：在库冻结、在途拦截、已交付对象推送受控升级并逐件回写结果。
+                某锁偶发无法联网，反查到 <abbr title="Printed Circuit Board｜印制电路板">PCB</abbr>-0721-A 主板批次与固件 2.3.4 的组合风险。
+                正向圈定同组合 <abbr title="Serial Number｜序列号">SN</abbr>：在库冻结、在途拦截、已交付对象推送受控升级并逐件回写结果。
               </p>
             </aside>
           </div>
@@ -1304,8 +1381,8 @@
                   <p>
                     发货通知/销售出库单（订单号/行、客户、产品配置、计划数量、交期、批次要求、地址）；
                     波次/拣货任务（波次、库位、箱码/托盘、分配数量、策略、操作人）；
-                    发货复核记录（出库单、箱码、SN 清单、复核人、时间、差异）；
-                    SN 交付记录（整锁 SN、订单行、客户/渠道、出库时间、保修起点）；
+                    发货复核记录（出库单、箱码、<abbr title="Serial Number｜序列号">SN</abbr> 清单、复核人、时间、差异）；
+                    <abbr title="Serial Number｜序列号">SN</abbr> 交付记录（整锁 <abbr title="Serial Number｜序列号">SN</abbr>、订单行、客户/渠道、出库时间、保修起点）；
                     追溯/召回案件（触发对象、方向、范围版本、结果快照、行动状态）。
                   </p>
                 </section>
@@ -1320,11 +1397,11 @@
               <div class="detail-grid">
                 <section>
                   <h4>系统边界</h4>
-                  <p>ERP 管客户、销售出库和账务；WMS 管拣配与库存扣减；MES 管制造谱系；QMS 管风险、召回和 CAPA；售后系统管客户沟通与维修。</p>
+                  <p><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管客户、销售出库和账务；<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 管拣配与库存扣减；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管制造谱系；<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 管风险、召回和 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr>；售后系统管客户沟通与维修。</p>
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>供应商批次安全风险：映射企业批次与主板 SN → 找整锁 SN → 按在制/库存/在途/交付分类 → 冻结与通知 → 逐 SN 行动复验 → 数量对账和 CAPA 后关闭。</p>
+                  <p>供应商批次安全风险：映射企业批次与主板 <abbr title="Serial Number｜序列号">SN</abbr> → 找整锁 <abbr title="Serial Number｜序列号">SN</abbr> → 按在制/库存/在途/交付分类 → 冻结与通知 → 逐 <abbr title="Serial Number｜序列号">SN</abbr> 行动复验 → 数量对账和 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
@@ -1341,7 +1418,7 @@
               <div class="detail-grid">
                 <section>
                   <h4>实现关注点</h4>
-                  <p>事件或 CDC 构建带来源与有效时间的追溯读模型；深链查询限制深度并支持异步导出；客户信息最小权限；召回逐 SN 工作流幂等可续跑；外部回传验签防重放。</p>
+                  <p>事件或 <abbr title="Change Data Capture｜变更数据捕获">CDC</abbr> 构建带来源与有效时间的追溯读模型；深链查询限制深度并支持异步导出；客户信息最小权限；召回逐 <abbr title="Serial Number｜序列号">SN</abbr> 工作流幂等可续跑；外部回传验签防重放。</p>
                 </section>
                 <section>
                   <h4>常见误区</h4>
@@ -1350,7 +1427,7 @@
                 <section>
                   <h4>自测</h4>
                   <ol>
-                    <li>故障 SN 反查供应商批次要经过哪些关系与系统？</li>
+                    <li>故障 <abbr title="Serial Number｜序列号">SN</abbr> 反查供应商批次要经过哪些关系与系统？</li>
                     <li>正向追溯为何必须区分在制、库存、在途和交付？</li>
                     <li>召回范围快照如何兼顾新鲜度、隐私与审计？</li>
                   </ol>
@@ -1367,24 +1444,25 @@
             <p class="section-kicker">DIGITAL THREAD</p>
             <h2 id="thread-title">智能锁数字线程：用标识与版本把事实串起来</h2>
           </div>
-          <p>业务键便于人理解和对账，来源系统唯一 ID 用于稳定关联与接口防重。</p>
+          <p>业务键便于人理解和对账，来源系统唯一 <abbr title="Identifier｜标识符">ID</abbr> 用于稳定关联与接口防重。</p>
         </div>
         <ol class="thread-chain">
           <li><span>需求</span>销售订单号 / 行号 / 配置 / 承诺日期</li>
-          <li><span>设计</span>产品版本 / EBOM / 工程变更</li>
-          <li><span>制造基线</span>MBOM / 工艺路线 / 检验方案 / 固件版本</li>
-          <li><span>计划</span>MPS / MRP / 生产工单 / 工序计划</li>
-          <li><span>用料</span>物料批次 / 供应商批次 / 关键件 SN</li>
+          <li><span>设计</span>产品版本 / <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> / 工程变更</li>
+          <li><span>制造基线</span><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> / 工艺路线 / 检验方案 / 固件版本</li>
+          <li><span>计划</span><abbr title="Master Production Schedule｜主生产计划">MPS</abbr> / <abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> / 生产工单 / 工序计划</li>
+          <li><span>用料</span>物料批次 / 供应商批次 / 关键件 <abbr title="Serial Number｜序列号">SN</abbr></li>
           <li><span>执行</span>过站 / 工位 / 设备 / 绑定 / 测试记录</li>
-          <li><span>成品</span>整锁 SN / 箱码 / 入库单 / 库位</li>
+          <li><span>成品</span>整锁 <abbr title="Serial Number｜序列号">SN</abbr> / 箱码 / 入库单 / 库位</li>
           <li><span>交付</span>出库单 / 客户渠道 / 售后 / 召回案件</li>
         </ol>
         <div class="thread-callout">
           <p class="thread-callout__label">端到端验证法</p>
           <p>
-            随机选择一个已交付整锁 SN，要求系统给出它的订单配置、产品与制造版本、工单、
+            随机选择一个已交付整锁 <abbr title="Serial Number｜序列号">SN</abbr>，要求系统给出它的订单配置、产品与制造版本、工单、
             关键件与物料批次、固件、每次过站和测试、箱码、库位及客户去向；再从任一缺陷批次反向圈定所有受影响对象。
           </p>
+          <a class="detail-entry-link" href="pages/topics/digital-thread.html">打开数字线程完整专题 →</a>
         </div>
       </section>
 
@@ -1398,51 +1476,51 @@
         </div>
         <div class="table-wrap">
           <table>
-            <caption class="visually-hidden">ERP、PLM、MES、WMS、QMS 与设备系统的职责边界</caption>
+            <caption class="visually-hidden"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>、<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr>、<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr>、<abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> 与设备系统的职责边界</caption>
             <thead>
               <tr>
                 <th scope="col">系统</th>
                 <th scope="col">典型主责数据</th>
-                <th scope="col">与 MES 的主要交互</th>
+                <th scope="col">与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 的主要交互</th>
                 <th scope="col">边界提醒</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row"><span class="system-code">ERP</span>经营与账务</th>
-                <td>客户、订单、组织、物料、MPS/MRP、生产订单、库存财务账</td>
+                <th scope="row"><a href="pages/systems/erp.html"><span class="system-code"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></span>经营与账务</a></th>
+                <td>客户、订单、组织、物料、<abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>、生产订单、库存财务账</td>
                 <td>下发需求/工单；接收领退料、完工与入库结果</td>
-                <td>MES 不自行创造财务库存或修改客户承诺</td>
+                <td><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 不自行创造财务库存或修改客户承诺</td>
               </tr>
               <tr>
-                <th scope="row"><span class="system-code">PLM</span>产品定义</th>
-                <td>产品型号、图纸、EBOM、设计版本、工程变更</td>
-                <td>向 ERP/MES 发布受控产品和版本</td>
+                <th scope="row"><a href="pages/systems/plm.html"><span class="system-code"><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr></span>产品定义</a></th>
+                <td>产品型号、图纸、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、设计版本、工程变更</td>
+                <td>向 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 发布受控产品和版本</td>
                 <td>未发布或失效版本不能默认可生产</td>
               </tr>
               <tr>
-                <th scope="row"><span class="system-code">MES</span>现场执行</th>
-                <td>工单执行、派工、过站、在制、SN、绑定与采集记录</td>
+                <th scope="row"><a href="pages/systems/mes.html"><span class="system-code"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></span>现场执行</a></th>
+                <td>工单执行、派工、过站、在制、<abbr title="Serial Number｜序列号">SN</abbr>、绑定与采集记录</td>
                 <td>接收计划/版本；回传执行实绩与异常</td>
                 <td>记录现场事实，不替代设计审批和财务结算</td>
               </tr>
               <tr>
-                <th scope="row"><span class="system-code">WMS</span>仓内实物</th>
+                <th scope="row"><a href="pages/systems/wms.html"><span class="system-code"><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></span>仓内实物</a></th>
                 <td>仓库、库位、容器、库存批次、拣配与搬运任务</td>
                 <td>接收备料/入库/出库请求；反馈实物移动</td>
                 <td>线边仓只能由一个系统维护权威数量</td>
               </tr>
               <tr>
-                <th scope="row"><span class="system-code">QMS</span>质量闭环</th>
-                <td>检验标准、抽样方案、不合格、评审、CAPA</td>
+                <th scope="row"><a href="pages/systems/qms.html"><span class="system-code"><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></span>质量闭环</a></th>
+                <td>检验标准、抽样方案、不合格、评审、<abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr></td>
                 <td>下发检验要求；回传冻结、处置与放行</td>
                 <td>制造完成与质量放行必须是独立状态</td>
               </tr>
               <tr>
-                <th scope="row"><span class="system-code">设备</span>原始测点</th>
+                <th scope="row"><a href="pages/systems/equipment.html"><span class="system-code">设备</span>原始测点</a></th>
                 <td>设备参数、原始测点、程序日志与报警</td>
                 <td>回传工位执行、烧录和测试结果</td>
-                <td>高频数据可外存，MES 保存业务判定与索引</td>
+                <td>高频数据可外存，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存业务判定与索引</td>
               </tr>
             </tbody>
           </table>
@@ -1452,7 +1530,7 @@
 
     <footer class="page-footer">
       <div>
-        <p class="page-footer__title">MES 学习驾驶舱</p>
+        <p class="page-footer__title"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</p>
         <p>行业通用参考模型 · 实际单据、字段、审批与系统边界请以企业调研为准</p>
       </div>
       <a href="#learning-map">返回学习地图顶部</a>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="MES 工单模块详解：需求分配、工单快照、状态、拆并单、派工、完工和结清。"><title>工单模块｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css"></head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>业务模块</span><span>/</span><span aria-current="page">工单</span></nav><p class="page-code">MODULE 01 · WORK ORDER</p><h1>工单模块</h1><p class="detail-hero__lead">工单不是一张“任务表”，而是对某个产品版本、数量、制造基线和执行范围的受控授权；它把销售/补库需求连接到现场实绩。</p><div class="hero-meta"><span>主线：需求 → 工单 → 派工 → 完工</span><span>聚合：生产工单</span><span>高风险：拆分 / 取消 / 超产</span></div></div></header>
+<div class="detail-layout">
+<aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">八阶段落点</a></li><li><a href="#model">对象与状态</a></li><li><a href="#control">业务控制</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>
+<main id="content" class="content">
+<div class="disclaimer"><strong>待确认</strong><span>工单主责在 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 还是 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>、工单编码、下达审批、超产容差和结清规则需按企业系统现状确认。</span></div>
+<section id="map" class="knowledge-section"><p class="section-code">END-TO-END MAP</p><h2>工单在八阶段中的落点</h2>
+<div class="table-wrap"><table><thead><tr><th>阶段</th><th>工单能力</th><th>关键交接</th></tr></thead><tbody>
+<tr><th><a href="../stages/sales-demand.html">销售需求</a></th><td>订单行形成制造需求，建立需求分配</td><td>订单行、分配数量、交期和配置版本。</td></tr>
+<tr><th><a href="../stages/planning.html">计划排产</a></th><td>创建、拆并、排程、冻结与下达工单</td><td>产品/<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>/路线/检验/固件快照。</td></tr>
+<tr><th><a href="../stages/material-kitting.html">物料齐套</a></th><td>按工单展开需求、领退补料</td><td>需求行、批次分配和齐套状态。</td></tr>
+<tr><th><a href="../stages/production-execution.html">生产执行</a></th><td>派工、开工、<abbr title="Work in Process｜在制品">WIP</abbr>、完工与报废</td><td>逐 <abbr title="Serial Number｜序列号">SN</abbr> 实绩和数量守恒。</td></tr>
+<tr><th><a href="../stages/finished-goods.html">成品入库</a></th><td>完工交接、入库与工单结清</td><td>箱码、实收、消耗和差异。</td></tr>
+</tbody></table></div></section>
+<section id="model" class="knowledge-section"><p class="section-code">DOMAIN MODEL</p><h2>对象、状态与不变量</h2>
+<div class="data-grid"><article class="data-card"><p class="data-label">ProductionOrder</p><h3>生产工单</h3><p>来源、产品、制造版本、计划数量、工厂/产线、优先级、起止、状态和版本号。</p></article><article class="data-card"><p class="data-label">DemandAllocation</p><h3>需求分配</h3><p>订单行/补库需求到工单的数量桥接，支持拆单、并单和补产。</p></article><article class="data-card"><p class="data-label">OrderSnapshot</p><h3>制造快照</h3><p><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验、固件和规则发布 <abbr title="Identifier｜标识符">ID</abbr>，工单下达后保持不可变。</p></article><article class="data-card"><p class="data-label">OperationDispatch</p><h3>工序派工</h3><p>工序、资源、班次、派工数量、开始/完成实绩和执行者。</p></article></div>
+<ol class="state-flow"><li>已创建</li><li>已排程</li><li>已冻结</li><li>已下达</li><li>执行中</li><li>已完工</li><li>已关闭</li></ol>
+<p>不变量：分配量不超过需求剩余量；完工量 + 报废量不超过授权投入；已执行工单不能物理删除；关闭前物料、<abbr title="Work in Process｜在制品">WIP</abbr>、质量和入库差异必须清零或批准保留。</p></section>
+<section id="control" class="knowledge-section"><p class="section-code">BUSINESS CONTROL</p><h2>关键命令与异常路径</h2>
+<div class="card-grid"><article class="info-card"><h3>下达</h3><p>校验版本发布、数量、资源、物料策略和质量限制；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 明确接受或拒绝。</p></article><article class="info-card"><h3>拆分 / 合并</h3><p>重新分配来源需求和已发生事实；开工后通常只拆未执行余量。</p></article><article class="info-card"><h3>暂停 / 恢复</h3><p>保留暂停原因、影响对象和恢复条件，不把暂停当取消。</p></article><article class="info-card"><h3>取消 / 终止</h3><p>补偿预留、领料、在制和订单承诺；已发生事实保留并对账。</p></article></div></section>
+<section id="java" class="knowledge-section"><p class="section-code">JAVA IMPLEMENTATION</p><h2>实现切面</h2><ul class="implementation-list"><li><strong>聚合并发</strong>工单使用乐观锁；状态迁移由领域命令完成，禁止 Controller 直接改状态。</li><li><strong>幂等下达</strong>来源工单 <abbr title="Identifier｜标识符">ID</abbr> + 版本为业务键，重复下达返回相同 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 工单 <abbr title="Identifier｜标识符">ID</abbr>。</li><li><strong>Outbox</strong>状态和事件同事务写入，避免工单已下达但下游没收到。</li><li><strong>审计</strong>拆单、超产、取消、手工完工保存前后值、原因和批准。</li></ul></section>
+<section id="verify" class="knowledge-section"><p class="section-code">VERIFY</p><h2>验证清单</h2><ul class="topic-list"><li>一个订单行拆给两个工单后数量是否守恒</li><li>同一版本重复下达是否只生成一个工单</li><li>已领料工单取消是否产生退料/冲销待办</li><li>历史工单能否还原当时制造基线</li><li>关闭前是否仍存在在制或未入库完工</li><li>并发暂停与完工是否只有一个成功</li></ul></section>
+</main></div><footer class="page-footer"><div class="page-footer__inner"><a href="../../index.html">← 返回模块总览</a><a href="routing.html">下一模块：工艺 →</a></div></footer>
+</body></html>

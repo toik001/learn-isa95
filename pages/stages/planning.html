@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 计划排产详解：MPS、MRP、生产工单、有限产能排程和下达控制。">
+  <title>03 计划排产｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+<a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+<header class="detail-hero"><div class="detail-hero__inner">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">计划排产</span></nav>
+  <p class="page-code">STAGE 03 · <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></p><h1>计划排产</h1>
+  <p class="detail-hero__lead">把需求转换成时间、数量、产线和优先级明确的生产工单；既回答“要做多少”，也回答“在真实约束下何时、在哪做”。</p>
+  <div class="hero-meta"><span>主责：主计划 / 车间调度</span><span>完成：工单受控下达</span><span>关键键：工单号 + 排程版本</span></div>
+</div></header>
+<div class="detail-layout">
+  <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
+  <main id="content" class="content">
+    <div class="disclaimer"><strong>事实边界</strong><span><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>/<abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 的归属、冻结窗口、优先级算法和人工调整权限因企业而异；本页状态与字段是参考设计。</span></div>
+    <section id="position" class="flow-context">
+      <article class="flow-card"><p class="fact-label">上游阶段</p><a href="engineering-preparation.html">02 产品与工艺准备</a><p>可生产的 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验与固件版本。</p></article>
+      <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>03 计划排产</strong><p>形成工单、工序计划和资源时序。</p></article>
+      <article class="flow-card"><p class="fact-label">下游阶段</p><a href="material-kitting.html">04 物料齐套</a><p>按已下达工单分配和配送实物。</p></article>
+    </section>
+
+    <section id="business" class="knowledge-section">
+      <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：从供需平衡到现场可执行承诺</h2>
+      <p class="section-intro">触发来自销售订单、预测补库、安全库存、返工补产或售后备件。完成标志是工单冻结产品、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验和固件版本，并通过物料、产能、设备和人员等开工前校验后下达 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>。</p>
+      <div class="card-grid card-grid--3">
+        <article class="info-card"><h3>关键岗位</h3><p>主计划员、物料计划员、车间调度、生产主管、采购、仓储、工艺、质量和设备工程师。</p></article>
+        <article class="info-card"><h3>进入条件</h3><p>需求基线、库存/在制/在途快照、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、提前期、工作中心和设备日历有效。</p></article>
+        <article class="info-card"><h3>退出条件</h3><p>工单有来源、有版本、有数量、有资源、有计划时间，约束冲突已处理，现场明确接单。</p></article>
+      </div>
+      <ol class="step-flow">
+        <li><strong><abbr title="Master Production Schedule｜主生产计划">MPS</abbr> 汇总独立需求</strong><p>合并订单、预测和安全库存，扣减成品库存、已确认在制和不再有效的预测重复量。</p></li>
+        <li><strong><abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 展开相关需求</strong><p>按 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 计算净需求，考虑库存状态、在途、损耗、替代、采购/生产提前期和最小批量。</p></li>
+        <li><strong>建立并拆分生产工单</strong><p>按产品配置、交付批次、追溯粒度、换线经济性和产线能力拆单，保存订单分配。</p></li>
+        <li><strong>有限产能排程</strong><p>校验班次、人员、设备、工装、维护、质量等待、物料可用日和换线矩阵，识别瓶颈。</p></li>
+        <li><strong>冻结近期计划并下达</strong><p>冻结窗口内变更提高审批等级；下达时生成制造快照并由 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 返回接受或拒绝原因。</p></li>
+        <li><strong>滚动重排</strong><p>对缺料、停机、质量冻结和插单建立新排程版本，保留旧方案、约束差异和人工原因。</p></li>
+      </ol>
+      <div class="example"><strong>智能锁案例：</strong>3,000 套订单包含 2,000 套深灰与 1,000 套银色。<abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 为减少颜色换线先连续排深灰，但指纹模组仅可支撑 1,200 套，于是拆成两个深灰工单并将剩余量排到到料日之后；每个工单都保存订单行分配数量。</div>
+    </section>
+
+    <section id="data" class="knowledge-section">
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：计划、工单和排程版本回答不同问题</h2>
+      <div class="data-grid">
+        <article class="data-card"><p class="data-label"><abbr title="Master Production Schedule｜主生产计划">MPS</abbr> / <abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 建议</p><h3>应该供给什么</h3><p>需求来源、物料、需求日期、净需求、建议数量、建议日期、供给类型、计算批次和例外消息。</p></article>
+        <article class="data-card"><p class="data-label">生产工单</p><h3>授权制造什么</h3><p>工单号、产品与制造版本、计划数量、来源需求、工厂/产线、优先级、计划起止、状态和变更版本。</p></article>
+        <article class="data-card"><p class="data-label">工序计划</p><h3>资源何时执行</h3><p>工单/工序、资源、计划时间、标准工时、准备/加工时长、前后约束、锁定标记和派工数量。</p></article>
+        <article class="data-card"><p class="data-label">排程版本</p><h3>为什么这样排</h3><p>版本、算法/规则、输入快照、瓶颈、人工调整、原因、发布时间和被替代版本。</p></article>
+      </div>
+      <h3>工单参考状态机</h3>
+      <ol class="state-flow"><li>计划建议</li><li>已创建</li><li>已排程</li><li>已冻结</li><li>已下达</li><li>执行中</li><li>已完工</li><li>已关闭</li></ol>
+      <p>暂停、终止、取消和变更评审是受控分支。“已下达”表示授权现场准备，“执行中”必须由实际开工事实触发。</p>
+      <div class="table-wrap"><table><thead><tr><th>对象</th><th>数量语义</th><th>对账要求</th></tr></thead><tbody>
+        <tr><th>工单计划数量</th><td>被授权生产的数量</td><td>等于订单分配、补库与其他来源分配合计。</td></tr>
+        <tr><th>派工数量</th><td>某班次/工序当前被安排的数量</td><td>不应超过工单剩余可派数量。</td></tr>
+        <tr><th>完工 / 报废数量</th><td>现场实际结果</td><td>与 <abbr title="Work in Process｜在制品">WIP</abbr>、物料消耗及 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 汇总一致。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="system" class="knowledge-section">
+      <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：计划建议与执行事实必须分开</h2>
+      <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>本阶段边界</th></tr></thead><tbody>
+        <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>、生产订单与经营数量</td><td>决定供给需求及财务口径，接收 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 实绩。</td></tr>
+        <tr><th><abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr></th><td>有限产能排程建议</td><td>计算约束方案，不直接伪造开工或完工事实。</td></tr>
+        <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单接收、派工和执行状态</td><td>校验制造快照，拒绝不完整或失效版本，并回传实际进度。</td></tr>
+        <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr> / 设备</th><td>物料可用日、质量冻结、设备可用性</td><td>作为排程约束来源，需带快照时间和可信状态。</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="implementation" class="knowledge-section">
+      <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：命令、乐观锁与可取消长任务</h2>
+      <ul class="implementation-list">
+        <li><strong>命令模型</strong>下达、拆分、合并、暂停和取消使用显式命令，逐项校验状态、数量与影响。</li>
+        <li><strong>并发控制</strong>工单和资源时段用乐观锁或条件更新，防止调度员相互覆盖与重复下达。</li>
+        <li><strong>异步排程</strong>排程作为有任务 <abbr title="Identifier｜标识符">ID</abbr>、进度、输入快照和取消信号的异步作业；结果发布需二次校验。</li>
+        <li><strong>时间语义</strong>统一工厂时区、班次跨日、维护窗口和假日日历；数据库存储明确时区语义。</li>
+        <li><strong>幂等同步</strong>工单事件按来源 <abbr title="Identifier｜标识符">ID</abbr> + 版本防重；旧版本事件进入冲突队列，不覆盖新状态。</li>
+        <li><strong>可解释排程</strong>记录约束、目标权重、瓶颈和人工拖拽原因，允许比较两个版本的交期影响。</li>
+      </ul>
+    </section>
+
+    <section id="exceptions" class="knowledge-section">
+      <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+      <ul class="exception-list">
+        <li><strong>关键模组晚到：</strong>定位受影响工单/订单 → 比较替代、换序、拆单、调拨或延期 → 发布新排程 → 同步备料和承诺风险。</li>
+        <li><strong>设备突发停机：</strong>冻结对应资源时段 → 评估转线资质与工装 → 迁移未开工任务 → 对已开工 <abbr title="Work in Process｜在制品">WIP</abbr> 建立处置单。</li>
+        <li><strong>紧急插单：</strong>先量化对冻结区和既有客户的影响 → 获得业务批准 → 生成新版本，而不是直接改工序时间。</li>
+      </ul>
+      <div class="metric-grid">
+        <article class="metric-card"><strong>计划达成率</strong><span>按冻结计划完成的工单/数量比例</span></article>
+        <article class="metric-card"><strong>排程稳定性</strong><span>冻结窗口内未被重排的任务比例</span></article>
+        <article class="metric-card"><strong>瓶颈负荷率</strong><span>瓶颈资源有效加工时间 / 可用时间</span></article>
+      </div>
+    </section>
+
+    <section id="check" class="knowledge-section">
+      <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+      <div class="question-grid">
+        <article class="question-card"><h3>问题 1</h3><p><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>、<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>、生产工单和工序计划各自回答什么问题？</p></article>
+        <article class="question-card"><h3>问题 2</h3><p>已备料或开工后取消工单，需要哪些库存、<abbr title="Work in Process｜在制品">WIP</abbr> 和订单补偿？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p>为何排程结果必须保存输入快照和人工调整原因？</p></article>
+        <article class="question-card"><h3>验证练习</h3><p>模拟关键件晚到两天，列出受影响对象、方案比较和新旧排程差异。</p></article>
+      </div>
+      <div class="link-grid">
+        <a class="link-card" href="../modules/work-order.html"><h3>工单模块</h3><p>深入工单拆并、下达、执行与结清。</p></a>
+        <a class="link-card" href="../roles/planner.html"><h3>计划岗位</h3><p>看主计划和车间调度的责任边界。</p></a>
+        <a class="link-card" href="../topics/state-machine.html"><h3>状态机专题</h3><p>设计可回退、可终止的工单状态。</p></a>
+        <a class="link-card" href="material-kitting.html"><h3>下一阶段：物料齐套</h3><p>把计划需求落实为可扫描的实物。</p></a>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="page-footer"><div class="page-footer__inner"><a href="engineering-preparation.html">← 上一阶段：产品与工艺准备</a><a href="material-kitting.html">下一阶段：物料齐套 →</a></div></footer>
+</body></html>

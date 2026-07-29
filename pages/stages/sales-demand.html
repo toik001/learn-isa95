@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 八阶段之一：销售需求，从订单配置到制造需求基线的业务、数据、系统与 Java 实现详解。">
+  <title>01 销售需求｜智能锁 MES 学习助手</title>
+  <link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+  <header class="detail-hero">
+    <div class="detail-hero__inner">
+      <nav class="breadcrumb" aria-label="面包屑">
+        <a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span>
+        <span>八阶段</span><span class="crumb-separator">/</span>
+        <span aria-current="page">销售需求</span>
+      </nav>
+      <p class="page-code">STAGE 01 · <abbr title="Customer Relationship Management｜客户关系管理">CRM</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></p>
+      <h1>销售需求</h1>
+      <p class="detail-hero__lead">把客户语言翻译成可配置、可承诺、可变更控制的制造需求。<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 此时不是订单主系统，但必须尽早反馈产线能力、版本可制造性和追溯约束。</p>
+      <div class="hero-meta"><span>主责：销售 / 订单运营</span><span>完成：订单行基线确认</span><span>关键键：订单号 + 行号</span></div>
+    </div>
+  </header>
+
+  <div class="detail-layout">
+    <aside class="page-rail" aria-label="页内目录">
+      <p class="rail-label">本页导航</p>
+      <ol>
+        <li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li>
+        <li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li>
+        <li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li>
+        <li><a href="#check">自测与延伸</a></li>
+      </ol>
+    </aside>
+
+    <main id="content" class="content">
+      <div class="disclaimer"><strong>事实边界</strong><span>以下是智能锁离散制造的行业通用教学模型；企业实际配置规则、交期审批、订单状态和接口责任均待确认。</span></div>
+      <section id="position" class="flow-context" aria-label="上下游位置">
+        <article class="flow-card"><p class="fact-label">上游输入</p><strong>市场预测 / 客户询价</strong><p>客户、渠道、合同与产品诉求。</p></article>
+        <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>01 销售需求</strong><p>确认订单行、配置、数量、交期和变更基线。</p></article>
+        <article class="flow-card"><p class="fact-label">下游阶段</p><a href="engineering-preparation.html">02 产品与工艺准备</a><p>验证配置是否有可制造的受控版本。</p></article>
+      </section>
+
+      <section id="business" class="knowledge-section">
+        <p class="section-code">LAYER 01 · BUSINESS</p>
+        <h2>业务层：从“客户想要”到“制造能承诺”</h2>
+        <p class="section-intro">触发可以是客户下单、渠道补货、预测滚动、促销备货或订单变更。完成不是“保存了一张订单”，而是订单行的配置、数量、交期、交付地点和变更基线都有明确责任人及 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 依据。</p>
+        <div class="card-grid card-grid--3">
+          <article class="info-card"><h3>关键岗位</h3><p>销售、订单运营、主计划员、产品经理、工艺工程师、采购/仓储、质量与财务信用控制。</p></article>
+          <article class="info-card"><h3>进入条件</h3><p>客户与渠道有效；型号、销售配置规则和计量单位可识别；收货地点、批次限制和服务要求明确。</p></article>
+          <article class="info-card"><h3>退出条件</h3><p>配置可制造，交期有依据，风险和例外已审批，订单行进入可计划状态；后续变化必须形成新版本或变更单。</p></article>
+        </div>
+        <ol class="step-flow">
+          <li><strong>接收需求并拆到订单行</strong><p>把型号、颜色、开门方式、通信制式、面板、电池、固件区域版、包装和数量拆成结构化配置。</p></li>
+          <li><strong>执行配置校验</strong><p>检查互斥与依赖，例如某通信模组要求特定主板和固件；不能只校验“物料编码存在”。</p></li>
+          <li><strong>执行 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 评估</strong><p><abbr title="Available to Promise｜可承诺量">ATP</abbr> 看可用成品与已确认供给；<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 再看关键物料、产能、换线、检验和外协约束。</p></li>
+          <li><strong>冻结订单行基线</strong><p>确认数量、承诺日期、优先级与配置版本，记录评估时点、规则版本和人工覆盖原因。</p></li>
+          <li><strong>受控处理变更</strong><p>识别受影响的计划、工单、备料、在制和已交付对象，决定新旧需求的切换点与补偿动作。</p></li>
+        </ol>
+        <div class="example"><strong>智能锁案例：</strong>客户订购 2,000 套深灰色蓝牙智能锁，要求支持企业 App 和指定包装。订单评审发现企业 App 需要主板 V3 与固件 2.3.x；交期承诺必须同时引用主板到料日、烧录工位能力和包装材料可用日。</div>
+      </section>
+
+      <section id="data" class="knowledge-section">
+        <p class="section-code">LAYER 02 · DATA</p>
+        <h2>数据层：订单行不是工单，分配关系不能省</h2>
+        <div class="data-grid">
+          <article class="data-card"><p class="data-label">销售订单 / 订单行</p><h3>经营需求载体</h3><p>订单号、行号、客户/渠道、产品、配置版本、数量、单位、承诺日期、交付地点、客户批次限制、状态和变更版本。</p></article>
+          <article class="data-card"><p class="data-label">需求评审</p><h3>承诺证据</h3><p>评审时间、<abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 快照、关键约束、可承诺数量/日期、例外、审批人和规则版本。</p></article>
+          <article class="data-card"><p class="data-label">需求分配</p><h3>多对多桥接</h3><p>订单行 <abbr title="Identifier｜标识符">ID</abbr>、计划/工单 <abbr title="Identifier｜标识符">ID</abbr>、分配数量、来源系统、有效状态。一个工单可服务多个订单，一个订单也可拆给多个工单。</p></article>
+          <article class="data-card"><p class="data-label">变更影响</p><h3>历史与补偿</h3><p>变更前后值、版本号、原因、影响对象、处理决定、补偿进度。禁止直接覆盖已经参与下游执行的字段。</p></article>
+        </div>
+        <h3>参考状态流</h3>
+        <ol class="state-flow"><li>草稿</li><li>待配置校验</li><li>待供给评估</li><li>待审批</li><li>已确认</li><li>已转计划</li><li>已关闭</li></ol>
+        <p>取消、拒绝和变更评审是旁路状态；应分别记录原因与影响，不应把所有情况压成一个“无效”。</p>
+        <div class="table-wrap">
+          <table><thead><tr><th>关系</th><th>基数</th><th>为什么重要</th></tr></thead><tbody>
+            <tr><th>销售订单 → 订单行</th><td>一对多</td><td>交期、配置和交付状态通常在行级不同。</td></tr>
+            <tr><th>订单行 ↔ 生产工单</th><td>多对多</td><td>拆单、并单、补产与库存履约都需要显式数量分配。</td></tr>
+            <tr><th>订单行 → 变更版本</th><td>一对多</td><td>保留每次承诺依据和下游影响范围。</td></tr>
+          </tbody></table>
+        </div>
+      </section>
+
+      <section id="system" class="knowledge-section">
+        <p class="section-code">LAYER 03 · SYSTEM</p>
+        <h2>系统层：经营承诺归 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>，制造能力由多个系统共同证明</h2>
+        <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>本阶段交互</th></tr></thead><tbody>
+          <tr><th><abbr title="Customer Relationship Management｜客户关系管理">CRM</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>客户、价格、信用、订单和承诺</td><td>保存订单基线，发起评审与变更，接收可承诺结果。</td></tr>
+          <tr><th><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr></th><td>产品与销售配置约束的设计依据</td><td>验证型号/选件是否有可发布产品定义。</td></tr>
+          <tr><th><abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> / <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 计划</th><td>供给与产能评估</td><td>提供 <abbr title="Available to Promise｜可承诺量">ATP</abbr>/<abbr title="Capable to Promise｜可能力承诺">CTP</abbr>、关键约束与可用日期。</td></tr>
+          <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>产线能力与历史实绩</td><td>反馈节拍、良率、换线、工位与在制事实，不修改订单承诺。</td></tr>
+          <tr><th><abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>实物可用量 / 质量可用性</td><td>排除冻结、待检、已分配和不可用库存。</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section id="implementation" class="knowledge-section">
+        <p class="section-code">LAYER 04 · IMPLEMENTATION</p>
+        <h2>实现层：把配置、承诺和变更做成可追责的契约</h2>
+        <ul class="implementation-list">
+          <li><strong>聚合与版本</strong>订单行是独立并发边界；使用版本号或 ETag 防止两个审批人相互覆盖。</li>
+          <li><strong>幂等接口</strong>订单同步键建议由来源系统 <abbr title="Identifier｜标识符">ID</abbr>、行 <abbr title="Identifier｜标识符">ID</abbr> 和版本组成；重复事件返回同一处理结果。</li>
+          <li><strong>规则可解释</strong>配置失败需返回规则编号、冲突选项、规则版本和修复建议，不能只有“参数错误”。</li>
+          <li><strong>事务消息</strong>本地事务写订单快照与 Outbox，再异步分发给计划/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>；消费端按事件 <abbr title="Identifier｜标识符">ID</abbr> 防重。</li>
+          <li><strong>变更影响查询</strong>按订单行展开工单、备料、在制、入库和发货对象，先出影响快照再审批。</li>
+          <li><strong>权限审计</strong>承诺日期、客户配置和人工覆盖规则是高风险字段，记录旧值、新值、理由与操作者。</li>
+        </ul>
+      </section>
+
+      <section id="exceptions" class="knowledge-section">
+        <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+        <ul class="exception-list">
+          <li><strong>配置不存在：</strong>拒绝直接下达 → 转产品/工艺评估 → 新建受控配置或建议替代 → 回写客户决定。</li>
+          <li><strong>交期不可满足：</strong>展示物料、产能、质量和外协瓶颈 → 比较拆单、替代、加班、延期方案 → 重新承诺并留痕。</li>
+          <li><strong>已开工后改单：</strong>冻结自动覆盖 → 识别在制和已采购影响 → 批准继续旧版、返工或重制 → 数量与成本对账。</li>
+        </ul>
+        <div class="metric-grid">
+          <article class="metric-card"><strong>订单一次确认率</strong><span>无需补充或返审即形成可计划订单行的比例</span></article>
+          <article class="metric-card"><strong>承诺达成率</strong><span>按确认日期足量交付的订单行比例</span></article>
+          <article class="metric-card"><strong>变更响应时长</strong><span>从变更提出到影响评估和决策完成</span></article>
+        </div>
+      </section>
+
+      <section id="check" class="knowledge-section">
+        <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+        <div class="question-grid">
+          <article class="question-card"><h3>问题 1</h3><p>为什么订单行和生产工单之间需要数量分配表，不能只在工单上存订单号？</p></article>
+          <article class="question-card"><h3>问题 2</h3><p><abbr title="Available to Promise｜可承诺量">ATP</abbr> 与 <abbr title="Capable to Promise｜可能力承诺">CTP</abbr> 分别回答什么问题？质量冻结库存是否应计入 <abbr title="Available to Promise｜可承诺量">ATP</abbr>？</p></article>
+          <article class="question-card"><h3>问题 3</h3><p>订单变更已影响在制时，哪些事实不能被直接覆盖？</p></article>
+          <article class="question-card"><h3>验证练习</h3><p>用一个订单行追到产品版本、计划、工单和实际交付 <abbr title="Serial Number｜序列号">SN</abbr>，并说明每个关联键由谁产生。</p></article>
+        </div>
+        <div class="link-grid">
+          <a class="link-card" href="../modules/work-order.html"><h3>工单模块</h3><p>继续理解需求怎样变成可执行工单。</p></a>
+          <a class="link-card" href="../systems/erp.html"><h3><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 边界</h3><p>区分订单、计划、库存账和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 现场事实。</p></a>
+          <a class="link-card" href="../topics/idempotency.html"><h3>接口幂等</h3><p>处理订单与工单重复、乱序和重放。</p></a>
+          <a class="link-card" href="engineering-preparation.html"><h3>下一阶段：产品与工艺准备</h3><p>验证需求是否存在可制造的受控基线。</p></a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="page-footer"><div class="page-footer__inner"><p>01 销售需求 · 八阶段数字主线</p><a href="engineering-preparation.html">下一阶段：产品与工艺准备 →</a></div></footer>
+</body>
+</html>

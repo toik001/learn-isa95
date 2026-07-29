@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="智能锁 MES 产品与工艺准备详解：EBOM、MBOM、工艺路线、检验方案与固件版本。">
+  <title>02 产品与工艺准备｜智能锁 MES 学习助手</title>
+  <link rel="stylesheet" href="../../assets/detail.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
+  <header class="detail-hero"><div class="detail-hero__inner">
+    <nav class="breadcrumb" aria-label="面包屑"><a href="../../index.html">学习驾驶舱</a><span class="crumb-separator">/</span><span>八阶段</span><span class="crumb-separator">/</span><span aria-current="page">产品与工艺准备</span></nav>
+    <p class="page-code">STAGE 02 · <abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> → <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></p><h1>产品与工艺准备</h1>
+    <p class="detail-hero__lead">把“设计上成立的智能锁”转换成“现场能稳定制造、检验和追溯的受控基线”，并明确新旧版本的生效范围。</p>
+    <div class="hero-meta"><span>主责：产品 / 工艺工程</span><span>完成：制造基线发布</span><span>关键键：产品 + 版本 + 生效范围</span></div>
+  </div></header>
+  <div class="detail-layout">
+    <aside class="page-rail"><p class="rail-label">本页导航</p><ol>
+      <li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li>
+      <li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li>
+    </ol></aside>
+    <main id="content" class="content">
+      <div class="disclaimer"><strong>事实边界</strong><span><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>/<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 转换、固件审批、试制放行和工程变更责任在不同企业差异很大；本页为通用模型，具体规则待确认。</span></div>
+      <section id="position" class="flow-context">
+        <article class="flow-card"><p class="fact-label">上游阶段</p><a href="sales-demand.html">01 销售需求</a><p>已确认的型号、配置、数量和交期。</p></article>
+        <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>02 产品与工艺准备</strong><p>发布产品、物料、路线、检验和固件基线。</p></article>
+        <article class="flow-card"><p class="fact-label">下游阶段</p><a href="planning.html">03 计划排产</a><p>工单冻结可生产的制造版本。</p></article>
+      </section>
+
+      <section id="business" class="knowledge-section">
+        <p class="section-code">LAYER 01 · BUSINESS</p><h2>业务层：设计定义必须经过制造化</h2>
+        <p class="section-intro">触发包括新产品导入、配置扩展、物料替代、工艺优化、质量整改、固件升级和工程变更。完成标志是 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、工艺路线、作业指导、检验方案、设备程序和固件适用范围一起发布，并能被工单冻结。</p>
+        <div class="card-grid card-grid--3">
+          <article class="info-card"><h3>关键岗位</h3><p>产品研发、结构/电子/嵌入式工程师、工艺、质量、设备、生产、采购、主数据和信息化。</p></article>
+          <article class="info-card"><h3>进入条件</h3><p>产品型号、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、图纸和设计版本已受控；工作中心、物料编码、设备能力、人员技能和检验资源可用。</p></article>
+          <article class="info-card"><h3>退出条件</h3><p>制造基线已审批发布，试制问题关闭，生效条件明确，旧版本仍可按历史工单复现。</p></article>
+        </div>
+        <ol class="step-flow">
+          <li><strong>建立 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 与设计基线</strong><p>明确锁体、面板、主板、指纹模组、电机、电池组件、结构件和包装材料的设计组成及替代限制。</p></li>
+          <li><strong>转换并补充 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr></strong><p>按装配顺序拆分投料点，补充工艺辅料、包装件、损耗、替代组和 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 行来源。</p></li>
+          <li><strong>定义工艺路线</strong><p>为装配、烧录、绑定、功能测试、外观检查、包装等工序定义前后关系、门禁、资源和返工路线。</p></li>
+          <li><strong>发布质量与设备配方</strong><p>把检验特性、规格上下限、抽样/全检策略、设备程序和参数范围关联到产品及工序版本。</p></li>
+          <li><strong>管理固件与适用范围</strong><p>保存版本、文件哈希、签名、硬件兼容、区域/客户限制、烧录程序和回读校验策略。</p></li>
+          <li><strong>试制验证并正式发布</strong><p>验证可装配性、节拍、良率、防错和追溯完整性，关闭问题后定义日期、批次或工单生效条件。</p></li>
+        </ol>
+        <div class="example"><strong>智能锁案例：</strong>主板从 V2 升为 V3 后，固件需升级至 2.3.x，测试台程序也需切换。若只改 <abbr title="Bill of Materials｜物料清单">BOM</abbr> 而未同步固件适用范围和测试规格，现场可能“能装上但无法通信”，这就是制造基线不完整。</div>
+      </section>
+
+      <section id="data" class="knowledge-section">
+        <p class="section-code">LAYER 02 · DATA</p><h2>数据层：版本不是备注，是追溯主键的一部分</h2>
+        <div class="data-grid">
+          <article class="data-card"><p class="data-label">产品 / <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr></p><h3>设计定义</h3><p>产品型号、设计版本、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 头/行、父子物料、数量、位号、替代约束、来源变更和发布状态。</p></article>
+          <article class="data-card"><p class="data-label"><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr></p><h3>制造用料</h3><p>制造版本、工序投料点、用量、损耗、替代组、追溯粒度、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 行来源和生效范围。</p></article>
+          <article class="data-card"><p class="data-label">工艺路线</p><h3>执行顺序</h3><p>路线版本、工序、前后约束、工作中心、资格、设备/工装、标准工时、过站条件和返工路径。</p></article>
+          <article class="data-card"><p class="data-label">检验 / 固件</p><h3>判定与软件基线</h3><p>规格版本、特性、上下限、方法、抽样规则；固件版本、哈希、签名、硬件范围、客户范围和失效原因。</p></article>
+        </div>
+        <h3>参考状态流</h3>
+        <ol class="state-flow"><li>草稿</li><li>评审中</li><li>试制</li><li>待批准</li><li>已发布</li><li>受限使用</li><li>已失效</li></ol>
+        <p>“已失效”不能物理删除；历史工单仍应解析到当时冻结的 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验与固件版本。</p>
+        <div class="table-wrap"><table><thead><tr><th>快照对象</th><th>工单必须冻结什么</th><th>为何不能只存最新版</th></tr></thead><tbody>
+          <tr><th>产品 / <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr></th><td>头版本、行版本或不可变发布 <abbr title="Identifier｜标识符">ID</abbr></td><td>解释实际用料与替代是否合法。</td></tr>
+          <tr><th>路线 / 检验</th><td>路线版本、工序、规格版本</td><td>解释为何允许过站、当时按什么标准判定。</td></tr>
+          <tr><th>固件</th><td>发布 <abbr title="Identifier｜标识符">ID</abbr>、版本、哈希、硬件范围</td><td>文件名相同不等于二进制内容相同。</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section id="system" class="knowledge-section">
+        <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 管设计发布，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管现场使用证据</h2>
+        <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责数据</th><th>边界与交互</th></tr></thead><tbody>
+          <tr><th><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr></th><td>产品、图纸、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、设计版本、工程变更</td><td>发布受控定义，不记录现场实际使用。</td></tr>
+          <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>物料主数据、制造 <abbr title="Bill of Materials｜物料清单">BOM</abbr>、计划参数和成本口径</td><td>承接经营与计划所需制造定义；具体主责边界待企业确认。</td></tr>
+          <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单快照、路线执行规则、工位版本</td><td>接收发布版本，冻结到工单并记录每个 <abbr title="Serial Number｜序列号">SN</abbr> 的实际版本。</td></tr>
+          <tr><th><abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>检验标准、抽样、质量变更</td><td>向 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 提供规格版本，接收实际检验结果。</td></tr>
+          <tr><th>设备系统</th><td>设备程序、配方、原始参数</td><td>与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 发布 <abbr title="Identifier｜标识符">ID</abbr> 对齐，回传实际程序/参数摘要。</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section id="implementation" class="knowledge-section">
+        <p class="section-code">LAYER 04 · IMPLEMENTATION</p><h2>实现层：不可变发布物 + 有效期关系</h2>
+        <ul class="implementation-list">
+          <li><strong>不可变版本</strong>已发布版本禁止原地修改；修订产生新版本，工单引用稳定的发布 <abbr title="Identifier｜标识符">ID</abbr>。</li>
+          <li><strong>行级来源</strong><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 行保存 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 行来源与转换类型，支持设计变更影响分析和成本解释。</li>
+          <li><strong>有效范围</strong>用产品、工厂、日期、批次、工单或客户范围表达生效；检测重叠与空档。</li>
+          <li><strong>发布一致性</strong>本地事务写发布状态和 Outbox；各系统消费后回传版本校验结果，失败可重放。</li>
+          <li><strong>固件安全</strong>对象存储文件与元数据分离；下载、烧录前校验哈希与签名，记录实际摘要。</li>
+          <li><strong>差异视图</strong>前端逐项展示 <abbr title="Bill of Materials｜物料清单">BOM</abbr>、路线、规格和固件的新增、删除、替换及影响工单。</li>
+        </ul>
+      </section>
+
+      <section id="exceptions" class="knowledge-section">
+        <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
+        <ul class="exception-list">
+          <li><strong>版本发布不完整：</strong>发现路线已发布但检验规格未发布 → 阻断计划下达 → 补齐审批 → 做跨系统版本一致性检查。</li>
+          <li><strong>工程变更撞上在制：</strong>按未下达、已备料、已开工、已完工分类 → 决定旧版继续、返工、报废或升级 → 保存逐对象结论。</li>
+          <li><strong>固件与硬件不兼容：</strong>烧录前由产品、主板版本、客户区域和固件范围联合校验；不允许操作员凭文件名选择。</li>
+        </ul>
+        <div class="metric-grid">
+          <article class="metric-card"><strong>发布一次通过率</strong><span>制造基线首次评审即可发布的比例</span></article>
+          <article class="metric-card"><strong>变更影响准确率</strong><span>实际受影响对象与分析清单的一致程度</span></article>
+          <article class="metric-card"><strong>错版拦截率</strong><span>上线前被系统阻止的 <abbr title="Bill of Materials｜物料清单">BOM</abbr>/路线/固件错版次数</span></article>
+        </div>
+      </section>
+
+      <section id="check" class="knowledge-section">
+        <p class="section-code">SELF CHECK</p><h2>自测与延伸阅读</h2>
+        <div class="question-grid">
+          <article class="question-card"><h3>问题 1</h3><p><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 转 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 为什么要保存行级来源，而不只保存物料编码？</p></article>
+          <article class="question-card"><h3>问题 2</h3><p>如何保证新路线只对新工单生效，同时仍可复现旧工单？</p></article>
+          <article class="question-card"><h3>问题 3</h3><p>固件防错至少需要哪些元数据和校验步骤？</p></article>
+          <article class="question-card"><h3>验证练习</h3><p>从一个已交付 <abbr title="Serial Number｜序列号">SN</abbr> 还原产品、<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、规格和固件五类历史版本。</p></article>
+        </div>
+        <div class="link-grid">
+          <a class="link-card" href="../modules/routing.html"><h3>工艺模块</h3><p>深入路线、工序门禁、返工路径和版本。</p></a>
+          <a class="link-card" href="../systems/plm.html"><h3><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 边界</h3><p>理解设计主权与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 工单快照。</p></a>
+          <a class="link-card" href="../topics/digital-thread.html"><h3>数字线程</h3><p>把版本定义继续串到单件执行事实。</p></a>
+          <a class="link-card" href="planning.html"><h3>下一阶段：计划排产</h3><p>把制造基线冻结到可执行工单。</p></a>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="page-footer"><div class="page-footer__inner"><a href="sales-demand.html">← 上一阶段：销售需求</a><a href="planning.html">下一阶段：计划排产 →</a></div></footer>
+</body>
+</html>
