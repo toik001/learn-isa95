@@ -101,14 +101,56 @@ function getStageCards() {
     }));
 }
 
-function getSection(cardBody, heading) {
+function getSectionElement(cardBody, heading) {
   const match = cardBody.match(
     new RegExp(
-      `<section[^>]*>\\s*<h4>${heading}</h4>([\\s\\S]*?)</section>`,
+      `<section(?<attributes>[^>]*)>\\s*<h4>${heading}</h4>(?<content>[\\s\\S]*?)</section>`,
     ),
   );
   assert.ok(match, `缺少 ${heading} 内容块`);
-  return match[1];
+  return match.groups;
+}
+
+function getSection(cardBody, heading) {
+  return getSectionElement(cardBody, heading).content;
+}
+
+function visibleText(markup) {
+  return markup
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&(?:#[0-9]+|#x[0-9a-f]+|[a-z][a-z0-9]+);/gi, " ")
+    .replace(/[\s\u00a0\u200b-\u200d\u2060\ufeff]+/g, " ")
+    .trim();
+}
+
+function getVisibleSectionText(cardBody, heading) {
+  const { attributes, content } = getSectionElement(cardBody, heading);
+  assert.doesNotMatch(
+    attributes,
+    /(?:^|\s)hidden(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s]+))?(?=\s|$)/i,
+    `${heading} 内容块不可使用 hidden`,
+  );
+  assert.doesNotMatch(
+    attributes,
+    /\baria-hidden\s*=\s*(?:"true"|'true'|true)(?=\s|$)/i,
+    `${heading} 内容块不可使用 aria-hidden="true"`,
+  );
+
+  const styleMatch = attributes.match(
+    /\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s]+))/i,
+  );
+  const inlineStyle = styleMatch?.[1] ?? styleMatch?.[2] ?? styleMatch?.[3] ?? "";
+  assert.doesNotMatch(
+    inlineStyle,
+    /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:!important)?\s*(?:;|$)/i,
+    `${heading} 内容块不可使用隐藏样式`,
+  );
+
+  const text = visibleText(content);
+  assert.ok(text, `${heading} 必须包含非空可见文本`);
+  return text;
 }
 
 function getCssBlock(source, marker) {
@@ -265,8 +307,11 @@ test("每个阶段保留可执行的完整学习结构", () => {
       /<h4>(?:参考状态机|正交状态向量)<\/h4>/,
       `${expected.key} 缺少状态模型`,
     );
+    assert.ok(
+      getVisibleSectionText(card.body, "关键岗位"),
+      `${expected.key} 关键岗位必须可见且非空`,
+    );
     [
-      "关键岗位",
       "系统边界",
       "典型异常",
       "指标",
