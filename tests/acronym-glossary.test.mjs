@@ -136,3 +136,20 @@ test("两份核心 Markdown 文档都能进入完整缩写词典", async () => {
   assert.match(glossary, /为什么这样命名/);
   assert.match(glossary, /智能锁场景速查/);
 });
+
+test("首页和详情页样式都让悬浮释义固定、可隐藏且不截获鼠标", async () => {
+  for (const name of ["styles.css", "detail.css"]) {
+    const css = await readFile(resolve(root, "assets", name), "utf8");
+    const base = css.match(/\.acronym-tooltip\s*\{([^}]*)\}/)?.[1] ?? "";
+    const hidden = css.match(
+      /\.acronym-tooltip\[hidden\]\s*\{([^}]*)\}/,
+    )?.[1] ?? "";
+    assert.match(base, /position:\s*fixed/);
+    assert.match(base, /pointer-events:\s*none/);
+    assert.match(base, /max-width:/);
+    assert.match(hidden, /display:\s*none/);
+    assert.match(css, /\.acronym-tooltip__english\s*\{/);
+    assert.match(css, /\.acronym-tooltip__chinese\s*\{/);
+    assert.match(css, /\.acronym-tooltip\.is-visible\s*\{/);
+  }
+});

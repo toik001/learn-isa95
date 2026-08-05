@@ -40,6 +40,21 @@ async function detailFiles() {
   return result;
 }
 
+async function assertLocalAcronymTooltipOnly(html, file) {
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  assert.equal(scripts.length, 1, `${file} 只能加载一个 tooltip 增强脚本`);
+  assert.match(
+    scripts[0][1],
+    /\bsrc="\.\.\/\.\.\/assets\/acronym-tooltip\.js"/,
+    `${file} 的 tooltip 脚本路径不正确`,
+  );
+  assert.equal(scripts[0][2].trim(), "", `${file} 不应包含内联脚本`);
+  await assert.doesNotReject(
+    access(resolve(dirname(file), "../../assets/acronym-tooltip.js")),
+    `${file} 的 tooltip 脚本必须是可达本地资源`,
+  );
+}
+
 test("首页链接到全部独立知识分类", async () => {
   const html = await readFile(resolve(root, "index.html"), "utf8");
   assert.match(html, /每个入口都有独立详情页/);
@@ -58,7 +73,7 @@ test("首页链接到全部独立知识分类", async () => {
   }
 });
 
-test("34 个详情页均可独立阅读并使用本地样式", async () => {
+test("34 个详情页均可独立阅读并仅加载本地 tooltip 增强", async () => {
   const files = await detailFiles();
   assert.equal(files.length, 34);
   for (const file of files) {
@@ -67,7 +82,8 @@ test("34 个详情页均可独立阅读并使用本地样式", async () => {
     assert.match(html, /<main id="content" class="content">/);
     assert.match(html, /href="\.\.\/\.\.\/assets\/detail\.css"/);
     assert.match(html, /class="disclaimer"/);
-    assert.doesNotMatch(html, /<script\b/i, `${file} 的核心内容不应依赖 JavaScript`);
+    assert.match(html, /<abbr title="[A-Za-z][^"]+｜[^"]+">/);
+    await assertLocalAcronymTooltipOnly(html, file);
     assert.doesNotMatch(html, /https?:\/\//, `${file} 不应依赖外部资源`);
   }
 });

@@ -39,6 +39,21 @@ const stages = [
   "发货与追溯",
 ];
 
+async function assertLocalAcronymTooltipOnly(html, file, expectedSrc) {
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  assert.equal(scripts.length, 1, `${file} 只能加载一个 tooltip 增强脚本`);
+  assert.match(
+    scripts[0][1],
+    new RegExp(`\\bsrc="${expectedSrc.replaceAll(".", "\\.")}"`),
+    `${file} 的 tooltip 脚本路径不正确`,
+  );
+  assert.equal(scripts[0][2].trim(), "", `${file} 不应包含内联脚本`);
+  await assert.doesNotReject(
+    access(resolve(dirname(file), expectedSrc)),
+    `${file} 的 tooltip 脚本必须是可达本地资源`,
+  );
+}
+
 test("工业自动化体系包含 20 个独立节点页", async () => {
   const names = (await readdir(architectureDirectory))
     .filter((name) => name.endsWith(".html"))
@@ -46,12 +61,14 @@ test("工业自动化体系包含 20 个独立节点页", async () => {
   assert.deepEqual(names, expectedNames);
 });
 
-test("体系总入口链接全部节点并保持无 JavaScript 可读", async () => {
-  const html = await readFile(resolve(root, "architecture.html"), "utf8");
+test("体系总入口链接全部节点并保持静态正文可读", async () => {
+  const file = resolve(root, "architecture.html");
+  const html = await readFile(file, "utf8");
   const visibleText = html.replace(/<[^>]+>/g, "");
   assert.match(visibleText, /ISA-95 · IT\/OT ARCHITECTURE · 20 NODES/);
   assert.match(visibleText, /ISA-95 的 Level 表达活动和信息边界/);
-  assert.doesNotMatch(html, /<script\b/i);
+  assert.match(html, /<abbr title="[A-Za-z][^"]+｜[^"]+">/);
+  await assertLocalAcronymTooltipOnly(html, file, "assets/acronym-tooltip.js");
   const links = [...html.matchAll(/href="(pages\/architecture\/[^"]+\.html)"/g)]
     .map((match) => match[1]);
   assert.equal(new Set(links).size, 20);
@@ -71,7 +88,12 @@ test("节点页具有来源、释义、场景与实现边界", async () => {
     assert.match(html, /https:\/\//, `${name} 缺少官方或权威来源链接`);
     assert.match(html, /SMART LOCK CASE|智能锁/, `${name} 缺少智能锁场景`);
     assert.match(html, /IMPLEMENTATION|JAVA BOUNDARY|Java/, `${name} 缺少实现边界`);
-    assert.doesNotMatch(html, /<script\b/i);
+    assert.match(html, /<abbr title="[A-Za-z][^"]+｜[^"]+">/);
+    await assertLocalAcronymTooltipOnly(
+      html,
+      file,
+      "../../assets/acronym-tooltip.js",
+    );
   }
 });
 
