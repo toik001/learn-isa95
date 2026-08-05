@@ -84,15 +84,30 @@ test("每个学习页面都有一张与主题关联的静态图表", async () =>
   }
 });
 
-test("两套页面样式都提供窄屏和打印图表布局", async () => {
+test("两套页面样式都按图表可用宽度切换布局并保护连接文案", async () => {
   for (const name of ["styles.css", "detail.css"]) {
     const css = await readFile(resolve(root, "assets", name), "utf8");
     assert.match(css, /\.learning-diagram\s*\{/);
-    assert.match(css, /\.learning-diagram__flow\s*\{/);
-    assert.match(css, /grid-template-columns:\s*minmax\(0, 1fr\)/);
     assert.match(
       css,
-      /@media\s*\(max-width:\s*700px\)[\s\S]*?\.learning-diagram__flow[\s\S]*?grid-template-columns:\s*1fr/,
+      /\.learning-diagram\s*\{[\s\S]*?container-type:\s*inline-size/,
+      `${name} 应让图表根据自身宽度响应，而不是依赖整页宽度`,
+    );
+    assert.match(css, /\.learning-diagram__flow\s*\{/);
+    assert.match(
+      css,
+      /grid-template-columns:[\s\S]*?minmax\(7rem, max-content\)/,
+      `${name} 的横向连接列必须容纳最长关系说明`,
+    );
+    assert.match(
+      css,
+      /\.learning-diagram__connector span\s*\{[\s\S]*?white-space:\s*nowrap/,
+      `${name} 不应把关系说明逐字拆行`,
+    );
+    assert.match(
+      css,
+      /@container\s*\(max-width:\s*50rem\)[\s\S]*?\.learning-diagram__flow[\s\S]*?grid-template-columns:\s*1fr/,
+      `${name} 应在图表容器变窄时改用纵向流程`,
     );
     assert.match(
       css,

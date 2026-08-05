@@ -1297,6 +1297,7 @@ summary,
 }
 
 .learning-diagram {
+  container-type: inline-size;
   margin: clamp(2rem, 5vw, 4rem) 0 0;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -1339,8 +1340,8 @@ summary,
 .learning-diagram__flow {
   display: grid;
   grid-template-columns:
-    minmax(0, 1fr) minmax(4.8rem, 0.34fr) minmax(0, 1fr)
-    minmax(4.8rem, 0.34fr) minmax(0, 1fr);
+    minmax(0, 1fr) minmax(7rem, max-content) minmax(0, 1fr)
+    minmax(7rem, max-content) minmax(0, 1fr);
   gap: 0.65rem;
   align-items: stretch;
   padding: 1.1rem 1.25rem;
@@ -1393,7 +1394,7 @@ summary,
   font-size: 0.72rem;
   font-weight: 800;
   line-height: 1.25;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .learning-diagram__connector b {
@@ -1422,7 +1423,7 @@ summary,
   overflow-wrap: anywhere;
 }
 
-@media (max-width: 700px) {
+@container (max-width: 50rem) {
   .learning-diagram__flow {
     grid-template-columns: 1fr;
   }
