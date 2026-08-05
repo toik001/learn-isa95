@@ -18,6 +18,39 @@
   <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
   <main id="content" class="content">
     <div class="disclaimer"><strong>事实边界</strong><span>客户隐私、物流接口、保修起点、召回等级和通知渠道属于企业/法规特定规则；需要法务、质量和售后共同确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/shipping-traceability" aria-labelledby="diagram-pages-stages-shipping-traceability-title" aria-label="发货与追溯 学习图表">
+    <figcaption id="diagram-pages-stages-shipping-traceability-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>从发货履约到售后反向追溯</strong>
+      <p class="learning-diagram__summary">发货建立产品与客户去向的最后一段关系，追溯则沿证据链双向查询。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>发货分配</strong>
+        <span>订单行匹配合格库存、箱码与批次</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="绑定客户去向">
+        <span>绑定客户去向</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>出库交付</strong>
+        <span>复核装运并记录客户、渠道与时间</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="双向检索证据">
+        <span>双向检索证据</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>售后追溯</strong>
+        <span>从 <abbr title="Serial Number｜序列号">SN</abbr> 反查制造谱系，或按批次圈定影响范围</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>订单行 ↔ 箱码 ↔ 整锁 <abbr title="Serial Number｜序列号">SN</abbr> ↔ 关键件批次/固件/测试记录</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
     <section id="position" class="flow-context">
       <article class="flow-card"><p class="fact-label">上游阶段</p><a href="finished-goods.html">07 成品入库</a><p>可展开 <abbr title="Serial Number｜序列号">SN</abbr> 的箱码、库存状态与库位。</p></article>
       <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>08 发货与追溯</strong><p>分配、拣配、复核、交付、售后和召回。</p></article>

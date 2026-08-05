@@ -18,6 +18,39 @@
   <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
   <main id="content" class="content">
     <div class="disclaimer"><strong>事实边界</strong><span>包装层级、混箱规则、入库凭证、线边成品区和库存可售判断需按企业仓储规则确认；本页采用行业通用模型。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/finished-goods" aria-labelledby="diagram-pages-stages-finished-goods-title" aria-label="成品入库 学习图表">
+    <figcaption id="diagram-pages-stages-finished-goods-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>从完工产品到可用库存</strong>
+      <p class="learning-diagram__summary">成品入库需要同时满足生产完工、质量放行、包装完整和仓储接收。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>包装装箱</strong>
+        <span>校验整锁 <abbr title="Serial Number｜序列号">SN</abbr>、附件、标签与箱码</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="聚合逐件身份">
+        <span>聚合逐件身份</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>入库交接</strong>
+        <span>生产移交实物，仓储确认数量与库位</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="完成实物交接">
+        <span>完成实物交接</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>库存可用</strong>
+        <span>更新物流、质量与账务状态向量</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>整锁 <abbr title="Serial Number｜序列号">SN</abbr> → 包装箱码 → 入库单 → 库位/库存状态</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
     <section id="position" class="flow-context">
       <article class="flow-card"><p class="fact-label">上游阶段</p><a href="quality-control.html">06 质量管控</a><p>制造完成且获得独立质量放行的整锁。</p></article>
       <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>07 成品入库</strong><p>包装、装箱、交接、上架与账务回传。</p></article>

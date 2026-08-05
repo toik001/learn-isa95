@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page">Historian</span></nav><p class="page-code">NODE 12 · LEVEL 2 / LEVEL 3</p><h1>Historian：工业过程的时间黑匣子</h1><p class="detail-hero__lead">Historian 高效保存带时间戳和质量码的过程值、状态与事件；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存业务上下文、判定和原始证据定位。</p><div class="hero-meta"><span>典型层级：L2/L3</span><span>主权：时间序列 / 过程证据</span><span>来源等级：A</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">释义</a></li><li><a href="#sample">样本模型</a></li><li><a href="#retention">保留</a></li><li><a href="#case">曲线场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>数据边界</strong><span>原始高频数据、文件和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 摘要的保存位置与期限必须按质量、法规、成本和查询需求确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/historian" aria-labelledby="diagram-pages-architecture-historian-title" aria-label="Historian：工业过程的时间黑匣子 学习图表">
+    <figcaption id="diagram-pages-architecture-historian-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong>Historian 如何保存高频时间序列证据</strong>
+      <p class="learning-diagram__summary">历史数据库面向连续测点、事件和长期趋势，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 只引用与业务相关的结果或索引。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>时间序列采集</strong>
+        <span>测点值、时间戳、质量码和事件</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="可靠记录高频数据">
+        <span>可靠记录高频数据</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>压缩与上下文</strong>
+        <span>死区、聚合、设备/批次/工单关联</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="按业务上下文检索">
+        <span>按业务上下文检索</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>分析与取证</strong>
+        <span>趋势、能耗、故障诊断和原始证据回查</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>标签/设备 + 时间戳 + 质量码 + 批次/<abbr title="Serial Number｜序列号">SN</abbr> 上下文 + 原始索引</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL CONTEXT</p><h2>过程历史与业务履历不同</h2><p><a href="https://csrc.nist.gov/pubs/sp/800/82/r3/final"><abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 架构</a>描述了收集过程信息、支持趋势和后续运营分析的数据历史能力。</p><div class="example"><strong>白话：</strong>Historian 保存“某个测点随时间怎样变化”，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存“为什么对哪把锁做了这次测试、业务结论是什么”。</div></section>
 <section id="sample" class="knowledge-section"><p class="section-code">SAMPLE MODEL</p><h2>数值之外还要保存什么</h2><div class="data-grid"><article class="data-card"><p class="data-label">IDENTITY</p><h3>tag_id</h3><p>点位关联资产、通道和元数据版本。</p></article><article class="data-card"><p class="data-label">TIME</p><h3>双时间戳</h3><p>source_timestamp 与 ingest_timestamp。</p></article><article class="data-card"><p class="data-label">MEANING</p><h3>单位和精度</h3><p>不能让查询者猜测原始量纲。</p></article><article class="data-card"><p class="data-label">TRUST</p><h3>quality</h3><p>Good、Uncertain、Bad 与具体原因。</p></article></div></section>
 <section id="retention" class="knowledge-section"><p class="section-code">RETENTION</p><h2>压缩不能丢掉质量峰值</h2><p>原始高频、分钟聚合、事件片段和质量关键数据采用不同保留策略。扭矩峰值、电流异常等不能被普通均值降采样掩盖。时钟同步和漂移监控是跨系统追溯成立的前提。</p></section>

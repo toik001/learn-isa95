@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>系统边界</span><span>/</span><span aria-current="page"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></span></nav><p class="page-code">SYSTEM 01 · <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></p><h1><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>：经营、计划与账务主线</h1><p class="detail-hero__lead"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 回答客户要什么、企业准备供给什么、库存和成本如何记账；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 回答现场实际如何制造。二者通过受控工单和实绩交接，而不是互相覆盖状态。</p><div class="hero-meta"><span>主权：订单 / 计划 / 财务库存</span><span>下发：需求 / 工单</span><span>接收：消耗 / 完工 / 入库</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#ownership">数据主权</a></li><li><a href="#interfaces">接口</a></li><li><a href="#states">状态映射</a></li><li><a href="#risks">风险</a></li><li><a href="#check">检查</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>待确认</strong><span>具体 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 产品、<abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>/生产订单归属、库存记账粒度和成本接口需按企业现状确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/systems/erp" aria-labelledby="diagram-pages-systems-erp-title" aria-label="ERP：经营、计划与账务主线 学习图表">
+    <figcaption id="diagram-pages-systems-erp-title">
+      <span class="learning-diagram__kind">系统边界图</span>
+      <strong><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 与制造现场如何闭环</strong>
+      <p class="learning-diagram__summary"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 拥有经营和账务主权，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 返回现场实绩而不反向接管经营对象。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>经营需求</strong>
+        <span>订单、计划、采购、成本与库存账</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="下达经营目标">
+        <span>下达经营目标</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>制造接口</strong>
+        <span>工单、物料需求、主数据版本与状态契约</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="更新经营与成本事实">
+        <span>更新经营与成本事实</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>实绩回写</strong>
+        <span>产出、消耗、报废、入库与完工差异</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>订单/工单关联键 + 接口版本 + 幂等键 + 对账状态</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="ownership" class="knowledge-section"><p class="section-code">DATA OWNERSHIP</p><h2><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 主责与复制边界</h2><div class="card-grid"><article class="info-card"><h3>权威数据</h3><p>客户、销售订单、组织、财务物料、<abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>、生产订单、采购供给、库存财务账和成本。</p></article><article class="info-card"><h3>可复制到 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></h3><p>组织/物料摘要、订单引用、工单与版本、计划数量；都应带来源 <abbr title="Identifier｜标识符">ID</abbr>、版本和同步时间。</p></article><article class="info-card"><h3>不应由 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 创造</h3><p>客户承诺、财务库存、采购订单、成本凭证和销售出库账。</p></article><article class="info-card"><h3><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 反馈</h3><p>接单状态、实际领退料、完工/报废、入库请求与现场异常。</p></article></div></section>
 <section id="interfaces" class="knowledge-section"><p class="section-code">INTERFACES</p><h2>关键接口契约</h2><div class="table-wrap"><table><thead><tr><th>方向</th><th>对象</th><th>必须携带</th></tr></thead><tbody><tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>物料/组织/工单</td><td>来源 <abbr title="Identifier｜标识符">ID</abbr>、版本、状态、生效时间、产品制造版本和数量。</td></tr><tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> → <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>领退料/完工/报废</td><td>业务事件 <abbr title="Identifier｜标识符">ID</abbr>、工单、批次、数量、单位、业务时间和冲销引用。</td></tr><tr><th>双向</th><td>状态与对账</td><td>各自状态、最后版本、处理结果、失败码和数据水位。</td></tr></tbody></table></div></section>
 <section id="states" class="knowledge-section"><p class="section-code">STATE MAPPING</p><h2>状态不能直接共用一个枚举</h2><p><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>“已下达”是经营授权，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>“已接收”是现场系统接受；<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>“已完工”可能是汇总过账，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>“单件完工”是逐 <abbr title="Serial Number｜序列号">SN</abbr> 路线事实。应维护显式映射和触发条件，不让任一系统随意写另一方状态。</p></section>

@@ -1,6 +1,10 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  configuredDiagramCount,
+  upsertLearningDiagram,
+} from "./learning-diagrams.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const pagesRoot = resolve(root, "pages");
@@ -208,11 +212,21 @@ const htmlFiles = [
 
 for (const file of htmlFiles) {
   const original = await readFile(file, "utf8");
-  const synchronized = synchronizeExistingAnnotations(original);
+  const relativePath = relative(root, file).replaceAll("\\", "/");
+  const withDiagram = upsertLearningDiagram(original, relativePath);
+  const synchronized = synchronizeExistingAnnotations(withDiagram);
   const withLink = addGlossaryLink(synchronized, file);
   const annotated = annotateVisibleText(withLink);
   const withTooltipScript = addTooltipScript(annotated, file);
   await writeFile(file, withTooltipScript);
 }
 
-console.log(`Annotated ${htmlFiles.length} HTML pages with ${acronyms.size} glossary terms.`);
+if (configuredDiagramCount() !== htmlFiles.length) {
+  throw new Error(
+    `Configured ${configuredDiagramCount()} diagrams for ${htmlFiles.length} learning pages.`,
+  );
+}
+
+console.log(
+  `Annotated ${htmlFiles.length} HTML pages with ${acronyms.size} glossary terms and static learning diagrams.`,
+);

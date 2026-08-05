@@ -33,6 +33,39 @@
       </aside>
       <main id="content" class="content">
         <div class="disclaimer"><strong>口径说明</strong><span><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的 Level 表达活动和信息边界，不是固定产品货架。<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、边缘网关等产品可能同时承载相邻层级活动；本地图标注的是典型范围。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="architecture" aria-labelledby="diagram-architecture-title" aria-label="从 ERP 到传感器：读懂整套制造体系 学习图表">
+    <figcaption id="diagram-architecture-title">
+      <span class="learning-diagram__kind">体系总览</span>
+      <strong>从经营计划下钻到现场控制</strong>
+      <p class="learning-diagram__summary">按 <abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 活动层级理解企业系统、制造运营与设备控制之间的协作边界。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>L4 经营与工程</strong>
+        <span><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>、<abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> 管订单、资源与产品定义</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="下达制造定义">
+        <span>下达制造定义</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>L3 制造运营</strong>
+        <span><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 协调生产、质量、库存与维护</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="反馈状态与实绩">
+        <span>反馈状态与实绩</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>L2—L0 监督与控制</strong>
+        <span><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、设备执行实时控制与采集</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>上层传递目标、版本与约束；下层返回时间、数量、质量、设备和追溯事实</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 
         <section id="framework" class="knowledge-section">
           <p class="section-code">01 · FRAMEWORK & GOVERNANCE</p>

@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page"><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr></span></nav><p class="page-code">NODE 10 · LEVEL 2 / LEVEL 3</p><h1><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>：集中监视与监督现场</h1><p class="detail-hero__lead"><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 汇集状态、报警和趋势，让操作者在授权范围内监督控制；实时联锁仍由控制器和安全系统负责。</p><div class="hero-meta"><span>典型层级：L2/L3</span><span>主权：点位 / 报警 / 趋势</span><span>来源等级：A</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">定义</a></li><li><a href="#models">模型</a></li><li><a href="#commands">命令</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>跨层说明</strong><span>设备/产线监督通常靠近 L2，站点级汇总、分析和运营协同可进入 L3；不要按产品名称机械归层。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/scada" aria-labelledby="diagram-pages-architecture-scada-title" aria-label="SCADA：集中监视与监督现场 学习图表">
+    <figcaption id="diagram-pages-architecture-scada-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 如何实现集中监督与采集</strong>
+      <p class="learning-diagram__summary"><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 汇总设备状态、报警和趋势，并提供受控的监督操作，不替代 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 实时逻辑。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>数据采集</strong>
+        <span>连接 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>/<abbr title="Remote Terminal Unit｜远程终端单元">RTU</abbr>，读取状态、测点和事件</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="统一时间与标签">
+        <span>统一时间与标签</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>监督视图</strong>
+        <span>画面、报警、趋势、报表和操作权限</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="受控上送/下发">
+        <span>受控上送/下发</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>运营接口</strong>
+        <span>向 Historian/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 提供上下文和关键事件</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>点位模型 + 时间戳 + 质量码 + 报警确认 + 操作审计</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL EXPLANATION</p><h2><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 在 <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 中做什么</h2><p><a href="https://csrc.nist.gov/pubs/sp/800/82/r3/final"><abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> <abbr title="Special Publication｜特别出版物">SP</abbr> 800-82 Rev.3</a>把 <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 纳入工业控制系统范畴，典型能力是集中采集远端状态、展示、报警、趋势和监督控制。</p><div class="example"><strong>白话：</strong><abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> 是现场集中驾驶台，不是生产订单和 <abbr title="Serial Number｜序列号">SN</abbr> 谱系系统。</div></section>
 <section id="models" class="knowledge-section"><p class="section-code">DATA MODELS</p><h2>点位与报警必须有语义</h2><div class="card-grid"><article class="info-card"><h3>点位</h3><p>资产、数据类型、单位、量程、质量码、时间戳和采集策略。</p></article><article class="info-card"><h3>报警</h3><p>条件、等级、延迟、抑制、确认、恢复、责任区域和首次故障。</p></article></div></section>
 <section id="commands" class="knowledge-section"><p class="section-code">SUPERVISORY COMMAND</p><h2>“点了按钮”不是动作完成</h2><ul class="state-flow"><li>已请求</li><li>已接收</li><li>控制器已确认</li><li>动作中</li><li>完成/拒绝/失败</li></ul><p>启停和模式切换仍需当前状态、权限、设备条件和控制器反馈。</p></section>

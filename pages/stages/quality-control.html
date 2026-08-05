@@ -18,6 +18,39 @@
   <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
   <main id="content" class="content">
     <div class="disclaimer"><strong>事实边界</strong><span>抽样标准、<abbr title="Acceptance Quality Limit｜接收质量限">AQL</abbr>、功能阈值、审批人和特采规则必须来自企业质量体系；示例数值和状态仅用于建模学习。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/quality-control" aria-labelledby="diagram-pages-stages-quality-control-title" aria-label="质量管控 学习图表">
+    <figcaption id="diagram-pages-stages-quality-control-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>从检验触发到质量放行</strong>
+      <p class="learning-diagram__summary">检验结果只是事实，隔离、处置、复验和放行共同构成质量闭环。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>检验触发</strong>
+        <span>来料、过程、完工或出货生成检验任务</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="按版本化规则检验">
+        <span>按版本化规则检验</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>判定与处置</strong>
+        <span>记录实测值，隔离不合格并评审 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr></span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="关闭质量门禁">
+        <span>关闭质量门禁</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>复验与放行</strong>
+        <span>验证处置结果并独立批准可用状态</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>检验任务 → 样本/<abbr title="Serial Number｜序列号">SN</abbr> → 实测值 → <abbr title="Nonconformance Report｜不符合报告">NCR</abbr>/处置 → 放行记录</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
     <section id="position" class="flow-context">
       <article class="flow-card"><p class="fact-label">主要输入</p><a href="production-execution.html">05 生产执行</a><p>制造完成、过程测试与异常证据。</p></article>
       <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>06 质量管控</strong><p>检验、冻结、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、复验与放行。</p></article>

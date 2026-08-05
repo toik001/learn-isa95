@@ -9,6 +9,39 @@
 <aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">八阶段落点</a></li><li><a href="#model">对象与状态</a></li><li><a href="#control">业务控制</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>
 <main id="content" class="content">
 <div class="disclaimer"><strong>待确认</strong><span>工单主责在 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 还是 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>、工单编码、下达审批、超产容差和结清规则需按企业系统现状确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/modules/work-order" aria-labelledby="diagram-pages-modules-work-order-title" aria-label="工单模块 学习图表">
+    <figcaption id="diagram-pages-modules-work-order-title">
+      <span class="learning-diagram__kind">模块关系图</span>
+      <strong>工单如何承接需求并授权执行</strong>
+      <p class="learning-diagram__summary">工单连接经营需求与现场实绩，但必须冻结明确的制造范围。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>来源需求</strong>
+        <span>订单行、预测补库与数量分配</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="创建并下达">
+        <span>创建并下达</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>生产工单</strong>
+        <span>产品版本、基线、数量、资源与状态</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="持续回写">
+        <span>持续回写</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>执行实绩</strong>
+        <span>开工、产出、报废、完工与结清</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>来源 <abbr title="Identifier｜标识符">ID</abbr> + 工单 <abbr title="Identifier｜标识符">ID</abbr> + 版本 + 状态迁移记录</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="map" class="knowledge-section"><p class="section-code">END-TO-END MAP</p><h2>工单在八阶段中的落点</h2>
 <div class="table-wrap"><table><thead><tr><th>阶段</th><th>工单能力</th><th>关键交接</th></tr></thead><tbody>
 <tr><th><a href="../stages/sales-demand.html">销售需求</a></th><td>订单行形成制造需求，建立需求分配</td><td>订单行、分配数量、交期和配置版本。</td></tr>

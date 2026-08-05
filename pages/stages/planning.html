@@ -18,6 +18,39 @@
   <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
   <main id="content" class="content">
     <div class="disclaimer"><strong>事实边界</strong><span><abbr title="Master Production Schedule｜主生产计划">MPS</abbr>/<abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr>/<abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 的归属、冻结窗口、优先级算法和人工调整权限因企业而异；本页状态与字段是参考设计。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/planning" aria-labelledby="diagram-pages-stages-planning-title" aria-label="计划排产 学习图表">
+    <figcaption id="diagram-pages-stages-planning-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>从需求与约束到可执行计划</strong>
+      <p class="learning-diagram__summary">排产不是只排日期，而是同时满足物料、产能、人员、设备与换型约束。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>需求汇总</strong>
+        <span>订单、预测、库存目标与优先级</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="计算净需求">
+        <span>计算净需求</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>约束排程</strong>
+        <span>物料齐套、产能日历与换型窗口</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="冻结执行窗口">
+        <span>冻结执行窗口</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>工单下达</strong>
+        <span>形成产品版本、数量、资源与计划时间</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>需求来源 → 计划批次 → 生产工单 → 资源与时间窗口</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
     <section id="position" class="flow-context">
       <article class="flow-card"><p class="fact-label">上游阶段</p><a href="engineering-preparation.html">02 产品与工艺准备</a><p>可生产的 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验与固件版本。</p></article>
       <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>03 计划排产</strong><p>形成工单、工序计划和资源时序。</p></article>

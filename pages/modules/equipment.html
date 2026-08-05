@@ -6,6 +6,39 @@
 <header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>业务模块</span><span>/</span><span aria-current="page">设备</span></nav><p class="page-code">MODULE 04 · EQUIPMENT</p><h1>设备模块</h1><p class="detail-hero__lead">把设备能力、校准、程序配方和测试会话接入业务上下文，让设备数据能够证明“哪台设备按哪个程序为哪把锁执行了什么”。</p><div class="hero-meta"><span>主线：能力 → 可用性 → 执行 → 采集 → 维护</span><span>聚合：设备 / 测试会话</span><span>高风险：错程序 / 数据丢失</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">八阶段落点</a></li><li><a href="#model">对象模型</a></li><li><a href="#session">采集会话</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>
 <main id="content" class="content"><div class="disclaimer"><strong>待确认</strong><span><abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>/<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>/IoT 平台架构、协议、采样频率、原始数据保留期和 <abbr title="Overall Equipment Effectiveness｜设备综合效率">OEE</abbr> 停机口径需现场确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/modules/equipment" aria-labelledby="diagram-pages-modules-equipment-title" aria-label="设备模块 学习图表">
+    <figcaption id="diagram-pages-modules-equipment-title">
+      <span class="learning-diagram__kind">模块关系图</span>
+      <strong>设备模块如何形成业务证据</strong>
+      <p class="learning-diagram__summary">设备高频数据不直接等于 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 事实，需要受控程序和一次设备会话。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>能力与程序</strong>
+        <span>设备状态、校准、配方和版本就绪</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="下发业务上下文">
+        <span>下发业务上下文</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>设备会话</strong>
+        <span>关联工位、工单、<abbr title="Serial Number｜序列号">SN</abbr> 并执行采集</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="返回可判定结果">
+        <span>返回可判定结果</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>结果证据</strong>
+        <span>保存结果、关键参数、原始索引与异常</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>设备 <abbr title="Identifier｜标识符">ID</abbr> + 程序版本 + 会话 <abbr title="Identifier｜标识符">ID</abbr> + <abbr title="Serial Number｜序列号">SN</abbr> + 原始数据索引</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="map" class="knowledge-section"><p class="section-code">END-TO-END MAP</p><h2>设备在八阶段中的落点</h2><div class="table-wrap"><table><thead><tr><th>阶段</th><th>能力</th><th>输出</th></tr></thead><tbody><tr><th><a href="../stages/engineering-preparation.html">产品与工艺准备</a></th><td>设备能力、程序/配方、参数范围和适用产品</td><td>受控程序版本。</td></tr><tr><th><a href="../stages/planning.html">计划排产</a></th><td>设备日历、维护窗口、能力与瓶颈</td><td>资源可用时段。</td></tr><tr><th><a href="../stages/production-execution.html">生产执行</a></th><td>身份下发、烧录、扭矩、功能测试和采集</td><td>测试会话与业务判定。</td></tr><tr><th><a href="../stages/quality-control.html">质量管控</a></th><td>校准门禁、原始测量、报警影响范围</td><td>规格判定与风险对象。</td></tr></tbody></table></div></section>
 <section id="model" class="knowledge-section"><p class="section-code">DOMAIN MODEL</p><h2>设备不是一串 <abbr title="Internet Protocol｜网际协议">IP</abbr> 地址</h2><div class="data-grid"><article class="data-card"><p class="data-label">Equipment</p><h3>设备资产</h3><p>编码、类型、产线/工位、能力、协议端点、状态、校准和维护策略。</p></article><article class="data-card"><p class="data-label">ProgramRecipe</p><h3>程序配方</h3><p>版本、文件哈希、参数、适用产品/硬件、生效范围、批准和下发状态。</p></article><article class="data-card"><p class="data-label">EquipmentState</p><h3>状态事件</h3><p>运行、待机、故障、维护、离线的开始结束、原因和来源质量。</p></article><article class="data-card"><p class="data-label">TestSession</p><h3>业务会话</h3><p>会话 <abbr title="Identifier｜标识符">ID</abbr>、<abbr title="Serial Number｜序列号">SN</abbr>、工序、设备、程序、开始结束、原始数据、结果和序号。</p></article></div></section>
 <section id="session" class="knowledge-section"><p class="section-code">DATA ACQUISITION</p><h2>设备采集必须先绑定业务会话</h2><ol class="step-flow"><li><strong><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 创建会话</strong><p>下发 <abbr title="Serial Number｜序列号">SN</abbr>、工序、配方 <abbr title="Identifier｜标识符">ID</abbr> 和期望参数范围。</p></li><li><strong>设备确认上下文</strong><p>回报设备身份、实际程序和会话接受结果，错版直接拒绝。</p></li><li><strong>采集与判定</strong><p>高频数据留在设备平台；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存摘要、业务结果和原始数据索引。</p></li><li><strong>可靠上传</strong><p>按会话 <abbr title="Identifier｜标识符">ID</abbr> 与结果序号重发，服务端防重、排序并识别缺口。</p></li><li><strong>异常闭环</strong><p>超时保持待确认；禁止把“未收到”自动判为 <abbr title="English word, not an acronym｜失败">FAIL</abbr> 或 <abbr title="English word, not an acronym｜通过">PASS</abbr>。</p></li></ol></section>

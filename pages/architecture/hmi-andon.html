@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page"><abbr title="Human-Machine Interface｜人机界面">HMI</abbr>/Andon</span></nav><p class="page-code">NODE 11 · LEVEL 1—LEVEL 3</p><h1><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> / Andon：操作窗口与异常呼叫</h1><p class="detail-hero__lead"><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 让操作者观察设备并执行授权操作；Andon 让缺料、质量、设备和安全异常被看见、受理、升级和关闭。</p><div class="hero-meta"><span>典型层级：L1—L3</span><span>主权：交互 / 呼叫事件</span><span>来源等级：A/C</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">释义</a></li><li><a href="#design">界面设计</a></li><li><a href="#andon">Andon 状态</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 边界</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>安全边界</strong><span>网页或普通 <abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 的按钮不能代替安全功能；任何控制请求仍须由控制器校验状态与联锁。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/hmi-andon" aria-labelledby="diagram-pages-architecture-hmi-andon-title" aria-label="HMI / Andon：操作窗口与异常呼叫 学习图表">
+    <figcaption id="diagram-pages-architecture-hmi-andon-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 与 Andon 如何帮助现场响应</strong>
+      <p class="learning-diagram__summary"><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 服务设备操作，Andon 把异常呼叫扩展到班组与支持岗位。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>设备反馈</strong>
+        <span>模式、状态、参数、报警与互锁原因</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="把机器状态可视化">
+        <span>把机器状态可视化</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>人员交互</strong>
+        <span>受权操作、确认、指导和原因选择</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="把异常送到责任人">
+        <span>把异常送到责任人</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>异常升级</strong>
+        <span>Andon 呼叫、响应、处置、恢复与统计</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>工位/设备 + 报警码 + 呼叫原因 + 响应人 + 恢复时间</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL CONTEXT</p><h2>两个概念分别解决什么</h2><p><a href="https://csrc.nist.gov/pubs/sp/800/82/r3/final"><abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 指南</a>中的 <abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 是操作者观察过程状态并与控制系统交互的界面。Andon 在本页作为可视化异常呼叫与响应机制解释。</p><div class="example"><strong>白话：</strong><abbr title="Human-Machine Interface｜人机界面">HMI</abbr> 回答“设备现在怎样、我能做什么”；Andon 回答“哪里需要谁来支援、多久响应、是否真正恢复”。</div></section>
 <section id="design" class="knowledge-section"><p class="section-code">INTERACTION DESIGN</p><h2>操作界面的四条底线</h2><ul class="topic-list"><li>首页优先模式、安全、关键状态和首要报警</li><li>手动动作显示前置条件与拒绝原因</li><li>报警可确认、可抑制但不可无痕删除</li><li>维护画面与生产操作分权</li><li>危险动作需要明确目标与二次确认</li><li>颜色不是唯一状态表达方式</li></ul></section>
 <section id="andon" class="knowledge-section"><p class="section-code">ANDON STATE</p><h2>复位不等于异常关闭</h2><ul class="state-flow"><li>已创建</li><li>已受理</li><li>响应中</li><li>物理恢复</li><li>业务确认</li><li>关闭</li></ul><p>事件应记录类型、工位、工单、<abbr title="Serial Number｜序列号">SN</abbr>、响应人、首次响应时间、恢复时间和原因。</p></section>

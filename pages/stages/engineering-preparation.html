@@ -23,6 +23,39 @@
     </ol></aside>
     <main id="content" class="content">
       <div class="disclaimer"><strong>事实边界</strong><span><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>/<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 转换、固件审批、试制放行和工程变更责任在不同企业差异很大；本页为通用模型，具体规则待确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/engineering-preparation" aria-labelledby="diagram-pages-stages-engineering-preparation-title" aria-label="产品与工艺准备 学习图表">
+    <figcaption id="diagram-pages-stages-engineering-preparation-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>把设计定义转换为制造基线</strong>
+      <p class="learning-diagram__summary">产品、工艺、质量和固件必须作为兼容的一套版本发布。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>产品版本</strong>
+        <span><abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>、图纸、硬件与固件定义</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="转换制造视角">
+        <span>转换制造视角</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>制造转换</strong>
+        <span><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、参数与检验方案</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="验证后批准">
+        <span>验证后批准</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>受控发布</strong>
+        <span>批准制造基线并供工单冻结快照</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>产品版本 → <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>/路线/检验/固件组合 → 工单基线快照</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
       <section id="position" class="flow-context">
         <article class="flow-card"><p class="fact-label">上游阶段</p><a href="sales-demand.html">01 销售需求</a><p>已确认的型号、配置、数量和交期。</p></article>
         <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>02 产品与工艺准备</strong><p>发布产品、物料、路线、检验和固件基线。</p></article>

@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page">现场设备</span></nav><p class="page-code">NODE 17 · LEVEL 1</p><h1>传感器、执行器与驱动：连接物理世界</h1><p class="detail-hero__lead">传感器把物理状态变成可信信号，执行器把命令变成动作，驱动器把速度、位置或扭矩目标变成电机控制。</p><div class="hero-meta"><span>典型层级：L1</span><span>主权：信号 / 动作反馈</span><span>来源等级：A</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">层级释义</a></li><li><a href="#signals">信号模型</a></li><li><a href="#actions">动作模型</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 边界</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>物理边界</strong><span>元件选型、接线、滤波、失效模式和性能参数属于自动化/电气设计，必须依据实际机器与风险确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/field-devices" aria-labelledby="diagram-pages-architecture-field-devices-title" aria-label="传感器、执行器与驱动：连接物理世界 学习图表">
+    <figcaption id="diagram-pages-architecture-field-devices-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong>现场设备如何把物理过程变成信号</strong>
+      <p class="learning-diagram__summary">传感器感知状态，执行器改变过程，<abbr title="Input / Output｜输入/输出">I/O</abbr> 与现场总线把两者连接到控制器。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>感知与执行</strong>
+        <span>传感器、开关、阀、电机、驱动与仪表</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="转换物理量">
+        <span>转换物理量</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>信号与网络</strong>
+        <span>离散/模拟 <abbr title="Input / Output｜输入/输出">I/O</abbr>、编码器和现场总线</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="驱动现场动作">
+        <span>驱动现场动作</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>控制器语义</strong>
+        <span><abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>/控制器映射点位、诊断和设备状态</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>设备位号 + 点位地址 + 工程单位 + 量程/质量 + 诊断状态</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code"><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> LEVEL 1</p><h2>感知和操纵过程</h2><p><a href="https://www.isa.org/standards-and-publications/isa-standards/isa-95-standard"><abbr title="International Society of Automation｜国际自动化协会">ISA</abbr> 官方的 L1 活动</a>是感知和操纵生产过程；<abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> 则将传感器、执行器和控制设备视为 <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 与物理环境交互的基础。</p><div class="example"><strong>白话：</strong>上层所有数据最终都要落到“实际测到了什么、真的动了吗”，否则只是软件自说自话。</div></section>
 <section id="signals" class="knowledge-section"><p class="section-code">SIGNAL MODEL</p><h2>一个数值不够</h2><div class="card-grid"><article class="info-card"><h3>身份与量纲</h3><p>资产、通道、类型、单位、量程、精度和刷新率。</p></article><article class="info-card"><h3>质量与诊断</h3><p>Good/Uncertain/Bad、断线、超量程和校准过期。</p></article></div><p>原始整数要经过明确缩放转成工程单位，禁止上层猜测 `32767` 是温度、位置还是故障值。</p></section>
 <section id="actions" class="knowledge-section"><p class="section-code">ACTION MODEL</p><h2>输出与反馈必须闭环</h2><p>执行器要定义失电/失气默认状态、动作超时和到位反馈。“夹紧命令为 1”不代表夹具已经夹紧；反馈不到位时控制器应停止顺序并报警。</p></section>

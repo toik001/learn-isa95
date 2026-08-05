@@ -6,6 +6,39 @@
 <header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>业务模块</span><span>/</span><span aria-current="page">物料</span></nav><p class="page-code">MODULE 03 · MATERIAL</p><h1>物料模块</h1><p class="detail-hero__lead">从 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 的“应该用什么”，走到仓库的“实际发了什么”和单件的“最终装了什么”，并保持数量、批次与替代证据完整。</p><div class="hero-meta"><span>主线：需求 → 分配 → 领料 → 投料 → 退补料</span><span>聚合：工单物料需求</span><span>高风险：错料 / 超领 / 替代</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">八阶段落点</a></li><li><a href="#facts">四类事实</a></li><li><a href="#trace">追溯粒度</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>
 <main id="content" class="content"><div class="disclaimer"><strong>待确认</strong><span>线边库权威系统、倒冲策略、替代审批、超领容差和关键件清单需企业确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/modules/material" aria-labelledby="diagram-pages-modules-material-title" aria-label="物料模块 学习图表">
+    <figcaption id="diagram-pages-modules-material-title">
+      <span class="learning-diagram__kind">模块关系图</span>
+      <strong>物料模块如何连接需求与实耗</strong>
+      <p class="learning-diagram__summary">账面需求、仓内实物和工位实际投料必须通过批次与容器关系闭环。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 需求</strong>
+        <span>用量、损耗、替代组与投料工序</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="分配可用批次">
+        <span>分配可用批次</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>批次作业</strong>
+        <span>拣料、配送、退补料与状态校验</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="反馈实耗差异">
+        <span>反馈实耗差异</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>实际消耗</strong>
+        <span>绑定工单/<abbr title="Serial Number｜序列号">SN</abbr>，记录数量和批次谱系</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 行 ↔ 物料批次/<abbr title="License Plate Number｜物流容器标识号">LPN</abbr> ↔ 工单/<abbr title="Serial Number｜序列号">SN</abbr> 消耗记录</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="map" class="knowledge-section"><p class="section-code">END-TO-END MAP</p><h2>物料在八阶段中的落点</h2><div class="table-wrap"><table><thead><tr><th>阶段</th><th>物料主题</th><th>核心证据</th></tr></thead><tbody><tr><th><a href="../stages/engineering-preparation.html">产品与工艺准备</a></th><td><abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、投料点、替代组和追溯粒度</td><td>制造版本与 <abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr> 来源。</td></tr><tr><th><a href="../stages/planning.html">计划排产</a></th><td><abbr title="Material Requirements Planning｜物料需求计划">MRP</abbr> 展开和物料可用日</td><td>净需求与供给约束。</td></tr><tr><th><a href="../stages/material-kitting.html">物料齐套</a></th><td>库存分配、拣配、配送、接收</td><td>批次、容器、库位与数量。</td></tr><tr><th><a href="../stages/production-execution.html">生产执行</a></th><td>投料、消耗、关键件绑定、换件</td><td>工序与整锁 <abbr title="Serial Number｜序列号">SN</abbr> 关系。</td></tr><tr><th><a href="../stages/finished-goods.html">成品入库</a></th><td>领退料与完工数量对账</td><td>投入、产出、报废和余料。</td></tr></tbody></table></div></section>
 <section id="facts" class="knowledge-section"><p class="section-code">FACT MODEL</p><h2>不要混淆四类物料事实</h2><div class="card-grid"><article class="info-card"><h3>需求</h3><p>某工单按 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 应该在某工序消耗什么、多少。</p></article><article class="info-card"><h3>分配</h3><p>某库存单元的数量为某需求暂时保留，尚未移动。</p></article><article class="info-card"><h3>领料 / 移动</h3><p>实物从仓库到线边，库存位置与责任发生变化。</p></article><article class="info-card"><h3>投料 / 绑定</h3><p>物料实际被某工序、工单或整锁 <abbr title="Serial Number｜序列号">SN</abbr> 消耗和使用。</p></article></div><p>退料必须引用原领料/投料与原批次；补料必须说明原缺口或换件原因；倒冲适合低价值稳定耗用，不能替代关键件逐件绑定。</p></section>
 <section id="trace" class="knowledge-section"><p class="section-code">TRACEABILITY</p><h2>按风险选择追溯粒度</h2><div class="table-wrap"><table><thead><tr><th>粒度</th><th>智能锁对象</th><th>控制</th></tr></thead><tbody><tr><th>数量</th><td>螺钉、胶、包装辅料</td><td>批次 + 数量，关注损耗和超领。</td></tr><tr><th>批次</th><td>锁体、电池、塑胶结构件</td><td>供应商批次映射、质量状态和有效期。</td></tr><tr><th><abbr title="Serial Number｜序列号">SN</abbr></th><td>主板、指纹模组、电机</td><td>唯一有效绑定、换件历史和防重复。</td></tr></tbody></table></div></section>

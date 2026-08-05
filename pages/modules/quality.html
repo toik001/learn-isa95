@@ -6,6 +6,39 @@
 <header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>业务模块</span><span>/</span><span aria-current="page">质量</span></nav><p class="page-code">MODULE 05 · QUALITY</p><h1>质量模块</h1><p class="detail-hero__lead">将质量标准、样本、实测值、不合格、风险范围、处置和放行串成证据链，并把质量状态作为独立门禁传播到生产与仓储。</p><div class="hero-meta"><span>主线：计划 → 检验 → 隔离 → 处置 → 放行</span><span>聚合：质量事件 / <abbr title="Nonconformance Report｜不符合报告">NCR</abbr></span><span>高风险：改判 / 特采 / 放行</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">八阶段落点</a></li><li><a href="#loop">质量闭环</a></li><li><a href="#states">正交状态</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>
 <main id="content" class="content"><div class="disclaimer"><strong>待确认</strong><span>检验类型、抽样标准、<abbr title="Acceptance Quality Limit｜接收质量限">AQL</abbr>、审批矩阵和 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 流程必须以企业质量体系为准。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/modules/quality" aria-labelledby="diagram-pages-modules-quality-title" aria-label="质量模块 学习图表">
+    <figcaption id="diagram-pages-modules-quality-title">
+      <span class="learning-diagram__kind">模块关系图</span>
+      <strong>质量模块如何关闭不合格闭环</strong>
+      <p class="learning-diagram__summary">规则、任务、结果、隔离和放行是不同对象，不能用一个状态字段代替。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>检验规则</strong>
+        <span>项目、规格、抽样、版本与生效范围</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="生成任务并判定">
+        <span>生成任务并判定</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>检验与 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr></strong>
+        <span>采集实测值并冻结不符合对象</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="验证处置有效">
+        <span>验证处置有效</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>处置与放行</strong>
+        <span>返工/报废/让步、复验和批准</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>规则版本 → 检验任务 → 结果 → <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> → 处置/复验/放行</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="map" class="knowledge-section"><p class="section-code">END-TO-END MAP</p><h2>质量在八阶段中的落点</h2><div class="table-wrap"><table><thead><tr><th>阶段</th><th>质量主题</th><th>门禁对象</th></tr></thead><tbody><tr><th><a href="../stages/sales-demand.html">销售需求</a></th><td>客户质量/法规/批次要求</td><td>配置与交付承诺。</td></tr><tr><th><a href="../stages/engineering-preparation.html">产品与工艺准备</a></th><td>检验方案、规格和控制计划</td><td>制造基线发布。</td></tr><tr><th><a href="../stages/material-kitting.html">物料齐套</a></th><td>来料质量状态与冻结</td><td>库存分配和投料。</td></tr><tr><th><a href="../stages/production-execution.html">生产执行</a></th><td>首件、巡检、过程/功能测试</td><td>过站、返工和完工。</td></tr><tr><th><a href="../stages/finished-goods.html">成品入库</a></th><td>成品放行和库存冻结</td><td>包装、入库和可用性。</td></tr><tr><th><a href="../stages/shipping-traceability.html">发货与追溯</a></th><td>出货检验、客诉、召回与 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr></td><td>出库、客户风险行动。</td></tr></tbody></table></div></section>
 <section id="loop" class="knowledge-section"><p class="section-code">CLOSED LOOP</p><h2>质量闭环的七个证据点</h2><ol class="step-flow"><li><strong>标准</strong><p>规格、方法、抽样和版本明确。</p></li><li><strong>样本</strong><p>可定位到批次、<abbr title="Serial Number｜序列号">SN</abbr>、工序或出货批。</p></li><li><strong>结果</strong><p>原始值、单位、量具、时间和判定完整。</p></li><li><strong>范围</strong><p>不合格影响对象形成可审计快照。</p></li><li><strong>处置</strong><p>决定、批准、任务和数量一致。</p></li><li><strong>复验</strong><p>引用原 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 与处置证据，不覆盖原失败。</p></li><li><strong>效果</strong><p>趋势和 <abbr title="Corrective and Preventive Action｜纠正和预防措施">CAPA</abbr> 验证风险是否真正下降。</p></li></ol></section>
 <section id="states" class="knowledge-section"><p class="section-code">STATE VECTOR</p><h2>制造、质量、库存三类状态分离</h2><div class="card-grid card-grid--3"><article class="info-card"><h3>制造状态</h3><p>待开工、加工中、已完工，回答产品做到了哪一步。</p></article><article class="info-card"><h3>质量状态</h3><p>待检、合格、冻结、特采、报废，回答能否继续流转。</p></article><article class="info-card"><h3>库存状态</h3><p>待接收、可用、已分配、隔离、出库，回答实物在哪里及如何使用。</p></article></div></section>

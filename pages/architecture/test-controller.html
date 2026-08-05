@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page">测试控制器/<abbr title="Industrial PC｜工业计算机/工控机">IPC</abbr></span></nav><p class="page-code">NODE 16 · LEVEL 1 / LEVEL 2</p><h1>测试控制器 / <abbr title="Industrial PC｜工业计算机/工控机">IPC</abbr>：把测量编成一次可追溯测试</h1><p class="detail-hero__lead">工业 <abbr title="Personal Computer｜个人计算机">PC</abbr> 或专用控制器调用仪器、通信适配器和夹具，按受控计划执行步骤并保留原始证据；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 决定业务授权和过站。</p><div class="hero-meta"><span>典型层级：L1/L2</span><span>主权：测试执行 / 原始测量</span><span>来源等级：A/C</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#definition">定位</a></li><li><a href="#plan">测试计划</a></li><li><a href="#states">会话状态</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>教学节点</strong><span>“测试控制器/<abbr title="Industrial PC｜工业计算机/工控机">IPC</abbr>”是依据 <abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 架构和离散制造实践形成的节点，不是 <abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 强制产品名称；实际可由 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Industrial PC｜工业计算机/工控机">IPC</abbr> 或专机共同承担。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/test-controller" aria-labelledby="diagram-pages-architecture-test-controller-title" aria-label="测试控制器 / IPC：把测量编成一次可追溯测试 学习图表">
+    <figcaption id="diagram-pages-architecture-test-controller-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong>测试控制器如何形成一次可追溯测试</strong>
+      <p class="learning-diagram__summary">测试控制器编排仪器和夹具，保存原始测量，并向 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 返回一次会话结果。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>测试计划</strong>
+        <span>产品/<abbr title="Serial Number｜序列号">SN</abbr>、步骤、规格、程序与仪器校准</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="加载受控配方">
+        <span>加载受控配方</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>测量执行</strong>
+        <span>控制夹具仪器，采集原始值和步骤状态</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="原子提交结果">
+        <span>原子提交结果</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>会话结果</strong>
+        <span><abbr title="English word, not an acronym｜通过">PASS</abbr>/<abbr title="English word, not an acronym｜失败">FAIL</abbr>、关键值、异常和原始文件索引</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>测试会话 <abbr title="Identifier｜标识符">ID</abbr> + <abbr title="Serial Number｜序列号">SN</abbr> + 程序/规格版本 + 仪器 + 原始证据</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="definition" class="knowledge-section"><p class="section-code">ARCHITECTURE ROLE</p><h2>为什么它不应只是一个 <abbr title="English word, not an acronym｜通过">PASS</abbr> 接口</h2><p><a href="https://csrc.nist.gov/pubs/sp/800/82/r3/final"><abbr title="National Institute of Standards and Technology｜美国国家标准与技术研究院">NIST</abbr> <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 指南</a>说明 <abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 控制和监视物理过程。复杂测试还需把电源、万用表、相机、无线通信与夹具组织成可重复步骤。</p><div class="example"><strong>白话：</strong>测试控制器证明“仪器按哪个计划测到了什么”；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 证明“这次测试是否被授权并可让这把锁过站”。</div></section>
 <section id="plan" class="knowledge-section"><p class="section-code">TEST PLAN</p><h2>可重现测试的最小快照</h2><div class="data-grid"><article class="data-card"><p class="data-label">PLAN</p><h3><abbr title="Identifier｜标识符">ID</abbr> / 版本 / 哈希</h3><p>步骤、激励、等待、采样、限值和失败策略。</p></article><article class="data-card"><p class="data-label">RUNTIME</p><h3>软件与驱动</h3><p>测试程序、驱动、工装和操作系统版本。</p></article><article class="data-card"><p class="data-label">INSTRUMENT</p><h3>仪器与校准</h3><p>设备序列号、通道、量程和校准有效性。</p></article><article class="data-card"><p class="data-label">EVIDENCE</p><h3>原始数据</h3><p>文件位置、摘要算法、哈希和签名。</p></article></div></section>
 <section id="states" class="knowledge-section"><p class="section-code">SESSION STATE</p><h2>产品失败、设备故障、结果未知分开</h2><ul class="state-flow"><li>已创建</li><li>设备自检</li><li>已接受</li><li>执行中</li><li>待上传</li><li>已上传</li><li><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 已确认</li></ul><p>仪器自检失败属于设备故障；通信中断可能是结果未知；测量越限才是产品不合格。</p></section>

@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page">机器人与运动控制</span></nav><p class="page-code">NODE 15 · LEVEL 1 / LEVEL 2</p><h1>机器人与运动控制：精确地动</h1><p class="detail-hero__lead">控制器管理坐标、轨迹、速度、工具、轴同步和动作程序；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 管为什么为哪个工单和 <abbr title="Serial Number｜序列号">SN</abbr> 执行，不生成临时危险轨迹。</p><div class="hero-meta"><span>典型层级：L1/L2</span><span>主权：轨迹 / 运动程序 / 循环</span><span>来源等级：A</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">安全标准</a></li><li><a href="#objects">对象状态</a></li><li><a href="#interface">接口</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>安全范围</strong><span>机器人本体安全与机器人应用集成安全不是一回事；围栏、协作、工具和工装须做应用级风险评估。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/robot-motion" aria-labelledby="diagram-pages-architecture-robot-motion-title" aria-label="机器人与运动控制：精确地动 学习图表">
+    <figcaption id="diagram-pages-architecture-robot-motion-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong>机器人与运动控制如何执行精确动作</strong>
+      <p class="learning-diagram__summary">运动系统把工艺任务转换为坐标、轨迹和安全约束，并返回周期与结果。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>任务与坐标</strong>
+        <span>产品姿态、工具、工件坐标和程序版本</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="生成受控运动">
+        <span>生成受控运动</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>轨迹执行</strong>
+        <span>插补、速度、加速度、同步和碰撞/互锁</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="反馈完成状态">
+        <span>反馈完成状态</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>状态与结果</strong>
+        <span>完成、暂停、故障、周期和关键过程参数</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>机器人/轴 <abbr title="Identifier｜标识符">ID</abbr> + 程序 + 坐标系 + 工件/<abbr title="Serial Number｜序列号">SN</abbr> + 周期与故障码</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL STANDARD</p><h2><abbr title="International Organization for Standardization｜国际标准化组织">ISO</abbr> 10218 的范围</h2><p><a href="https://www.iso.org/standard/73933.html"><abbr title="International Organization for Standardization｜国际标准化组织">ISO</abbr> 10218-1:2025</a>规定工业机器人本体设计安全要求，其系列第二部分覆盖机器人应用集成。</p><div class="example"><strong>白话：</strong>机器人“本身合格”不代表整套工作站已经安全，集成后的工具、夹具、人员进入和协同都要验证。</div></section>
 <section id="objects" class="knowledge-section"><p class="section-code">OBJECTS & STATES</p><h2>程序发布与执行分开</h2><div class="card-grid"><article class="info-card"><h3>工程对象</h3><p>机器人/轴、工具中心点、工装、坐标系、程序、配方。</p></article><article class="info-card"><h3>执行状态</h3><p>空闲→已装载→运行→暂停→完成/故障。</p></article></div><p>程序状态应经历草稿、仿真、现场验证、批准、发布和退役。</p></section>
 <section id="interface" class="knowledge-section"><p class="section-code"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> INTERFACE</p><h2>下发引用，不下发自由轨迹</h2><p><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 下发型号、<abbr title="Serial Number｜序列号">SN</abbr>、已发布程序/配方 <abbr title="Identifier｜标识符">ID</abbr>；<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 协调夹具与单元状态；控制器返回实际程序、循环号、结果和报警。控制完成仍需质量测量才能形成产品合格。</p></section>

@@ -659,6 +659,154 @@ tbody tr:last-child td {
   }
 }
 
+.learning-diagram {
+  margin: 0 0 1.3rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.learning-diagram figcaption {
+  padding: 1.05rem 1.15rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #fffdf8 0%, #f8e8dc 100%);
+}
+
+.learning-diagram__kind {
+  display: inline-flex;
+  margin-bottom: 0.42rem;
+  padding: 0.16rem 0.48rem;
+  border-radius: 999px;
+  color: var(--orange-dark);
+  background: #f9d8c6;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.learning-diagram figcaption > strong {
+  display: block;
+  font-size: clamp(1.02rem, 2vw, 1.22rem);
+  line-height: 1.35;
+}
+
+.learning-diagram__summary {
+  display: block;
+  margin-top: 0.32rem;
+  color: var(--muted);
+  font-size: 0.87rem;
+}
+
+.learning-diagram__flow {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(4.8rem, 0.34fr) minmax(0, 1fr)
+    minmax(4.8rem, 0.34fr) minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: stretch;
+  padding: 1rem 1.15rem;
+}
+
+.learning-diagram__node {
+  display: grid;
+  min-width: 0;
+  padding: 0.85rem;
+  border: 1px solid #ded7cc;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.learning-diagram__index {
+  display: inline-grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  place-items: center;
+  margin-bottom: 0.62rem;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--navy);
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.learning-diagram__node > strong {
+  line-height: 1.35;
+}
+
+.learning-diagram__node > span:last-child {
+  margin-top: 0.34rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.learning-diagram__connector {
+  display: grid;
+  place-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+  color: var(--orange-dark);
+  text-align: center;
+}
+
+.learning-diagram__connector span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.learning-diagram__connector b {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.learning-diagram__thread {
+  display: flex;
+  gap: 0.65rem;
+  align-items: baseline;
+  margin: 0;
+  padding: 0.75rem 1.15rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  background: #f2eee6;
+  font-size: 0.81rem;
+}
+
+.learning-diagram__thread strong {
+  flex: 0 0 auto;
+  color: var(--orange-dark);
+}
+
+.learning-diagram__thread span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .learning-diagram__flow {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-diagram__connector {
+    grid-template-columns: auto auto;
+    align-items: center;
+    min-height: 2.8rem;
+  }
+
+  .learning-diagram__connector b {
+    transform: rotate(90deg);
+  }
+
+  .learning-diagram__thread {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}
+
 .acronym-tooltip {
   position: fixed;
   box-sizing: border-box;
@@ -705,6 +853,11 @@ tbody tr:last-child td {
 @media print {
   body {
     background: #fff;
+  }
+
+  .learning-diagram {
+    box-shadow: none;
+    break-inside: avoid;
   }
 
   .page-rail,

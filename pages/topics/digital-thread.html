@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>横贯专题</span><span>/</span><span aria-current="page">数字线程</span></nav><p class="page-code">TOPIC 01 · DIGITAL THREAD</p><h1>智能锁数字线程</h1><p class="detail-hero__lead">数字线程不是一张大宽表，而是由八阶段产生的业务对象、稳定标识、不可变版本和带有效期关系组成的证据网络。</p><div class="hero-meta"><span>起点：销售订单行</span><span>核心：整锁 <abbr title="Serial Number｜序列号">SN</abbr></span><span>终点：客户 / 售后 / 召回</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#chain">八阶段链</a></li><li><a href="#identity">标识</a></li><li><a href="#relations">关系</a></li><li><a href="#implementation">实现</a></li><li><a href="#exam">考试</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>原则</strong><span>业务键便于人员理解与对账，来源系统 <abbr title="Identifier｜标识符">ID</abbr> 用于稳定关联；两者都应保留，不能互相替代。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/topics/digital-thread" aria-labelledby="diagram-pages-topics-digital-thread-title" aria-label="智能锁数字线程 学习图表">
+    <figcaption id="diagram-pages-topics-digital-thread-title">
+      <span class="learning-diagram__kind">实现机制图</span>
+      <strong>数字线程如何贯通八阶段</strong>
+      <p class="learning-diagram__summary">数字线程用稳定关联键把不同系统、单据、版本和逐件事实连接成可查询证据链。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>定义与计划</strong>
+        <span>订单、产品版本、<abbr title="Bill of Materials｜物料清单">BOM</abbr>/路线和工单</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="继承来源与版本">
+        <span>继承来源与版本</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>制造事件</strong>
+        <span>批次投料、过站、固件、测试和返工</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="持续追加关系">
+        <span>持续追加关系</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>物流与服务</strong>
+        <span>箱码、入出库、发货、客户和售后</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>业务对象 <abbr title="Identifier｜标识符">ID</abbr> 不复用；跨系统保存来源、版本、事件时间与关联键</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="chain" class="knowledge-section"><p class="section-code">CHAIN</p><h2>八阶段如何传递关联键</h2><ol class="step-flow"><li><strong>销售需求</strong><p>订单号、行号、配置版本和承诺日期。</p></li><li><strong>产品与工艺准备</strong><p>产品、<abbr title="Engineering Bill of Materials｜工程物料清单">EBOM</abbr>/<abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr>、路线、检验、固件发布 <abbr title="Identifier｜标识符">ID</abbr>。</p></li><li><strong>计划排产</strong><p>需求分配、工单号、制造快照和排程版本。</p></li><li><strong>物料齐套</strong><p>物料批次、供应商批次、容器、关键件 <abbr title="Serial Number｜序列号">SN</abbr>。</p></li><li><strong>生产执行</strong><p>整锁 <abbr title="Serial Number｜序列号">SN</abbr>、过站、绑定、设备会话、固件和测试。</p></li><li><strong>质量管控</strong><p>检验任务、样本、<abbr title="Nonconformance Report｜不符合报告">NCR</abbr>、处置、复验和放行。</p></li><li><strong>成品入库</strong><p>盒/箱/托盘码、入库单、库存单元和库位。</p></li><li><strong>发货与追溯</strong><p>出库单、订单行、客户/渠道、维修和召回案件。</p></li></ol></section>
 <section id="identity" class="knowledge-section"><p class="section-code">IDENTITY</p><h2>四类关键标识</h2><div class="card-grid"><article class="info-card"><h3>业务编号</h3><p>订单号、工单号、箱码等面向人员；可因迁移或规则调整而变化，需与来源 <abbr title="Identifier｜标识符">ID</abbr> 并存。</p></article><article class="info-card"><h3>来源系统 <abbr title="Identifier｜标识符">ID</abbr></h3><p>系统内稳定唯一，用于接口关联和防重；必须标明来源系统。</p></article><article class="info-card"><h3>版本 / 发布 <abbr title="Identifier｜标识符">ID</abbr></h3><p>指向不可变定义，不用“当前版本”解释历史事实。</p></article><article class="info-card"><h3>事件 <abbr title="Identifier｜标识符">ID</abbr></h3><p>标识一次事实传播，用于去重、重放、对账和审计。</p></article></div></section>
 <section id="relations" class="knowledge-section"><p class="section-code">RELATIONS</p><h2>每条关系至少保存这些属性</h2><div class="table-wrap"><table><thead><tr><th>属性</th><th>用途</th><th>示例</th></tr></thead><tbody><tr><th>关系类型</th><td>明确语义，避免万能 parent_id</td><td>分配、消耗、绑定、装箱、交付。</td></tr><tr><th>有效时间</th><td>表达换件、换箱、转交</td><td>绑定时间 / 解绑时间。</td></tr><tr><th>来源与版本</th><td>识别权威和重复/迟到</td><td><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 事件 <abbr title="Identifier｜标识符">ID</abbr>、<abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr> 单据版本。</td></tr><tr><th>数量 / 单位</th><td>支持多对多和数量守恒</td><td>订单行分配 300 套。</td></tr><tr><th>原因 / 引用</th><td>解释修正与例外</td><td>换件引用 <abbr title="Nonconformance Report｜不符合报告">NCR</abbr> 和返工单。</td></tr></tbody></table></div></section>

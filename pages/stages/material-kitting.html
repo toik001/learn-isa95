@@ -18,6 +18,39 @@
   <aside class="page-rail"><p class="rail-label">本页导航</p><ol><li><a href="#position">阶段位置</a></li><li><a href="#business">业务层</a></li><li><a href="#data">数据层</a></li><li><a href="#system">系统层</a></li><li><a href="#implementation">实现层</a></li><li><a href="#exceptions">异常与指标</a></li><li><a href="#check">自测与延伸</a></li></ol></aside>
   <main id="content" class="content">
     <div class="disclaimer"><strong>事实边界</strong><span>仓储与线边库存主责、<abbr title="First In, First Out｜先进先出">FIFO</abbr>/<abbr title="First Expired, First Out｜先到期先出">FEFO</abbr>、替代审批、超领阈值和追溯粒度是企业特定规则；本页仅提供通用控制点。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/stages/material-kitting" aria-labelledby="diagram-pages-stages-material-kitting-title" aria-label="物料齐套 学习图表">
+    <figcaption id="diagram-pages-stages-material-kitting-title">
+      <span class="learning-diagram__kind">八阶段流程</span>
+      <strong>从物料需求到批次投料</strong>
+      <p class="learning-diagram__summary">齐套关注是否具备开工条件，投料还要证明实际用了哪个批次。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>物料需求</strong>
+        <span>工单快照展开 <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 与替代约束</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="锁定合格实物">
+        <span>锁定合格实物</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>拣配配送</strong>
+        <span>按库位、批次、状态和容器备料</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="绑定工单与工序">
+        <span>绑定工单与工序</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>投料绑定</strong>
+        <span>工位校验并记录实际消耗与退补料</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>工单 + <abbr title="Manufacturing Bill of Materials｜制造物料清单">MBOM</abbr> 行 + 物料批次/容器 + 投料工序 + 数量</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
     <section id="position" class="flow-context">
       <article class="flow-card"><p class="fact-label">上游阶段</p><a href="planning.html">03 计划排产</a><p>已下达工单、用料需求和开工时间。</p></article>
       <article class="flow-card flow-card--current"><p class="fact-label">当前阶段</p><strong>04 物料齐套</strong><p>分配、拣配、配送、接收与投料核对。</p></article>

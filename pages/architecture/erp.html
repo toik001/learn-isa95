@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></span></nav><p class="page-code">NODE 03 · LEVEL 4</p><h1><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>：管理企业承诺与经营账</h1><p class="detail-hero__lead"><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 决定接什么单、采购什么、计划做多少，并核算库存和成本；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 把这些经营目标转换为现场执行并回传实绩。</p><div class="hero-meta"><span>典型层级：L4</span><span>主权：订单 / 经营库存 / 成本</span><span>来源等级：B</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">定义</a></li><li><a href="#ownership">数据主权</a></li><li><a href="#interface">接口</a></li><li><a href="#case">场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>边界</strong><span><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 产品实际模块和生产订单状态待确认；行业通用边界不代表企业一定由 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管全部主数据。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/erp" aria-labelledby="diagram-pages-architecture-erp-title" aria-label="ERP：管理企业承诺与经营账 学习图表">
+    <figcaption id="diagram-pages-architecture-erp-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 如何向制造层传递经营目标</strong>
+      <p class="learning-diagram__summary">企业层给出订单、资源和计划，制造层返回真实执行结果。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>经营对象</strong>
+        <span>客户订单、采购、库存账与成本中心</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="定义要生产什么">
+        <span>定义要生产什么</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>制造下达</strong>
+        <span>生产工单、物料需求与主数据版本</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="反馈实际发生什么">
+        <span>反馈实际发生什么</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>实绩回传</strong>
+        <span>产出、消耗、报废、入库和差异</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>订单/工单关联 + 版本 + 幂等接口 + 财务期间</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL EXPLANATION</p><h2>官方解释与白话</h2><p><a href="https://www.sap.com/products/erp/what-is-erp.html">SAP</a>将 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 描述为连接财务、人力、制造、供应链、销售和采购等核心业务流程的企业资源计划系统。</p><div class="example"><strong>白话：</strong><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 管“企业答应了什么、需要准备什么、账上发生了什么”，不记录每个 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 测点。</div></section>
 <section id="ownership" class="knowledge-section"><p class="section-code">DATA OWNERSHIP</p><h2><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 证明什么</h2><div class="card-grid"><article class="info-card"><h3>主数据</h3><p>组织、客户、供应商、基础物料、单位和财务维度。</p></article><article class="info-card"><h3>交易</h3><p>销售、采购、生产订单以及库存和财务凭证。</p></article><article class="info-card"><h3><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 缓存</h3><p>只保存生产所需快照和来源版本，不争夺经营主权。</p></article><article class="info-card"><h3>不应承载</h3><p>每把锁的高频曲线、<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 报警和工位实时顺控。</p></article></div></section>
 <section id="interface" class="knowledge-section"><p class="section-code">INTERFACE</p><h2>双向契约</h2><div class="table-wrap"><table><thead><tr><th>方向</th><th>对象</th><th>控制点</th></tr></thead><tbody><tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>→<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>生产订单、数量、交期、版本引用、优先级</td><td>外部 <abbr title="Identifier｜标识符">ID</abbr>、版本、取消与变更语义</td></tr><tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>→<abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr></th><td>开完工、合格/报废、消耗、入库请求</td><td>幂等键、累计量、冲销与对账</td></tr></tbody></table></div></section>

@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><a href="../../architecture.html">工业自动化体系</a><span>/</span><span aria-current="page"><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></span></nav><p class="page-code">NODE 05 · LEVEL 3</p><h1><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> / <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr>：制造运营的执行中枢</h1><p class="detail-hero__lead"><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> 是生产、质量、维护和库存运营的整体管理体系；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 是承载其中执行、采集、跟踪和分析能力的主要信息系统之一。</p><div class="hero-meta"><span>典型层级：L3</span><span>主权：工序事实 / <abbr title="Work in Process｜在制品">WIP</abbr> / 谱系</span><span>来源等级：A/B</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#official">定义</a></li><li><a href="#operations">四类运营</a></li><li><a href="#states">状态</a></li><li><a href="#case">执行场景</a></li><li><a href="#java">Java 重点</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>产品边界</strong><span><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 是否内置质量、仓储、维护或 <abbr title="Advanced Planning and Scheduling｜高级计划与排程">APS</abbr> 能力取决于企业架构；<abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> 是能力范围，不等于必须由一个产品包办。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/architecture/mom-mes" aria-labelledby="diagram-pages-architecture-mom-mes-title" aria-label="MOM / MES：制造运营的执行中枢 学习图表">
+    <figcaption id="diagram-pages-architecture-mom-mes-title">
+      <span class="learning-diagram__kind">自动化关系图</span>
+      <strong><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 如何协调制造运营</strong>
+      <p class="learning-diagram__summary">制造运营层把企业目标转换成现场任务，并汇总跨生产、质量、库存和维护的执行事实。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>运营定义</strong>
+        <span>工单、资源、规则、路线与排程</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="分解为现场任务">
+        <span>分解为现场任务</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>执行协调</strong>
+        <span>派工、<abbr title="Work in Process｜在制品">WIP</abbr>、质量门禁、物料和设备协同</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="聚合运营结果">
+        <span>聚合运营结果</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>运营绩效</strong>
+        <span>产量、质量、效率、库存与维护反馈</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>制造对象 <abbr title="Identifier｜标识符">ID</abbr> + 时间 + 资源 + 状态 + 性能与谱系记录</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="official" class="knowledge-section"><p class="section-code">OFFICIAL EXPLANATION</p><h2><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> 与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 不完全同义</h2><p><a href="https://www.isa.org/standards-and-publications/isa-publications/isa-books/authors-corner/a-q-a-with-the-co-authors-of-the-new-isa-book-manu"><abbr title="International Society of Automation｜国际自动化协会">ISA</abbr> 的 <abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 说明</a>将 <abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> 概括为支持制造运营的过程、数据结构与通信整体，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 是主要信息系统之一。</p><div class="example"><strong>白话：</strong><abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr> 是“车间运营应该怎样闭环”，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 是常见数字化承载体。</div></section>
 <section id="operations" class="knowledge-section"><p class="section-code">FOUR OPERATIONS</p><h2>L3 不只有生产工单</h2><div class="card-grid"><article class="info-card"><h3>生产运营</h3><p>排程、派工、执行、采集、跟踪和分析。</p></article><article class="info-card"><h3>质量运营</h3><p>检验、判定、隔离、处置和复验。</p></article><article class="info-card"><h3>库存运营</h3><p>现场请求、移动、消耗和在制跟踪。</p></article><article class="info-card"><h3>维护运营</h3><p>设备能力、保养、故障、维修和恢复。</p></article></div></section>
 <section id="states" class="knowledge-section"><p class="section-code">STATE MACHINES</p><h2>四条关键状态链</h2><div class="table-wrap"><table><thead><tr><th>对象</th><th>关键状态</th></tr></thead><tbody><tr><th>工单</th><td>创建→发布→下达→执行→完工→关闭</td></tr><tr><th><abbr title="Serial Number｜序列号">SN</abbr></th><td>上线→在制→合格/冻结/返工→包装→入库→发货</td></tr><tr><th>工序</th><td>待执行→已授权→执行中→未知/通过/失败→确认</td></tr><tr><th>设备会话</th><td>创建→接受→运行→待确认→完成/失败/取消</td></tr></tbody></table></div></section>

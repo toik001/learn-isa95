@@ -1296,6 +1296,154 @@ summary,
   }
 }
 
+.learning-diagram {
+  margin: clamp(2rem, 5vw, 4rem) 0 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.learning-diagram figcaption {
+  padding: 1.15rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, #fffdf8 0%, #f8e8dc 100%);
+}
+
+.learning-diagram__kind {
+  display: inline-flex;
+  margin-bottom: 0.45rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  color: var(--accent-text);
+  background: #f9d8c6;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.learning-diagram figcaption > strong {
+  display: block;
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+  line-height: 1.35;
+}
+
+.learning-diagram__summary {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--steel-600);
+  font-size: 0.9rem;
+}
+
+.learning-diagram__flow {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(4.8rem, 0.34fr) minmax(0, 1fr)
+    minmax(4.8rem, 0.34fr) minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: stretch;
+  padding: 1.1rem 1.25rem;
+}
+
+.learning-diagram__node {
+  display: grid;
+  min-width: 0;
+  padding: 0.9rem;
+  border: 1px solid #ded7cc;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.learning-diagram__index {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  margin-bottom: 0.7rem;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--ink-950);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.learning-diagram__node > strong {
+  line-height: 1.35;
+}
+
+.learning-diagram__node > span:last-child {
+  margin-top: 0.38rem;
+  color: var(--steel-600);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.learning-diagram__connector {
+  display: grid;
+  place-content: center;
+  gap: 0.15rem;
+  min-width: 0;
+  color: var(--accent-text);
+  text-align: center;
+}
+
+.learning-diagram__connector span {
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.learning-diagram__connector b {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.learning-diagram__thread {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  margin: 0;
+  padding: 0.8rem 1.25rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-800);
+  background: #f2eee6;
+  font-size: 0.84rem;
+}
+
+.learning-diagram__thread strong {
+  flex: 0 0 auto;
+  color: var(--accent-text);
+}
+
+.learning-diagram__thread span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .learning-diagram__flow {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-diagram__connector {
+    grid-template-columns: auto auto;
+    align-items: center;
+    min-height: 2.8rem;
+  }
+
+  .learning-diagram__connector b {
+    transform: rotate(90deg);
+  }
+
+  .learning-diagram__thread {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}
+
 .acronym-tooltip {
   position: fixed;
   box-sizing: border-box;
@@ -1363,6 +1511,12 @@ summary,
     color: #000;
     background: #fff;
     font-size: 10pt;
+  }
+
+  .learning-diagram {
+    margin-top: 8mm;
+    box-shadow: none;
+    break-inside: avoid;
   }
 
   .skip-link,

@@ -2,6 +2,39 @@
 </head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a><header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>系统边界</span><span>/</span><span aria-current="page">设备系统</span></nav><p class="page-code">SYSTEM 06 · EQUIPMENT / <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr> / <abbr title="Industrial Internet of Things｜工业物联网">IIOT</abbr></p><h1>设备系统：原始控制与测点证据</h1><p class="detail-hero__lead">设备侧负责实时控制、安全互锁、程序执行和高频原始数据；<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 提供业务上下文并决定这些结果能否构成过站、消耗或质量事实。</p><div class="hero-meta"><span>主权：控制 / 原始测点 / 报警</span><span>接收：<abbr title="Serial Number｜序列号">SN</abbr> / 工序 / 程序</span><span>返回：会话 / 结果 / 原始索引</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#ownership">数据主权</a></li><li><a href="#session">会话边界</a></li><li><a href="#time">时间与可靠性</a></li><li><a href="#risks">风险</a></li><li><a href="#check">检查</a></li></ul></aside><main id="content" class="content"><div class="disclaimer"><strong>待确认</strong><span><abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、边缘网关、IoT 平台和 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 适配层的具体分工、协议与网络区划需现场确认。</span></div>
+  <!-- learning-diagram:start -->
+  <figure class="learning-diagram" data-diagram-key="pages/systems/equipment" aria-labelledby="diagram-pages-systems-equipment-title" aria-label="设备系统：原始控制与测点证据 学习图表">
+    <figcaption id="diagram-pages-systems-equipment-title">
+      <span class="learning-diagram__kind">系统边界图</span>
+      <strong>设备系统如何与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 交换结果</strong>
+      <p class="learning-diagram__summary">设备负责实时控制和原始测量，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 负责业务授权、关联与判定。</p>
+    </figcaption>
+    <div class="learning-diagram__flow" role="list">
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">01</span>
+        <strong>业务上下文</strong>
+        <span>工位、工单、<abbr title="Serial Number｜序列号">SN</abbr>、程序版本与允许参数</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="受控下发">
+        <span>受控下发</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">02</span>
+        <strong>设备执行</strong>
+        <span>控制、采集、报警、测试或烧录会话</span>
+      </article>
+      <div class="learning-diagram__connector" aria-label="幂等返回">
+        <span>幂等返回</span><b aria-hidden="true">→</b>
+      </div>
+      <article class="learning-diagram__node" role="listitem">
+        <span class="learning-diagram__index">03</span>
+        <strong>结果接口</strong>
+        <span><abbr title="English word, not an acronym｜通过">PASS</abbr>/<abbr title="English word, not an acronym｜失败">FAIL</abbr>、关键参数、时间与原始证据索引</span>
+      </article>
+    </div>
+    <div class="learning-diagram__thread"><strong>关键线索</strong><span>命令 <abbr title="Identifier｜标识符">ID</abbr> + 设备 <abbr title="Identifier｜标识符">ID</abbr> + 会话 <abbr title="Identifier｜标识符">ID</abbr> + <abbr title="Serial Number｜序列号">SN</abbr> + 程序/配方版本</span></div>
+  </figure>
+  <!-- learning-diagram:end -->
 <section id="ownership" class="knowledge-section"><p class="section-code">DATA OWNERSHIP</p><h2>设备侧与 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 各自证明什么</h2><div class="card-grid"><article class="info-card"><h3>设备侧权威</h3><p>控制步骤、采样点、程序日志、安全报警、原始曲线和设备本地时间。</p></article><article class="info-card"><h3><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 权威</h3><p><abbr title="Serial Number｜序列号">SN</abbr>/工单/工序上下文、制造版本、业务门禁、过站、绑定和业务结果。</p></article><article class="info-card"><h3>共同契约</h3><p>设备 <abbr title="Identifier｜标识符">ID</abbr>、测试会话 <abbr title="Identifier｜标识符">ID</abbr>、程序版本/哈希、参数单位、结果码、序号和时间戳。</p></article><article class="info-card"><h3>存储分层</h3><p>高频原始数据留在时序/对象存储，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存摘要、哈希、结果和定位索引。</p></article></div></section>
 <section id="session" class="knowledge-section"><p class="section-code">SESSION BOUNDARY</p><h2>一次业务执行只能有一个可识别会话</h2><ol class="step-flow"><li><strong><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 授权</strong><p>创建会话并下发 <abbr title="Serial Number｜序列号">SN</abbr>、工序、配方和校验信息。</p></li><li><strong>设备确认</strong><p>校验身份与实际程序，返回接受或具体拒绝。</p></li><li><strong>设备执行</strong><p>记录控制步骤、测点、报警和本地结果。</p></li><li><strong>可靠上传</strong><p>用会话 <abbr title="Identifier｜标识符">ID</abbr> + 序号重发摘要和原始数据地址。</p></li><li><strong><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 业务判定</strong><p>结合路线、版本、质量和幂等约束形成业务事实。</p></li></ol></section>
 <section id="time" class="knowledge-section"><p class="section-code">TIME & RELIABILITY</p><h2>三种常见异常语义</h2><div class="card-grid card-grid--3"><article class="info-card"><h3>超时</h3><p>表示结果未知，不等于 <abbr title="English word, not an acronym｜失败">FAIL</abbr>；会话进入待确认并允许同 <abbr title="Identifier｜标识符">ID</abbr> 重发。</p></article><article class="info-card"><h3>重复</h3><p>同一会话同序号返回首次结果，不重复过站或扣料。</p></article><article class="info-card"><h3>乱序</h3><p>以序号和状态守卫处理；迟到开始事件不能覆盖已完成状态。</p></article></div></section>
