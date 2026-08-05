@@ -145,6 +145,7 @@ test("首页和详情页样式都让悬浮释义固定、可隐藏且不截获�
       /\.acronym-tooltip\[hidden\]\s*\{([^}]*)\}/,
     )?.[1] ?? "";
     assert.match(base, /position:\s*fixed/);
+    assert.match(base, /box-sizing:\s*border-box/);
     assert.match(base, /pointer-events:\s*none/);
     assert.match(base, /max-width:/);
     assert.match(hidden, /display:\s*none/);

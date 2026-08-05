@@ -661,6 +661,7 @@ tbody tr:last-child td {
 
 .acronym-tooltip {
   position: fixed;
+  box-sizing: border-box;
   z-index: 120;
   width: max-content;
   max-width: min(22rem, calc(100vw - 1rem));
