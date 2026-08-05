@@ -83,6 +83,14 @@ class FakeElement {
     });
   }
 
+  remove() {
+    if (!this.parentElement) return;
+    this.parentElement.children = this.parentElement.children.filter(
+      (child) => child !== this,
+    );
+    this.parentElement = null;
+  }
+
   setAttribute(name, value) {
     this.attributes.set(name, String(value));
   }
@@ -141,6 +149,9 @@ function createTooltipFixture(options) {
     removeEventListener(type) {
       listeners.delete(type);
     },
+    listenerCount() {
+      return listeners.size;
+    },
     emit(type, event) {
       listeners.get(type)?.(event);
     },
@@ -150,10 +161,16 @@ function createTooltipFixture(options) {
     innerWidth: options.viewport.width,
     innerHeight: options.viewport.height,
     addEventListener(type, listener) {
+      if (options.failWindowBinding) {
+        throw new Error("window binding failed");
+      }
       windowListeners.set(type, listener);
     },
     removeEventListener(type) {
       windowListeners.delete(type);
+    },
+    listenerCount() {
+      return windowListeners.size;
     },
   };
 
@@ -202,4 +219,27 @@ test("初始化后悬停显示紧凑释义并在离开或 Escape 时隐藏", () 
   fixture.documentRef.emit("pointerover", { target: fixture.abbr });
   fixture.documentRef.emit("keydown", { key: "Escape" });
   assert.equal(controller.tooltip.hidden, true);
+});
+
+test("窗口监听器注册失败时恢复静态释义并清理交互残留", () => {
+  const fixture = createTooltipFixture({
+    term: "MES",
+    title: "Manufacturing Execution System｜制造执行系统",
+    anchorRect: { left: 90, right: 130, top: 20, bottom: 40 },
+    tooltipRect: { width: 120, height: 50 },
+    viewport: { width: 240, height: 140 },
+    failWindowBinding: true,
+  });
+
+  assert.throws(
+    () => initializeAcronymTooltips(fixture.documentRef, fixture.windowRef),
+    /window binding failed/,
+  );
+  assert.equal(
+    fixture.abbr.getAttribute("title"),
+    "Manufacturing Execution System｜制造执行系统",
+  );
+  assert.equal(fixture.documentRef.body.children.length, 0);
+  assert.equal(fixture.documentRef.listenerCount(), 0);
+  assert.equal(fixture.windowRef.listenerCount(), 0);
 });

@@ -61,18 +61,6 @@
     tooltip.append(englishElement, chineseElement);
     documentRef.body.append(tooltip);
 
-    abbreviations.forEach((abbr) => {
-      const definition = abbr.getAttribute("title");
-      const { english, chinese } = parseAcronymDefinition(definition);
-      const term = abbr.textContent.trim();
-      abbr.dataset.acronymDefinition = definition;
-      abbr.setAttribute(
-        "aria-label",
-        `${term}：${english}${chinese ? `，${chinese}` : ""}`,
-      );
-      abbr.removeAttribute("title");
-    });
-
     let activeAbbreviation = null;
     const hide = () => {
       tooltip.hidden = true;
@@ -118,11 +106,52 @@
       if (event.key === "Escape") hide();
     };
 
-    documentRef.addEventListener("pointerover", onPointerOver);
-    documentRef.addEventListener("pointerout", onPointerOut);
-    documentRef.addEventListener("keydown", onKeydown);
-    windowRef.addEventListener("scroll", hide);
-    windowRef.addEventListener("resize", hide);
+    const originalAttributes = new Map();
+    try {
+      abbreviations.forEach((abbr) => {
+        const definition = abbr.getAttribute("title");
+        const { english, chinese } = parseAcronymDefinition(definition);
+        const term = abbr.textContent.trim();
+        originalAttributes.set(abbr, {
+          title: definition,
+          ariaLabel: abbr.getAttribute("aria-label"),
+          acronymDefinition: abbr.getAttribute("data-acronym-definition"),
+        });
+        abbr.dataset.acronymDefinition = definition;
+        abbr.setAttribute(
+          "aria-label",
+          `${term}：${english}${chinese ? `，${chinese}` : ""}`,
+        );
+        abbr.removeAttribute("title");
+      });
+
+      documentRef.addEventListener("pointerover", onPointerOver);
+      documentRef.addEventListener("pointerout", onPointerOut);
+      documentRef.addEventListener("keydown", onKeydown);
+      windowRef.addEventListener("scroll", hide);
+      windowRef.addEventListener("resize", hide);
+    } catch (error) {
+      documentRef.removeEventListener("pointerover", onPointerOver);
+      documentRef.removeEventListener("pointerout", onPointerOut);
+      documentRef.removeEventListener("keydown", onKeydown);
+      windowRef.removeEventListener("scroll", hide);
+      windowRef.removeEventListener("resize", hide);
+      originalAttributes.forEach((attributes, abbr) => {
+        abbr.setAttribute("title", attributes.title);
+        if (attributes.ariaLabel === null) {
+          abbr.removeAttribute("aria-label");
+        } else {
+          abbr.setAttribute("aria-label", attributes.ariaLabel);
+        }
+        if (attributes.acronymDefinition === null) {
+          delete abbr.dataset.acronymDefinition;
+        } else {
+          abbr.dataset.acronymDefinition = attributes.acronymDefinition;
+        }
+      });
+      tooltip.remove();
+      throw error;
+    }
 
     return { hide, tooltip };
   }
