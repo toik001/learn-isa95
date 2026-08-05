@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="MES 报表模块详解：指标口径、事件事实、时间维度、FPY、RTY、OEE、计划达成与追溯完整率。"><title>报表模块｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css"></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="MES 报表模块详解：指标口径、事件事实、时间维度、FPY、RTY、OEE、计划达成与追溯完整率。"><title>报表模块｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">  <script src="../../assets/acronym-tooltip.js" defer></script>
+</head>
 <body><a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
 <header class="detail-hero"><div class="detail-hero__inner"><nav class="breadcrumb"><a href="../../index.html">学习驾驶舱</a><span>/</span><span>业务模块</span><span>/</span><span aria-current="page">报表</span></nav><p class="page-code">MODULE 07 · REPORTING</p><h1>报表模块</h1><p class="detail-hero__lead">报表的难点不是画图，而是让口径、粒度、时间、版本和数据水位一致；指标必须能钻取到组成它的订单、工单、<abbr title="Serial Number｜序列号">SN</abbr>、工序或事件。</p><div class="hero-meta"><span>主线：事实 → 口径 → 聚合 → 钻取</span><span>聚合：指标快照</span><span>高风险：口径漂移 / 重复计数</span></div></div></header>
 <div class="detail-layout"><aside class="page-rail"><p class="rail-label">本页导航</p><ul><li><a href="#map">指标地图</a></li><li><a href="#contract">指标契约</a></li><li><a href="#metrics">核心口径</a></li><li><a href="#java">Java 实现</a></li><li><a href="#verify">验证</a></li></ul></aside>

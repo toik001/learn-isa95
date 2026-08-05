@@ -49,6 +49,7 @@
 | DCS | Distributed Control System | 分布式控制系统 | 控制功能分布在多个控制节点，而不是集中在一台计算机。 |
 | CNC | Computer Numerical Control | 计算机数字控制 | 通过数字化坐标、速度和加工程序控制机床运动。 |
 | IPC | Industrial PC | 工业计算机/工控机 | 行业通常直接写 *Industrial PC*；不必为了三个字母强行拆成三个独立单词。 |
+| PC | Personal Computer | 个人计算机 | *Personal* 表示面向个人使用的通用计算机，与工业现场使用的 IPC 区分。 |
 | IIoT | Industrial Internet of Things | 工业物联网 | 在 IoT 前增加 Industrial，强调工业资产、可靠性、安全和生命周期要求。 |
 | IoT | Internet of Things | 物联网 | 让物理“事物”通过网络被识别、连接和交换数据。 |
 

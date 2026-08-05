@@ -4,6 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="智能锁 MES 生产执行详解：派工、SN、过站、关键件绑定、固件烧录、设备采集与返工。">
   <title>05 生产执行｜智能锁 MES 学习助手</title><link rel="stylesheet" href="../../assets/detail.css">
+  <script src="../../assets/acronym-tooltip.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="../../glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
@@ -44,7 +45,7 @@
     </section>
 
     <section id="data" class="knowledge-section">
-      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：过站记录要表达“每次尝试”，不能只存最终 <abbr title="English result word, not an acronym｜通过">PASS</abbr></h2>
+      <p class="section-code">LAYER 02 · DATA</p><h2>数据层：过站记录要表达“每次尝试”，不能只存最终 <abbr title="English word, not an acronym｜通过">PASS</abbr></h2>
       <div class="data-grid">
         <article class="data-card"><p class="data-label"><abbr title="Work in Process｜在制品">WIP</abbr> / 整锁 <abbr title="Serial Number｜序列号">SN</abbr></p><h3>单件聚合</h3><p><abbr title="Serial Number｜序列号">SN</abbr>、工单、产品/版本、当前工序、执行状态、质量状态、包装状态、最新事件序号和创建来源。</p></article>
         <article class="data-card"><p class="data-label">过站记录</p><h3>工序事实</h3><p><abbr title="Serial Number｜序列号">SN</abbr>、路线/工序版本、尝试号、进入/完成时间、人员、工位、设备、结果、失败码和返工来源。</p></article>
@@ -65,7 +66,7 @@
       <p class="section-code">LAYER 03 · SYSTEM</p><h2>系统层：<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 保存业务事实，设备系统保存高频原始证据</h2>
       <div class="table-wrap"><table><thead><tr><th>系统</th><th>主责</th><th>边界</th></tr></thead><tbody>
         <tr><th><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr></th><td>工单执行、<abbr title="Work in Process｜在制品">WIP</abbr>、过站、绑定、业务判定和实绩</td><td>不接管 <abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr> 控制；保存原始数据索引和可复核摘要。</td></tr>
-        <tr><th>设备 / <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr></th><td>设备控制、程序日志、采样点、报警和原始文件</td><td>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 不自动等于 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 过站，仍需身份、版本和路线校验。</td></tr>
+        <tr><th>设备 / <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr></th><td>设备控制、程序日志、采样点、报警和原始文件</td><td>设备 <abbr title="English word, not an acronym｜通过">PASS</abbr> 不自动等于 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 过站，仍需身份、版本和路线校验。</td></tr>
         <tr><th><abbr title="Product Lifecycle Management｜产品生命周期管理">PLM</abbr> / <abbr title="Quality Management System｜质量管理体系/系统">QMS</abbr></th><td>制造依据 / 质量处置</td><td>提供受控版本和处置结论，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 记录实际执行引用。</td></tr>
         <tr><th><abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> / <abbr title="Warehouse Management System｜仓库管理系统">WMS</abbr></th><td>经营汇总 / 实物配送</td><td>接收完工消耗与补料需求，不逐步控制单件工序。</td></tr>
       </tbody></table></div>
@@ -86,7 +87,7 @@
     <section id="exceptions" class="knowledge-section">
       <p class="section-code">CONTROL</p><h2>异常闭环与指标</h2>
       <ul class="exception-list">
-        <li><strong>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：</strong><abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等落库 → 核对唯一结果 → 必要时授权补采。</li>
+        <li><strong>设备 <abbr title="English word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：</strong><abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等落库 → 核对唯一结果 → 必要时授权补采。</li>
         <li><strong>关键件重复绑定：</strong>拒绝第二次绑定 → 查询旧父件状态 → 判断扫码错、返工未解绑或数据重复 → 受控修复并审计。</li>
         <li><strong>工位断网：</strong>只允许预授权工单/版本离线执行 → 本地保留签名事件 → 恢复后按序续传 → 冲突进入人工判定。</li>
       </ul>
@@ -102,7 +103,7 @@
       <div class="question-grid">
         <article class="question-card"><h3>问题 1</h3><p>过站接口怎样同时避免重复过站、重复扣料和消息丢失？</p></article>
         <article class="question-card"><h3>问题 2</h3><p>解绑和换件为什么必须追加历史，而不能更新成新件 <abbr title="Serial Number｜序列号">SN</abbr>？</p></article>
-        <article class="question-card"><h3>问题 3</h3><p>设备返回 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 时，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 还必须验证哪些上下文？</p></article>
+        <article class="question-card"><h3>问题 3</h3><p>设备返回 <abbr title="English word, not an acronym｜通过">PASS</abbr> 时，<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 还必须验证哪些上下文？</p></article>
         <article class="question-card"><h3>验证练习</h3><p>任选一个 <abbr title="Serial Number｜序列号">SN</abbr>，按时间还原它的所有工序尝试、绑定变化、固件和测试证据。</p></article>
       </div>
       <div class="link-grid">

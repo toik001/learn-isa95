@@ -7,8 +7,8 @@ const pagesRoot = resolve(root, "pages");
 
 const acronyms = new Map([
   ["OPC UA", "Open Platform Communications Unified Architecture｜开放平台通信统一架构"],
-  ["IEC 62264", "International Electrotechnical Commission 62264 standard series｜IEC 62264 企业—控制系统集成标准系列"],
-  ["ISA-95", "International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列"],
+  ["IEC 62264", "Enterprise-control system integration standard series｜企业—控制系统集成标准系列"],
+  ["ISA-95", "ISA standards committee/series 95｜ISA 第 95 委员会/标准系列"],
   ["SHA-256", "Secure Hash Algorithm 256-bit｜256 位安全散列算法"],
   ["TCP/IP", "Transmission Control Protocol / Internet Protocol｜TCP/IP 协议族"],
   ["IT/OT", "Information Technology / Operational Technology｜信息技术与运营技术"],
@@ -20,7 +20,7 @@ const acronyms = new Map([
   ["HTTPS", "Hypertext Transfer Protocol Secure｜安全超文本传输协议"],
   ["UART", "Universal Asynchronous Receiver-Transmitter｜通用异步收发器"],
   ["UUID", "Universally Unique Identifier｜通用唯一标识符"],
-  ["MQTT", "Message Queuing Telemetry Transport｜轻量发布/订阅消息传输协议"],
+  ["MQTT", "Message Queuing Telemetry Transport｜轻量发布/订阅消息协议"],
   ["EBOM", "Engineering Bill of Materials｜工程物料清单"],
   ["MBOM", "Manufacturing Bill of Materials｜制造物料清单"],
   ["NIST", "National Institute of Standards and Technology｜美国国家标准与技术研究院"],
@@ -89,13 +89,13 @@ const acronyms = new Map([
   ["SFC", "Sequential Function Chart｜顺序功能图"],
   ["BLE", "Bluetooth Low Energy｜低功耗蓝牙"],
   ["PCB", "Printed Circuit Board｜印制电路板"],
-  ["PASS", "English result word, not an acronym｜通过"],
-  ["FAIL", "English result word, not an acronym｜失败"],
+  ["PASS", "English word, not an acronym｜通过"],
+  ["FAIL", "English word, not an acronym｜失败"],
   ["HTML", "HyperText Markup Language｜超文本标记语言"],
   ["CSS", "Cascading Style Sheets｜层叠样式表"],
   ["ISA", "International Society of Automation｜国际自动化协会"],
   ["IEC", "International Electrotechnical Commission｜国际电工委员会"],
-  ["ISO", "International Organization for Standardization; ISO is not an acronym｜国际标准化组织，ISO 不是首字母缩写"],
+  ["ISO", "International Organization for Standardization｜国际标准化组织"],
   ["IT", "Information Technology｜信息技术"],
   ["OT", "Operational Technology｜运营技术/操作技术"],
   ["SP", "Special Publication｜特别出版物"],
@@ -126,6 +126,27 @@ async function listHtmlFiles(directory) {
   return files;
 }
 
+function escapeTitle(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;");
+}
+
+function synchronizeExistingAnnotations(html) {
+  return html.replace(
+    /<abbr\b([^>]*)>([^<]+)<\/abbr>/gi,
+    (whole, attributes, term) => {
+      const definition = acronyms.get(term);
+      if (!definition || !/\btitle="[^"]*"/.test(attributes)) return whole;
+      const updated = attributes.replace(
+        /\btitle="[^"]*"/,
+        `title="${escapeTitle(definition)}"`,
+      );
+      return `<abbr${updated}>${term}</abbr>`;
+    },
+  );
+}
+
 function annotateVisibleText(html) {
   const parts = html.split(/(<[^>]+>)/g);
   const stack = [];
@@ -133,9 +154,7 @@ function annotateVisibleText(html) {
     if (!part.startsWith("<")) {
       if (stack.some((name) => skippedElements.has(name))) return part;
       return part.replace(acronymPattern, (term) => {
-        const title = acronyms.get(term)
-          .replaceAll("&", "&amp;")
-          .replaceAll('"', "&quot;");
+        const title = escapeTitle(acronyms.get(term));
         return `<abbr title="${title}">${term}</abbr>`;
       });
     }
@@ -170,6 +189,17 @@ function addGlossaryLink(html, file) {
   );
 }
 
+function addTooltipScript(html, file) {
+  if (html.includes("acronym-tooltip.js")) return html;
+  const src = relative(root, file).includes("/")
+    ? "../../assets/acronym-tooltip.js"
+    : "assets/acronym-tooltip.js";
+  return html.replace(
+    /<\/head>/,
+    `  <script src="${src}" defer></script>\n</head>`,
+  );
+}
+
 const htmlFiles = [
   resolve(root, "index.html"),
   resolve(root, "architecture.html"),
@@ -178,9 +208,11 @@ const htmlFiles = [
 
 for (const file of htmlFiles) {
   const original = await readFile(file, "utf8");
-  const withLink = addGlossaryLink(original, file);
+  const synchronized = synchronizeExistingAnnotations(original);
+  const withLink = addGlossaryLink(synchronized, file);
   const annotated = annotateVisibleText(withLink);
-  await writeFile(file, annotated);
+  const withTooltipScript = addTooltipScript(annotated, file);
+  await writeFile(file, withTooltipScript);
 }
 
 console.log(`Annotated ${htmlFiles.length} HTML pages with ${acronyms.size} glossary terms.`);

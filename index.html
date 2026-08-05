@@ -10,7 +10,8 @@
     <title>智能锁 MES 学习驾驶舱</title>
     <link rel="stylesheet" href="assets/styles.css">
     <script src="assets/app.js" defer></script>
-  </head>
+    <script src="assets/acronym-tooltip.js" defer></script>
+</head>
   <body>
     <a class="skip-link" href="#learning-map">跳到学习地图</a><a class="acronym-help" href="glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
 
@@ -150,12 +151,12 @@
           </article>
           <article>
             <span>20 PAGES</span>
-            <h3><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 工业自动化体系</h3>
+            <h3><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 工业自动化体系</h3>
             <p>从 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr>、<abbr title="Manufacturing Operations Management｜制造运营管理">MOM</abbr>/<abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 下钻到 <abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、现场设备、工业协议与机器安全。</p>
             <a href="architecture.html">打开工业自动化体系 →</a>
           </article>
           <article>
-            <span>94 TERMS</span>
+            <span>95 TERMS</span>
             <h3>英文缩写词典</h3>
             <p>给出英文全称、中文释义、为什么这样命名，以及智能锁制造中的实际含义。</p>
             <a href="glossary.html">打开英文缩写词典 →</a>
@@ -1023,7 +1024,7 @@
                 </section>
                 <section>
                   <h4>典型异常</h4>
-                  <p>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：<abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按测试会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等写入 → 必要时授权补采 → 核对唯一结果 → 改进缓存与监控后关闭。</p>
+                  <p>设备 <abbr title="English word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时：<abbr title="Serial Number｜序列号">SN</abbr> 保持结果待确认 → 设备按测试会话 <abbr title="Identifier｜标识符">ID</abbr> 重发 → <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 幂等写入 → 必要时授权补采 → 核对唯一结果 → 改进缓存与监控后关闭。</p>
                 </section>
                 <section>
                   <h4>指标</h4>
@@ -1044,14 +1045,14 @@
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>只记工单完工数量；设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 自动等于过站；返工删除原失败；超时后重复点击造成重复扣料或绑定。</p>
+                  <p>只记工单完工数量；设备 <abbr title="English word, not an acronym｜通过">PASS</abbr> 自动等于过站；返工删除原失败；超时后重复点击造成重复扣料或绑定。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
                     <li>过站接口怎样同时避免重复过站、扣料和消息丢失？</li>
                     <li>解绑和换件为什么必须追加历史记录？</li>
-                    <li>设备 <abbr title="English result word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时时为何不能手填合格？</li>
+                    <li>设备 <abbr title="English word, not an acronym｜通过">PASS</abbr> 但 <abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 超时时为何不能手填合格？</li>
                   </ol>
                 </section>
               </div>
@@ -1168,14 +1169,14 @@
                 </section>
                 <section>
                   <h4>常见误区</h4>
-                  <p>终检替代过程质量；只保存 <abbr title="English result word, not an acronym｜通过">PASS</abbr>/<abbr title="English result word, not an acronym｜失败">FAIL</abbr>；系统冻结与实物隔离不一致；返工后未经独立复验就放行。</p>
+                  <p>终检替代过程质量；只保存 <abbr title="English word, not an acronym｜通过">PASS</abbr>/<abbr title="English word, not an acronym｜失败">FAIL</abbr>；系统冻结与实物隔离不一致；返工后未经独立复验就放行。</p>
                 </section>
                 <section>
                   <h4>自测</h4>
                   <ol>
                     <li>制造完成和质量待放行为何必须分开？</li>
                     <li>怎样用时间窗、设备与过站数据圈定影响 <abbr title="Serial Number｜序列号">SN</abbr>？</li>
-                    <li>只保存 <abbr title="English result word, not an acronym｜通过">PASS</abbr>/<abbr title="English result word, not an acronym｜失败">FAIL</abbr> 会损失哪些审计能力？</li>
+                    <li>只保存 <abbr title="English word, not an acronym｜通过">PASS</abbr>/<abbr title="English word, not an acronym｜失败">FAIL</abbr> 会损失哪些审计能力？</li>
                   </ol>
                 </section>
               </div>

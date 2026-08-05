@@ -30,7 +30,7 @@ const learningPages = [
 test("统一词典解释英文全称、中文含义和命名原因", async () => {
   const html = await readFile(resolve(root, "glossary.html"), "utf8");
   const entries = [...html.matchAll(/<tr><th>[^<]+<\/th><td>/g)];
-  assert.equal(entries.length, 94);
+  assert.equal(entries.length, 95);
   assert.match(html, /ISO 不是首字母缩写/);
   assert.match(html, /最初是 OLE for Process Control/);
   assert.match(html, /现代模型是 Broker 发布\/订阅/);
@@ -55,7 +55,45 @@ test("所有学习页提供缩写词典入口和静态语义释义", async () =>
     for (const match of html.matchAll(/<abbr\b[^>]*>([\s\S]*?)<\/abbr>/gi)) {
       assert.doesNotMatch(match[1], /<abbr\b/i, `${file} 出现嵌套 abbr`);
     }
+    const expectedScriptHref = relative(root, file).includes("/")
+      ? "../../assets/acronym-tooltip.js"
+      : "assets/acronym-tooltip.js";
+    assert.match(
+      html,
+      new RegExp(
+        `<script src="${expectedScriptHref.replaceAll(".", "\\.")}" defer><\\/script>`,
+      ),
+      `${file} 缺少缩写 tooltip 脚本`,
+    );
+    await assert.doesNotReject(
+      access(resolve(dirname(file), expectedScriptHref)),
+    );
     await assert.doesNotReject(access(resolve(dirname(file), expectedHref)));
+  }
+});
+
+test("所有静态缩写释义与统一词典的英文和中文两列一致", async () => {
+  const glossaryHtml = await readFile(resolve(root, "glossary.html"), "utf8");
+  const definitions = new Map(
+    [...glossaryHtml.matchAll(
+      /<tr><th>([^<]+)<\/th><td>([^<]+)<\/td><td>([^<]+)<\/td>/g,
+    )].map((match) => [
+      match[1].toLowerCase(),
+      `${match[2]}｜${match[3]}`,
+    ]),
+  );
+
+  for (const file of learningPages) {
+    const html = await readFile(file, "utf8");
+    for (const match of html.matchAll(
+      /<abbr\b[^>]*title="([^"]+)"[^>]*>([^<]+)<\/abbr>/gi,
+    )) {
+      assert.equal(
+        match[1],
+        definitions.get(match[2].toLowerCase()),
+        `${file} 中 ${match[2]} 的释义未与词典对齐`,
+      );
+    }
   }
 });
 

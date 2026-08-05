@@ -6,15 +6,16 @@
     <meta name="description" content="基于 ISA-95 的智能锁制造 IT/OT 与工业自动化体系学习地图，覆盖 ERP、MOM/MES、SCADA、PLC、现场设备和安全。">
     <title>工业自动化体系｜智能锁 MES 学习助手</title>
     <link rel="stylesheet" href="assets/detail.css">
-  </head>
+    <script src="assets/acronym-tooltip.js" defer></script>
+</head>
   <body>
     <a class="skip-link" href="#content">跳到正文</a><a class="acronym-help" href="glossary.html" aria-label="打开英文缩写全称与命名解释">英文缩写表</a>
     <header class="detail-hero">
       <div class="detail-hero__inner">
         <nav class="breadcrumb"><a href="index.html"><abbr title="Manufacturing Execution System｜制造执行系统">MES</abbr> 学习驾驶舱</a><span>/</span><span aria-current="page">工业自动化体系</span></nav>
-        <p class="page-code"><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> · <abbr title="Information Technology / Operational Technology｜信息技术与运营技术">IT/OT</abbr> ARCHITECTURE · 20 NODES</p>
+        <p class="page-code"><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> · <abbr title="Information Technology / Operational Technology｜信息技术与运营技术">IT/OT</abbr> ARCHITECTURE · 20 NODES</p>
         <h1>从 <abbr title="Enterprise Resource Planning｜企业资源计划">ERP</abbr> 到传感器：读懂整套制造体系</h1>
-        <p class="detail-hero__lead">按 <abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的活动层级理解 L4—L0，再逐个拆解 20 个系统与控制节点。每页都有官方解释、通俗释义、智能锁现场、数据与接口、异常和 Java 边界。</p>
+        <p class="detail-hero__lead">按 <abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的活动层级理解 L4—L0，再逐个拆解 20 个系统与控制节点。每页都有官方解释、通俗释义、智能锁现场、数据与接口、异常和 Java 边界。</p>
         <div class="hero-meta"><span>20 个独立节点页</span><span>5 个活动层级</span><span>1 条整锁证据链</span><span>行业通用教学模型</span></div>
       </div>
     </header>
@@ -31,13 +32,13 @@
         </ol>
       </aside>
       <main id="content" class="content">
-        <div class="disclaimer"><strong>口径说明</strong><span><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的 Level 表达活动和信息边界，不是固定产品货架。<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、边缘网关等产品可能同时承载相邻层级活动；本地图标注的是典型范围。</span></div>
+        <div class="disclaimer"><strong>口径说明</strong><span><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 的 Level 表达活动和信息边界，不是固定产品货架。<abbr title="Programmable Logic Controller｜可编程逻辑控制器">PLC</abbr>、<abbr title="Supervisory Control and Data Acquisition｜监督控制与数据采集">SCADA</abbr>、边缘网关等产品可能同时承载相邻层级活动；本地图标注的是典型范围。</span></div>
 
         <section id="framework" class="knowledge-section">
           <p class="section-code">01 · FRAMEWORK & GOVERNANCE</p>
           <h2>先把坐标系与安全边界立住</h2>
           <div class="card-grid">
-            <a class="link-card" href="pages/architecture/isa95.html"><p class="data-label">NODE 01 · L0—L4</p><h3><abbr title="International Society of Automation standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 架构与设备层级</h3><p>活动层级、设备层级、四类制造运营、L3/L4 信息交换，以及常见分层图为何会不同。</p></a>
+            <a class="link-card" href="pages/architecture/isa95.html"><p class="data-label">NODE 01 · L0—L4</p><h3><abbr title="ISA standards committee/series 95｜ISA 第 95 委员会/标准系列">ISA-95</abbr> 架构与设备层级</h3><p>活动层级、设备层级、四类制造运营、L3/L4 信息交换，以及常见分层图为何会不同。</p></a>
             <a class="link-card" href="pages/architecture/ot-security.html"><p class="data-label">NODE 02 · CROSS-LAYER</p><h3><abbr title="Operational Technology｜运营技术/操作技术">OT</abbr> 安全、区域与通信管道</h3><p><abbr title="International Society of Automation｜国际自动化协会">ISA</abbr>/<abbr title="International Electrotechnical Commission｜国际电工委员会">IEC</abbr> 62443、工业 DMZ、远程维护、程序发布、账户和最小通信。</p></a>
           </div>
         </section>
@@ -83,7 +84,7 @@
           <div class="card-grid">
             <a class="link-card" href="pages/architecture/field-devices.html"><p class="data-label">NODE 17 · L1</p><h3>传感器、执行器与驱动</h3><p>单位、量程、质量、反馈、默认状态和现场故障。</p></a>
             <a class="link-card" href="pages/architecture/machine-safety.html"><p class="data-label">NODE 18 · L0—L2</p><h3>机器安全系统</h3><p>风险评估、安全功能、安全状态和旁路管理。</p></a>
-            <a class="link-card" href="pages/architecture/protocols.html"><p class="data-label">NODE 19 · CROSS-LAYER</p><h3>工业协议与信息语义</h3><p><abbr title="Open Platform Communications Unified Architecture｜开放平台通信统一架构">OPC UA</abbr>、<abbr title="Message Queuing Telemetry Transport｜轻量发布/订阅消息传输协议">MQTT</abbr>、Modbus、实时以太网和业务 <abbr title="Application Programming Interface｜应用程序编程接口">API</abbr> 的选择。</p></a>
+            <a class="link-card" href="pages/architecture/protocols.html"><p class="data-label">NODE 19 · CROSS-LAYER</p><h3>工业协议与信息语义</h3><p><abbr title="Open Platform Communications Unified Architecture｜开放平台通信统一架构">OPC UA</abbr>、<abbr title="Message Queuing Telemetry Transport｜轻量发布/订阅消息协议">MQTT</abbr>、Modbus、实时以太网和业务 <abbr title="Application Programming Interface｜应用程序编程接口">API</abbr> 的选择。</p></a>
           </div>
         </section>
 
