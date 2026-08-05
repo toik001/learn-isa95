@@ -128,12 +128,14 @@
       documentRef.addEventListener("pointerover", onPointerOver);
       documentRef.addEventListener("pointerout", onPointerOut);
       documentRef.addEventListener("keydown", onKeydown);
+      documentRef.addEventListener("scroll", hide, true);
       windowRef.addEventListener("scroll", hide);
       windowRef.addEventListener("resize", hide);
     } catch (error) {
       documentRef.removeEventListener("pointerover", onPointerOver);
       documentRef.removeEventListener("pointerout", onPointerOut);
       documentRef.removeEventListener("keydown", onKeydown);
+      documentRef.removeEventListener("scroll", hide, true);
       windowRef.removeEventListener("scroll", hide);
       windowRef.removeEventListener("resize", hide);
       originalAttributes.forEach((attributes, abbr) => {

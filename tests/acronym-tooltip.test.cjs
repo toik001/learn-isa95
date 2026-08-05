@@ -143,17 +143,35 @@ function createTooltipFixture(options) {
     querySelectorAll(selector) {
       return selector === "abbr[title]" ? [abbr] : [];
     },
-    addEventListener(type, listener) {
-      listeners.set(type, listener);
+    addEventListener(type, listener, options) {
+      const capture = options === true || Boolean(options?.capture);
+      const entries = listeners.get(type) || [];
+      entries.push({ listener, capture });
+      listeners.set(type, entries);
     },
-    removeEventListener(type) {
-      listeners.delete(type);
+    removeEventListener(type, listener, options) {
+      const capture = options === true || Boolean(options?.capture);
+      const entries = listeners.get(type) || [];
+      listeners.set(
+        type,
+        entries.filter(
+          (entry) => entry.listener !== listener || entry.capture !== capture,
+        ),
+      );
     },
     listenerCount() {
-      return listeners.size;
+      return [...listeners.values()].reduce(
+        (total, entries) => total + entries.length,
+        0,
+      );
     },
     emit(type, event) {
-      listeners.get(type)?.(event);
+      (listeners.get(type) || []).forEach(({ listener }) => listener(event));
+    },
+    emitElementScroll(event) {
+      (listeners.get("scroll") || [])
+        .filter(({ capture }) => capture)
+        .forEach(({ listener }) => listener(event));
     },
   };
   const windowListeners = new Map();
@@ -168,6 +186,9 @@ function createTooltipFixture(options) {
     },
     removeEventListener(type) {
       windowListeners.delete(type);
+    },
+    emit(type, event = {}) {
+      windowListeners.get(type)?.(event);
     },
     listenerCount() {
       return windowListeners.size;
@@ -242,4 +263,30 @@ test("窗口监听器注册失败时恢复静态释义并清理交互残留", ()
   assert.equal(fixture.documentRef.body.children.length, 0);
   assert.equal(fixture.documentRef.listenerCount(), 0);
   assert.equal(fixture.windowRef.listenerCount(), 0);
+});
+
+test("窗口与元素滚动或窗口缩放时隐藏当前 tip", () => {
+  const fixture = createTooltipFixture({
+    term: "MES",
+    title: "Manufacturing Execution System｜制造执行系统",
+    anchorRect: { left: 90, right: 130, top: 20, bottom: 40 },
+    tooltipRect: { width: 120, height: 50 },
+    viewport: { width: 240, height: 140 },
+  });
+  const controller = initializeAcronymTooltips(
+    fixture.documentRef,
+    fixture.windowRef,
+  );
+
+  fixture.documentRef.emit("pointerover", { target: fixture.abbr });
+  fixture.windowRef.emit("scroll");
+  assert.equal(controller.tooltip.hidden, true);
+
+  fixture.documentRef.emit("pointerover", { target: fixture.abbr });
+  fixture.windowRef.emit("resize");
+  assert.equal(controller.tooltip.hidden, true);
+
+  fixture.documentRef.emit("pointerover", { target: fixture.abbr });
+  fixture.documentRef.emitElementScroll({ target: new FakeElement("div") });
+  assert.equal(controller.tooltip.hidden, true);
 });
